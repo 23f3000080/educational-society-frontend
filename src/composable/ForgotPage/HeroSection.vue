@@ -1,10 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-100 via-indigo-200 to-purple-200 dark:from-gray-900 dark:via-slate-900 dark:to-purple-950 flex items-center justify-center p-4 md:p-8">
+  <div class="min-h-screen bg-linear-to-br from-blue-100 via-indigo-200 to-purple-200 dark:from-gray-900 dark:via-slate-900 dark:to-purple-950 flex items-center justify-center p-4 md:p-8">
     <div class="w-full max-w-md">
       <!-- Logo/Header Section -->
       <div class="text-center mb-8 md:mb-10">
         <div class="flex justify-center mb-4">
-          <div class="w-14 h-14 rounded-full bg-gradient-to-br
+          <div class="w-14 h-14 rounded-full bg-linear-to-br
             from-indigo-700 via-purple-700 to-pink-700
             dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500
 
@@ -14,7 +14,7 @@
             </svg>
           </div>
         </div>
-        <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-800 via-teal-900 to-pink-500 dark:from-purple-600 dark:via-yellow-500 dark:to-pink-600 bg-clip-text text-transparent">
+        <h1 class="text-2xl md:text-3xl font-bold bg-linear-to-r from-purple-800 via-teal-900 to-pink-500 dark:from-purple-600 dark:via-yellow-500 dark:to-pink-600 bg-clip-text text-transparent">
           Password Recovery
         </h1>
         <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm md:text-base">
@@ -25,8 +25,8 @@
       <!-- Main Card -->
       <div class="bg-slate-300 dark:bg-slate-800 rounded-2xl shadow-xl p-6 md:p-8 relative overflow-hidden">
         <!-- Decorative background elements -->
-        <div class="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-gradient-to-r from-purple-500/10 via-yellow-500/10 to-pink-500/10 blur-3xl"></div>
-        <div class="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-gradient-to-r from-pink-500/10 via-yellow-500/10 to-purple-500/10 blur-3xl"></div>
+        <div class="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-linear-to-r from-purple-500/10 via-yellow-500/10 to-pink-500/10 blur-3xl"></div>
+        <div class="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-linear-to-r from-pink-500/10 via-yellow-500/10 to-purple-500/10 blur-3xl"></div>
         
         <!-- Message display -->
         <transition name="slide-down">
@@ -66,7 +66,7 @@
                   <!-- Connecting line -->
                   <div v-if="index < 2" 
                        class="absolute top-1/2 left-10 w-12 h-0.5 -translate-y-1/2"
-                       :class="currentStep > index ? 'bg-gradient-to-r from-pink-500 via-lime-600 to-purple-600' : 'bg-gray-200 dark:bg-slate-700'"></div>
+                       :class="currentStep > index ? 'bg-linear-to-r from-pink-500 via-lime-600 to-purple-600' : 'bg-gray-200 dark:bg-slate-700'"></div>
                 </div>
                 <!-- Step label -->
                 <div class="ml-4 hidden sm:block">
@@ -86,7 +86,7 @@
         <transition name="slide-fade" mode="out-in">
           <div v-if="currentStep === 0" class="space-y-6">
             <div class="text-center mb-2">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
@@ -128,7 +128,7 @@
             <button
               @click="sendResetCode"
               :disabled="loading"
-              class="w-full bg-gradient-to-r from-purple-600 via-pink-500 to-pink-500 text-white py-3.5 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
+              class="w-full bg-linear-to-r from-purple-600 via-pink-500 to-pink-500 text-white py-3.5 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
             >
               <span v-if="loading" class="flex items-center justify-center">
                 <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@
               
               <!-- Timer -->
               <div class="mb-6">
-                <div class="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-full bg-gradient-to-r
+                <div class="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-full bg-linear-to-r
 from-slate-100 via-blue-100 to-indigo-100
 dark:from-gray-800 dark:via-blue-900 dark:to-indigo-900">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -279,7 +279,7 @@ dark:from-gray-800 dark:via-blue-900 dark:to-indigo-900">
           <!-- Step 3: Reset Password -->
           <div v-else class="space-y-6">
             <div class="text-center mb-2">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center">
+              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                 </svg>
@@ -407,7 +407,7 @@ dark:from-gray-800 dark:via-blue-900 dark:to-indigo-900">
 <script setup>
 import { ref, computed, onUnmounted, onMounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
-import { API_ENDPOINTS } from '../../services/api.js'
+import api from '../../services/axios.js'
 
 const router = useRouter()
 
@@ -539,17 +539,11 @@ const sendResetCode = async () => {
   loading.value = true
   
   try {
-    const response = await fetch(API_ENDPOINTS.FORGOT_PASSWORD, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: formData.value.email })
+    const { data } = await api.post('/api/auth/forgot-password', {
+      email: formData.value.email,
     })
-    
-    const data = await response.json()
-    
-    if (response.ok) {
+
+    if (data?.message) {
       showMessage(data.message, 'success')
       currentStep.value = 1
       startCountdown()
@@ -558,11 +552,10 @@ const sendResetCode = async () => {
       nextTick(() => {
         codeInputs.value[0]?.focus()
       })
-    } else {
-      showMessage(data.error, 'error')
     }
   } catch (error) {
-    showMessage('Failed to send reset code. Please try again.', 'error')
+    const errorMessage = error?.response?.data?.error || 'Failed to send reset code. Please try again.'
+    showMessage(errorMessage, 'error')
   } finally {
     loading.value = false
   }
@@ -580,27 +573,18 @@ const verifyResetCode = async () => {
   loading.value = true
   
   try {
-    const response = await fetch(API_ENDPOINTS.VERIFY_RESET_CODE, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: formData.value.email,
-        code: code
-      })
+    const { data } = await api.post('/api/auth/verify-reset-code', {
+      email: formData.value.email,
+      code,
     })
-    
-    const data = await response.json()
-    
-    if (response.ok) {
+
+    if (data?.message) {
       showMessage(data.message, 'success')
       currentStep.value = 2
-    } else {
-      showMessage(data.error, 'error')
     }
   } catch (error) {
-    showMessage('Failed to verify code. Please try again.', 'error')
+    const errorMessage = error?.response?.data?.error || 'Failed to verify code. Please try again.'
+    showMessage(errorMessage, 'error')
   } finally {
     loading.value = false
   }
@@ -627,32 +611,21 @@ const resetPassword = async () => {
   loading.value = true
   
   try {
-    const response = await fetch(API_ENDPOINTS.RESET_PASSWORD, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: formData.value.email,
-        new_password: formData.value.new_password,
-        confirm_password: formData.value.confirm_password
-      })
+    await api.post('/api/auth/reset-password', {
+      email: formData.value.email,
+      new_password: formData.value.new_password,
+      confirm_password: formData.value.confirm_password,
     })
+
+    showMessage('Password reset successfully! Redirecting to login...', 'success')
     
-    const data = await response.json()
-    
-    if (response.ok) {
-      showMessage('Password reset successfully! Redirecting to login...', 'success')
-      
-      // Redirect to login after successful reset
-      setTimeout(() => {
-        router.push('/login')
-      }, 2000)
-    } else {
-      showMessage(data.error, 'error')
-    }
+    // Redirect to login after successful reset
+    setTimeout(() => {
+      router.push('/login')
+    }, 2000)
   } catch (error) {
-    showMessage('Failed to reset password. Please try again.', 'error')
+    const errorMessage = error?.response?.data?.error || 'Failed to reset password. Please try again.'
+    showMessage(errorMessage, 'error')
   } finally {
     loading.value = false
   }
@@ -664,17 +637,11 @@ const resendCode = async () => {
   loading.value = true
   
   try {
-    const response = await fetch(API_ENDPOINTS.FORGOT_PASSWORD, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email: formData.value.email })
+    const { data } = await api.post('/api/auth/forgot-password', {
+      email: formData.value.email,
     })
-    
-    const data = await response.json()
-    
-    if (response.ok) {
+
+    if (data?.message) {
       showMessage('Reset code resent to your email', 'success')
       resendCooldown.value = 60 // 60 seconds cooldown
       countdown.value = 600 // Reset to 10 minutes
@@ -686,11 +653,10 @@ const resendCode = async () => {
           clearInterval(cooldownInterval)
         }
       }, 1000)
-    } else {
-      showMessage(data.error, 'error')
     }
   } catch (error) {
-    showMessage('Failed to resend code. Please try again.', 'error')
+    const errorMessage = error?.response?.data?.error || 'Failed to resend code. Please try again.'
+    showMessage(errorMessage, 'error')
   } finally {
     loading.value = false
   }
