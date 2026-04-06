@@ -191,6 +191,81 @@
         </p>
       </div>
     </div>
+
+    <transition name="fade">
+      <div
+        v-if="showSetPasswordModal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
+      >
+        <div class="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-700 dark:bg-gray-900">
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Set your password</h3>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            Create a password for your Google account so you can also sign in with email and password later.
+          </p>
+
+          <div class="mt-5 space-y-4">
+            <div class="relative">
+              <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">New Password</label>
+              <input
+                :type="showGooglePassword ? 'text' : 'password'"
+                v-model="googlePassword"
+                placeholder="Enter a password"
+                class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 outline-none transition focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              />
+              <button
+                type="button"
+                @click="showGooglePassword = !showGooglePassword"
+                class="absolute right-3 top-9 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg v-if="!showGooglePassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12C3.75 7.5 7.5 4.5 12 4.5s8.25 3 9.75 7.5c-1.5 4.5-5.25 7.5-9.75 7.5S3.75 16.5 2.25 12z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223C2.67 9.884 2 11.88 2 12s.67 2.116 1.98 3.777C5.29 17.44 8.31 20 12 20c3.69 0 6.71-2.56 8.02-4.223C21.33 14.116 22 12.12 22 12s-.67-2.116-1.98-3.777C18.71 6.56 15.69 4 12 4c-3.69 0-6.71 2.56-8.02 4.223z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+                </svg>
+              </button>
+            </div>
+
+            <div class="relative">
+              <label class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">Confirm Password</label>
+              <input
+                :type="showGoogleConfirmPassword ? 'text' : 'password'"
+                v-model="googleConfirmPassword"
+                placeholder="Confirm your password"
+                class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 outline-none transition focus:ring-2 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              />
+              <button
+                type="button"
+                @click="showGoogleConfirmPassword = !showGoogleConfirmPassword"
+                class="absolute right-3 top-9 text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                <svg v-if="!showGoogleConfirmPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12C3.75 7.5 7.5 4.5 12 4.5s8.25 3 9.75 7.5c-1.5 4.5-5.25 7.5-9.75 7.5S3.75 16.5 2.25 12z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="h-5 w-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223C2.67 9.884 2 11.88 2 12s.67 2.116 1.98 3.777C5.29 17.44 8.31 20 12 20c3.69 0 6.71-2.56 8.02-4.223C21.33 14.116 22 12.12 22 12s-.67-2.116-1.98-3.777C18.71 6.56 15.69 4 12 4c-3.69 0-6.71 2.56-8.02 4.223z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 3l18 18" />
+                </svg>
+              </button>
+            </div>
+
+            <p v-if="googlePasswordError" class="text-sm text-red-500">{{ googlePasswordError }}</p>
+
+            <button
+              type="button"
+              @click="submitGooglePassword"
+              :disabled="googlePasswordLoading"
+              class="w-full rounded-lg bg-indigo-600 px-4 py-2 font-semibold text-white transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {{ googlePasswordLoading ? 'Saving...' : 'Set Password' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -198,7 +273,6 @@
 import { ref, onMounted } from "vue";
 import api from "../../services/axios.js";
 import { useRouter } from "vue-router";
-import { handleGoogleSignIn } from "../../utils/googleAuth.js";
 
 const router = useRouter();
 
@@ -216,6 +290,16 @@ const email = ref("");
 const password = ref("");
 const confirmPassword = ref("");
 const isLoading = ref(false);
+
+const showSetPasswordModal = ref(false);
+const showGooglePassword = ref(false);
+const showGoogleConfirmPassword = ref(false);
+const googlePassword = ref("");
+const googleConfirmPassword = ref("");
+const googlePasswordLoading = ref(false);
+const googlePasswordError = ref("");
+const pendingGoogleToken = ref("");
+const pendingGoogleAuth = ref(null);
 
 const message = ref("");
 const messageClass = ref("");
@@ -349,27 +433,87 @@ const registerUser = async () => {
 
 const handleGoogleSignUp = async (response) => {
   isLoading.value = true;
+  googlePasswordError.value = "";
   try {
-    const result = await handleGoogleSignIn(response, true);
-    showMessage("Sign up successful!", "success");
-    
+    if (!response?.credential) {
+      throw new Error("No credential received from Google");
+    }
+
+    const result = await api.post("/api/auth/google-signup", {
+      token: response.credential,
+    });
+
+    localStorage.setItem("token", result.data.token);
+    localStorage.setItem("user", JSON.stringify(result.data.user));
+
+    pendingGoogleToken.value = response.credential;
+    pendingGoogleAuth.value = result.data;
+
+    googlePassword.value = "";
+    googleConfirmPassword.value = "";
+    showSetPasswordModal.value = true;
+    showMessage("Google signup successful. Set your password to continue.", "success");
+  } catch (error) {
+    const errorMessage = error.response?.data?.error || error.message || "Google sign up failed";
+    if (errorMessage.includes("already exists")) {
+      showMessage("Account with this email already exists. Please login instead.", "error");
+    } else {
+      showMessage(errorMessage, "error");
+    }
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const submitGooglePassword = async () => {
+  googlePasswordError.value = "";
+
+  if (!googlePassword.value || !googleConfirmPassword.value) {
+    googlePasswordError.value = "Please fill in both password fields.";
+    return;
+  }
+
+  if (googlePassword.value.length < 6) {
+    googlePasswordError.value = "Password must be at least 6 characters long.";
+    return;
+  }
+
+  if (googlePassword.value !== googleConfirmPassword.value) {
+    googlePasswordError.value = "Passwords do not match.";
+    return;
+  }
+
+  if (!pendingGoogleToken.value) {
+    googlePasswordError.value = "Google session expired. Please sign up again.";
+    return;
+  }
+
+  googlePasswordLoading.value = true;
+
+  try {
+    await api.post("/api/auth/google-set-password", {
+      token: pendingGoogleToken.value,
+      new_password: googlePassword.value,
+      confirm_password: googleConfirmPassword.value,
+    });
+
+    showSetPasswordModal.value = false;
+    showMessage("Password set successfully.", "success");
+
+    const role = pendingGoogleAuth.value?.user?.role;
     setTimeout(() => {
-      if (result.role === "student") {
+      if (role === "student") {
         window.location.href = "/student/dashboard";
-      } else if (result.role === "admin") {
+      } else if (role === "admin") {
         window.location.href = "/admin/dashboard";
       } else {
         window.location.href = "/";
       }
     }, 1000);
   } catch (error) {
-    if (error.message.includes("already exists")) {
-      showMessage("Account with this email already exists. Please login instead.", "error");
-    } else {
-      showMessage(error.message || "Google sign up failed", "error");
-    }
+    googlePasswordError.value = error.response?.data?.error || "Failed to set password. Please try again.";
   } finally {
-    isLoading.value = false;
+    googlePasswordLoading.value = false;
   }
 };
 
