@@ -40,9 +40,13 @@ export async function handleGoogleSignIn(response, isSignUp = false) {
       throw new Error(data.error || "Authentication failed");
     }
 
-    // Store auth data
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user));
+    // Store auth data in session storage for session-based route checks.
+    sessionStorage.setItem("token", data.token);
+    sessionStorage.setItem("user", JSON.stringify(data.user));
+
+    // Prevent stale auth precedence from previous local storage sessions.
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
     return {
       success: true,
