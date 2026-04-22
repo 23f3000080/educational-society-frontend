@@ -1,18 +1,17 @@
 <template>
-  <div class="p-4 md:p-8">
+  <div class="min-h-full bg-slate-50/60 p-3 sm:p-4 lg:p-6 dark:bg-slate-950/30">
     <!-- 🔙 Back Button -->
     <button
       @click="goBackToCourse"
-      class="mb-6 inline-flex items-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+      class="mb-5 inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:border-cyan-200 hover:bg-cyan-50 dark:border-gray-800 dark:bg-gray-900 dark:text-slate-200 dark:hover:bg-gray-800"
     >
-      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
       </svg>
       Back to Courses
     </button>
 
-    <div class="max-w-5xl mx-auto">
+    <div class="mx-auto max-w-6xl">
       <!-- 🔄 Loading -->
       <LoadingState v-if="loading" />
 
@@ -25,70 +24,78 @@
 
       <!-- ✅ Main Content -->
       <template v-else>
-        <!-- 📘 Content Area -->
         <div
           v-if="selectedContent?.type"
-          class="bg-white rounded-xl shadow-sm border p-4 md:p-6"
+          class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] dark:border-gray-800 dark:bg-gray-900"
         >
-          <!-- 🎥 Lectures -->
-          <LectureContent
-            v-if="selectedContent.type === 'video'"
-            :week="selectedContent.week"
-            :week-obj="selectedContent.weekObj"
-            :video="selectedContent.video"
-            :is-completed="selectedContent.video && isVideoCompleted(selectedContent.video.id)"
-            :is-marking-complete="isMarkingComplete"
-            :is-video-completed="(video) => isVideoCompleted(video.id)"
-            @mark-complete="handleMarkVideoComplete"
-            @select-video="(video) => selectVideo(video, selectedContent.weekObj)"
-          />
-
-          <!-- 📝 Assignments -->
-          <AssignmentContent
-            v-else-if="selectedContent.type === 'assignment'"
-            :week="selectedContent.week"
-            :week-obj="selectedContent.weekObj"
-            :assignment="selectedContent.assignment"
-            :questions="questions"
-            :user-answers="userAnswers"
-            :loading-questions="loadingQuestions"
-            :submitting="submitting"
-            :show-answers="showAnswers"
-            :submission-notice="submissionNotice"
-            :last-submitted-at="lastSubmittedAt"
-            :is-assignment-completed="(id) => isAssignmentCompleted(id)"
-            :is-assignment-past-due="isAssignmentPastDue"
-            :format-date="formatDate"
-            @update-answer="saveAnswer"
-            @submit="submitAssignment"
-            @select-assignment="selectAssignment"
-            @close-notice="submissionNotice = null"
-          />
-
-          <!-- 📄 Notes -->
-          <NotesContent
-            v-else-if="selectedContent.type === 'note'"
-            :week="selectedContent.week"
-            :week-obj="selectedContent.weekObj"
-            :note="selectedContent.note"
-            :is-completed="selectedContent.note && isNoteCompleted(selectedContent.note.id)"
-            :is-marking-complete="isMarkingComplete"
-            @mark-complete="handleMarkNoteComplete"
-            @select-note="selectNote"
-          />
-
-          <!-- ❌ No Selection -->
-          <div v-else class="text-center py-12">
-            <h3 class="text-lg font-medium text-gray-700">
-              No Content Selected
-            </h3>
-            <p class="text-gray-500">
-              Select content from sidebar
+          <div class="border-b border-slate-100 bg-linear-to-r from-cyan-50 via-white to-sky-50 px-4 py-4 sm:px-6 dark:border-gray-800 dark:from-cyan-950/20 dark:via-gray-900 dark:to-slate-900">
+            <p class="text-xs font-black uppercase tracking-[0.2em] text-cyan-600 dark:text-cyan-400">
+              Learning content
             </p>
+            <h2 class="mt-1 text-xl font-black text-slate-900 dark:text-white sm:text-2xl">
+              {{ selectedContent.type === 'video' ? 'Lecture Player' : selectedContent.type === 'assignment' ? 'Assignment Workspace' : 'Notes Viewer' }}
+            </h2>
+          </div>
+
+          <div class="p-4 sm:p-6 lg:p-8">
+            <!-- 🎥 Lectures -->
+            <LectureContent
+              v-if="selectedContent.type === 'video'"
+              :week="selectedContent.week"
+              :week-obj="selectedContent.weekObj"
+              :video="selectedContent.video"
+              :is-completed="selectedContent.video && isVideoCompleted(selectedContent.video.id)"
+              :is-marking-complete="isMarkingComplete"
+              :is-video-completed="(video) => isVideoCompleted(video.id)"
+              @mark-complete="handleMarkVideoComplete"
+              @select-video="(video) => selectVideo(video, selectedContent.weekObj)"
+            />
+
+            <!-- 📝 Assignments -->
+            <AssignmentContent
+              v-else-if="selectedContent.type === 'assignment'"
+              :week="selectedContent.week"
+              :week-obj="selectedContent.weekObj"
+              :assignment="selectedContent.assignment"
+              :questions="questions"
+              :user-answers="userAnswers"
+              :loading-questions="loadingQuestions"
+              :submitting="submitting"
+              :show-answers="showAnswers"
+              :submission-notice="submissionNotice"
+              :last-submitted-at="lastSubmittedAt"
+              :is-assignment-completed="(id) => isAssignmentCompleted(id)"
+              :is-assignment-past-due="isAssignmentPastDue"
+              :format-date="formatDate"
+              @update-answer="saveAnswer"
+              @submit="submitAssignment"
+              @select-assignment="selectAssignment"
+              @close-notice="submissionNotice = null"
+            />
+
+            <!-- 📄 Notes -->
+            <NotesContent
+              v-else-if="selectedContent.type === 'note'"
+              :week="selectedContent.week"
+              :week-obj="selectedContent.weekObj"
+              :note="selectedContent.note"
+              :is-completed="selectedContent.note && isNoteCompleted(selectedContent.note.id)"
+              :is-marking-complete="isMarkingComplete"
+              @mark-complete="handleMarkNoteComplete"
+              @select-note="selectNote"
+            />
+
+            <div v-else class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 px-6 py-12 text-center dark:border-gray-700 dark:bg-gray-950/40">
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">
+                No Content Selected
+              </h3>
+              <p class="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                Select a lecture, assignment, or note from the roadmap.
+              </p>
+            </div>
           </div>
         </div>
 
-        <!-- 🎯 Welcome -->
         <WelcomeState
           v-else-if="course"
           :title="course.title"

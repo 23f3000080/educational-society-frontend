@@ -1,13 +1,17 @@
 <template>
-  <div class="bg-white rounded-xl shadow-sm border p-12 text-center">
-    <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-      <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+  <div class="rounded-3xl border border-rose-200 bg-white p-8 text-center shadow-[0_18px_60px_rgba(15,23,42,0.08)] dark:border-rose-900/50 dark:bg-gray-900">
+    <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-rose-50 dark:bg-rose-950/30">
+      <svg class="h-8 w-8 text-rose-500 dark:text-rose-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>
     </div>
-    <h3 class="text-lg font-medium text-red-700 mb-2">Failed to load course content</h3>
-    <p class="text-gray-600 mb-4">{{ error }}</p>
-    <button @click="onRetry" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+    <h3 class="text-lg font-black text-rose-700 dark:text-rose-300">
+      Failed to load course content
+    </h3>
+    <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+      {{ error }}
+    </p>
+    <button @click="onRetry" class="mt-5 inline-flex items-center rounded-2xl bg-linear-to-r from-cyan-600 to-sky-600 px-4 py-2.5 text-sm font-black uppercase tracking-[0.14em] text-white shadow-lg transition hover:scale-[1.01] hover:shadow-xl">
       Try Again
     </button>
   </div>

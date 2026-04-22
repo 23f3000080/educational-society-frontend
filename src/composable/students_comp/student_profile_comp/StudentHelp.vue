@@ -95,13 +95,13 @@
                 <div class="flex flex-wrap gap-2">
                   <button
                     v-for="topic in topics"
-                    :key="topic"
+                    :key="topic.value"
                     type="button"
-                    @click="selectedTopic = topic"
+                    @click="selectedTopic = topic.value"
                     class="rounded-full border px-3 py-1.5 text-xs font-semibold transition"
-                    :class="selectedTopic === topic ? 'border-cyan-500 bg-cyan-600 text-white' : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-cyan-300 hover:bg-cyan-50 dark:border-gray-700 dark:bg-gray-950/60 dark:text-gray-300 dark:hover:border-cyan-800 dark:hover:bg-cyan-950/40'"
+                    :class="selectedTopic === topic.value ? 'border-cyan-500 bg-cyan-600 text-white' : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-cyan-300 hover:bg-cyan-50 dark:border-gray-700 dark:bg-gray-950/60 dark:text-gray-300 dark:hover:border-cyan-800 dark:hover:bg-cyan-950/40'"
                   >
-                    {{ topic }}
+                    {{ topic.label }}
                   </button>
                 </div>
               </div>
@@ -336,8 +336,16 @@ const queryForm = ref({
   message: ''
 })
 
-const selectedTopic = ref('General')
-const topics = ['General', 'Profile', 'Login', 'Assignments', 'Courses', 'Payments']
+const topics = [
+  { label: 'General', value: 'other' },
+  { label: 'Profile', value: 'technical' },
+  { label: 'Login', value: 'technical' },
+  { label: 'Assignments', value: 'course' },
+  { label: 'Courses', value: 'course' },
+  { label: 'Payments', value: 'fees' }
+]
+
+const selectedTopic = ref('other')
 
 const submitting = ref(false)
 const submitMessage = ref('')
@@ -438,10 +446,10 @@ const resetForm = () => {
   queryForm.value = {
     name: user?.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : '',
     email: user?.email || '',
-    issue_type: 'General',
+    issue_type: 'other',
     message: ''
   }
-  selectedTopic.value = 'General'
+  selectedTopic.value = 'other'
   submitMessage.value = ''
 }
 
@@ -546,7 +554,7 @@ onMounted(() => {
   const { user } = getAuth()
   queryForm.value.name = user?.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : ''
   queryForm.value.email = user?.email || ''
-  queryForm.value.issue_type = 'General'
+  queryForm.value.issue_type = 'other'
   queryStatusEmail.value = user?.email || ''
 })
 </script>
