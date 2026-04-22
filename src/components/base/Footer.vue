@@ -31,9 +31,9 @@
         <div>
           <h2 class="text-lg font-semibold text-amber-300 mb-4">Learn</h2>
           <ul class="space-y-2 text-sm">
-            <li><a href="#" class="hover:text-green-500 transition">Courses</a></li>
-            <li><a href="#" class="hover:text-green-500 transition">Notes</a></li>
-            <li><a href="#" class="hover:text-green-500 transition">Videos</a></li>
+            <li><a href="/courses" class="hover:text-green-500 transition">Courses</a></li>
+            <li><a href="/resource/notes" class="hover:text-green-500 transition">Notes</a></li>
+            <li><a href="/resource/youtube" class="hover:text-green-500 transition">Videos</a></li>
           </ul>
         </div>
 
@@ -53,7 +53,7 @@
           <ul class="space-y-2 text-sm text-gray-400">
             <li>📍 Patna, Bihar, India</li>
             <li>📞 +91 9142125921</li>
-            <li>✉️ clearupsol015@gmail.com</li>
+            <li>✉️ support.educationalsociety@gmail.com</li>
           </ul>
         </div>
       </div>

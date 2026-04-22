@@ -14,16 +14,16 @@
           <div class="lg:col-span-7">
             <div class="inline-flex items-center gap-2 rounded-full border border-[#07363f]/15 bg-white/75 px-4 py-1.5 text-sm font-semibold text-[#0f4f5e] shadow-md backdrop-blur-md">
               <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-              New session admissions open
+              New session admissions open - 2026
             </div>
 
             <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-[#052b35]">
-              A Fresh Way to
-              <span class="text-transparent bg-clip-text bg-linear-to-r from-[#0f766e] via-[#0ea5a6] to-[#fb923c]">Learn in 3D</span>
+              Build Your Future
+              <span class="text-transparent bg-clip-text bg-linear-to-r from-[#0f766e] via-[#0ea5a6] to-[#fb923c]">with the Right Education</span>
             </h1>
 
             <p class="mt-5 max-w-2xl text-base sm:text-lg text-[#18414b] leading-relaxed">
-              Step into immersive mentoring with structure, clarity, and momentum. We blend core academics and modern skills in one guided learning path.
+              “School boards ho ya coding ka future — yahan milti hai complete learning jo marks bhi badhaye aur skills bhi.”
             </p>
 
             <div class="mt-7 flex flex-col sm:flex-row gap-3">
@@ -38,12 +38,12 @@
                 to="/signup"
                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#0f766e]/35 bg-white/75 px-6 py-3 font-semibold text-[#0c4a58] transition-all duration-300 hover:bg-white"
               >
-                Join Free Demo
+                Join Now
                 <i class="fa-solid fa-play"></i>
               </router-link>
             </div>
 
-            <div class="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <!-- <div class="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div class="rounded-2xl bg-white/80 border border-[#0f766e]/15 p-3 text-center shadow-md backdrop-blur-sm">
                 <p class="text-xl font-black text-[#073b4c]">1000+</p>
                 <p class="text-xs text-[#1f5a67]">Students</p>
@@ -60,7 +60,7 @@
                 <p class="text-xl font-black text-[#073b4c]">24/7</p>
                 <p class="text-xs text-[#1f5a67]">Mentor Help</p>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="lg:col-span-5 hero-stage px-2 sm:px-4">
@@ -74,14 +74,14 @@
                 />
                 <div class="absolute inset-0 bg-linear-to-t from-[#001b24]/65 via-[#001b24]/20 to-transparent"></div>
 
-                <div class="absolute top-4 left-4 rounded-xl border border-white/40 bg-white/20 px-3 py-2 backdrop-blur-md">
-                  <p class="text-[11px] uppercase tracking-wide text-white/85">3D Learning Stack</p>
+                <div class="absolute top-4 left-4 rounded-xl border border-white/40 bg-black/50 px-3 py-2 backdrop-blur-md">
+                  <p class="text-[11px] uppercase tracking-wide text-white/85">Learn With Us</p>
                   <p class="text-sm font-bold text-white">Academics + Coding + Projects</p>
                 </div>
 
-                <div class="absolute bottom-4 right-4 hero-card-tilt rounded-2xl border border-white/40 bg-white/20 p-3 backdrop-blur-md">
-                  <p class="text-xs text-white/80">This Week</p>
-                  <p class="text-base font-bold text-white">Focused Problem Solving</p>
+                <div class="absolute bottom-4 right-4 hero-card-tilt rounded-2xl border border-white/40 bg-green-500/20 p-3 backdrop-blur-md">
+                  <p class="text-xs text-stone-200">This Month</p>
+                  <p class="text-base font-bold text-white">Board, Web Development</p>
                 </div>
               </div>
             </div>
@@ -131,7 +131,7 @@
             How to <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-teal-500">Join</span>
           </h2>
           <div class="w-24 h-1 bg-linear-to-r from-blue-600 to-teal-500 mx-auto rounded-full"></div>
-          <p class="mt-4 text-gray-600 dark:text-gray-300">Start your learning journey in 5 simple steps</p>
+          <p class="mt-4 text-gray-600 dark:text-gray-300">Start your learning journey in 4 simple steps</p>
         </div>
 
         <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-delay="100">
@@ -155,6 +155,96 @@
             Start Your Journey Now
             <i class="fa-solid fa-arrow-right-long"></i>
           </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notice Section with Mobile Carousel -->
+    <section class="py-16 px-4 bg-linear-to-br from-amber-50 via-orange-50 to-rose-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-12" data-aos="fade-up">
+          <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 text-sm font-semibold mb-4">
+            <i class="fa-solid fa-bell"></i>Latest Notices
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Important <span class="text-transparent bg-clip-text bg-linear-to-r from-amber-600 to-rose-500">Announcements</span>
+          </h2>
+          <p class="text-gray-600 dark:text-gray-300">
+            Stay updated with new courses, batch schedules, and important notices.
+          </p>
+        </div>
+
+        <!-- Desktop Grid View (Hidden on Mobile) -->
+        <div class="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-delay="100">
+          <article
+            v-for="(notice, index) in notices"
+            :key="index"
+            class="rounded-2xl border border-orange-100 bg-white/90 p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-gray-700 dark:bg-gray-800"
+          >
+            <div class="flex items-start justify-between gap-3 mb-4">
+              <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+                :class="notice.type === 'Course'
+                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                  : notice.type === 'Batch'
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                    : 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'"
+              >
+                {{ notice.type }}
+              </span>
+              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ notice.date }}</span>
+            </div>
+
+            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">{{ notice.title }}</h3>
+            <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300 mb-4">{{ notice.description }}</p>
+
+            <router-link
+              :to="notice.link"
+              class="inline-flex items-center gap-2 text-sm font-semibold text-rose-600 transition-colors hover:text-rose-700 dark:text-rose-400"
+            >
+              {{ notice.cta }}
+              <i class="fa-solid fa-arrow-right"></i>
+            </router-link>
+          </article>
+        </div>
+
+        <!-- Mobile Carousel View (Visible on Mobile Only) -->
+        <div class="md:hidden">
+          <Swiper
+            :modules="modules"
+            :slides-per-view="1"
+            :space-between="20"
+            :pagination="{ clickable: true }"
+            :navigation="true"
+            class="notices-swiper"
+          >
+            <SwiperSlide v-for="(notice, index) in notices" :key="index">
+              <article class="rounded-2xl border border-orange-100 bg-white/90 p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800 h-full">
+                <div class="flex items-start justify-between gap-3 mb-4">
+                  <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+                    :class="notice.type === 'Course'
+                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
+                      : notice.type === 'Batch'
+                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                        : 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'"
+                  >
+                    {{ notice.type }}
+                  </span>
+                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ notice.date }}</span>
+                </div>
+
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">{{ notice.title }}</h3>
+                <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300 mb-6">{{ notice.description }}</p>
+
+                <router-link
+                  :to="notice.link"
+                  class="inline-flex items-center gap-2 text-sm font-semibold text-rose-600 transition-colors hover:text-rose-700 dark:text-rose-400"
+                >
+                  {{ notice.cta }}
+                  <i class="fa-solid fa-arrow-right"></i>
+                </router-link>
+              </article>
+            </SwiperSlide>
+          </Swiper>
         </div>
       </div>
     </section>
@@ -591,13 +681,40 @@ import "swiper/css/navigation";
 
 const modules = [Pagination, Navigation];
 
+// Notice data - Edit these to publish announcements on home page
+const notices = ref([
+  {
+    type: "Course",
+    title: "New Full Stack Web Development",
+    description: "Enroll in our new Full Stack Web Development course. Learn React, Node.js, and database design from industry experts.",
+    date: "22 Apr 2026",
+    cta: "View Courses",
+    link: "/courses"
+  },
+  {
+    type: "Batch",
+    title: "Evening Batch Starts 1 May",
+    description: "Fresh evening batch for Class 9-12 begins May 1st. Perfect for working professionals and students.",
+    date: "22 Apr 2026",
+    cta: "Enroll Now",
+    link: "/signup"
+  },
+  {
+    type: "General",
+    title: "Fee Payment Deadline Extended",
+    description: "Extended fee payment deadline to 30 April. Log in to your dashboard to complete your payment.",
+    date: "22 Apr 2026",
+    cta: "Go to Dashboard",
+    link: "/login"
+  }
+]);
+
 // Steps data
 const steps = ref([
-  { title: "Apply for Test", description: "Apply for the test according to your class and subject preference." },
-  { title: "Qualify Criteria", description: "Meet the minimum criteria set by Educational Society to join online classes." },
-  { title: "Register Online", description: "Complete your registration on our website with basic details." },
-  { title: "Pay Fee", description: "Pay the registration fee through secure payment gateway." },
-  { title: "Start Learning", description: "Begin your successful learning journey with us!" }
+  { title: "Sign Up", description: "Create your account using the Sign Up form." },
+  { title: "Login", description: "Log in to your account with your registered credentials." },
+  { title: "Select & Enroll", description: "Choose a course from the Courses page and complete enrollment." },
+  { title: "Pay Fee & Access", description: "Pay the course fee, then get access to that course content." }
 ]);
 
 const featuredCourses = computed(() => courseCatalog.slice(0, 6));
@@ -942,9 +1059,9 @@ html {
 
 :deep(.swiper-button-next),
 :deep(.swiper-button-prev) {
-  width: 44px;
-  height: 44px;
-  background-color: rgba(239, 68, 68, 0.9);
+  width: 30px;
+  height: 30px;
+  background-color: rgba(239, 68, 68, 0.85);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -958,15 +1075,15 @@ html {
 
 :deep(.swiper-button-next:after),
 :deep(.swiper-button-prev:after) {
-  font-size: 16px;
+  font-size: 13px;
   color: white;
 }
 
 :deep(.swiper-button-next:hover),
 :deep(.swiper-button-prev:hover) {
   background-color: rgb(220, 38, 38);
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.35);
 }
 
 :deep(.swiper-button-prev) {
@@ -986,5 +1103,74 @@ html {
 :deep(.swiper-slide) {
   display: flex !important;
   align-items: stretch;
+}
+
+/* Notice Carousel Styles for Mobile */
+.notices-swiper {
+  padding-bottom: 50px;
+}
+
+.notices-swiper :deep(.swiper-pagination) {
+  position: absolute;
+  bottom: 0 !important;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.notices-swiper :deep(.swiper-pagination-bullet) {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(249, 115, 22, 0.3);
+  border: 2px solid rgb(249, 115, 22);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0;
+}
+
+.notices-swiper :deep(.swiper-pagination-bullet-active) {
+  background-color: rgb(249, 115, 22);
+  transform: scale(1.2);
+}
+
+.notices-swiper :deep(.swiper-button-next),
+.notices-swiper :deep(.swiper-button-prev) {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(249, 115, 22, 0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: all 0.3s ease;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.notices-swiper :deep(.swiper-button-next:after),
+.notices-swiper :deep(.swiper-button-prev:after) {
+  font-size: 12px;
+  color: white;
+}
+
+.notices-swiper :deep(.swiper-button-next:hover),
+.notices-swiper :deep(.swiper-button-prev:hover) {
+  background-color: rgb(231, 76, 12);
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 3px 10px rgba(249, 115, 22, 0.35);
+}
+
+.notices-swiper :deep(.swiper-button-prev) {
+  left: 8px;
+  right: auto;
+}
+
+.notices-swiper :deep(.swiper-button-next) {
+  right: 8px;
+  left: auto;
 }
 </style>

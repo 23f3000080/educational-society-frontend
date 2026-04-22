@@ -37,7 +37,7 @@
               </div>
 
               <div class="space-y-3">
-                <a href="mailto:clearupsol015@gmail.com" class="flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 transition hover:border-cyan-300 hover:bg-cyan-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-cyan-800 dark:hover:bg-cyan-950/40">
+                <a href="mailto:support.educationalsociety@gmail.com" class="flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-700 transition hover:border-cyan-300 hover:bg-cyan-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-cyan-800 dark:hover:bg-cyan-950/40">
                   <span>Email support</span>
                   <span class="text-xs text-gray-400">24-48 hrs</span>
                 </a>

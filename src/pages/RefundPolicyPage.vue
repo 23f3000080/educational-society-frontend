@@ -46,7 +46,7 @@
           </div>
           <p>
             To request a refund, email us at 
-            <a href="mailto:support@educationalsociety.com" class="text-blue-500 underline">support@educationalsociety.com</a>.  
+            <a href="mailto:support.educationalsociety@gmail.com" class="text-blue-500 underline">support.educationalsociety@gmail.com</a>.  
             Refunds are processed within <span class="font-semibold">5–7 business days</span>.
           </p>
         </div>
