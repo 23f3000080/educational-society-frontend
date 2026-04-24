@@ -20,7 +20,7 @@
 
         <div class="grid grid-cols-3 gap-3 text-center sm:gap-4">
           <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
-            <p class="text-2xl font-black">6</p>
+            <p class="text-2xl font-black">5</p>
             <p class="mt-1 text-xs text-cyan-100">Programs</p>
           </div>
           <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
