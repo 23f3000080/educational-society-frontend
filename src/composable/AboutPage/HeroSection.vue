@@ -37,8 +37,8 @@
                                     <p class="text-xs uppercase tracking-wide text-slate-600 dark:text-slate-300">Founded</p>
                                 </div>
                                 <div class="rounded-2xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/70">
-                                    <p class="text-3xl font-black text-slate-900 dark:text-slate-100">10K+</p>
-                                    <p class="text-xs uppercase tracking-wide text-slate-600 dark:text-slate-300">Hours Taught</p>
+                                    <p class="text-3xl font-black text-slate-900 dark:text-slate-100">5+</p>
+                                    <p class="text-xs uppercase tracking-wide text-slate-600 dark:text-slate-300">Years of Experience</p>
                                 </div>
                                 <div class="rounded-2xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800/70">
                                     <p class="text-3xl font-black text-slate-900 dark:text-slate-100">3 Pillars</p>
@@ -91,7 +91,7 @@
         </section>
 
         <!-- Team -->
-        <section class="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
+        <!-- <section class="mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8">
             <div class="mb-8 text-center">
                 <h2 class="text-3xl font-black text-[#143541] dark:text-[#e4f7ff]">People Behind The Vision</h2>
                 <p class="mt-2 text-slate-600 dark:text-slate-300">Meet the mentors shaping meaningful student outcomes.</p>
@@ -162,7 +162,7 @@
                     ></button>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- CTA -->
         <section class="mx-4 mb-10 rounded-3xl bg-linear-to-r from-[#0d4e63] via-[#0f6b7b] to-[#ff8b5e] px-6 py-12 text-center text-white shadow-2xl sm:mx-6 lg:mx-8">

@@ -81,19 +81,22 @@ const routes = [
       {
         path: '/resource/notes',
         name: 'Notes',
-        component: NotesPage
+        component: NotesPage,
+        meta: { requiresAuth: true, role: 'student' }
       },
 
       {
         path: '/resource/youtube',
         name: 'Youtube',
-        component: YoutubePage
+        component: YoutubePage,
+        meta: { requiresAuth: true, role: 'student' }
       },
 
       {
         path: '/resource/books',
         name: 'Books',
-        component: BooksPage
+        component: BooksPage,
+        meta: { requiresAuth: true, role: 'student' }
       },
 
       {

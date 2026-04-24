@@ -686,27 +686,27 @@ const notices = ref([
   {
     type: "Course",
     title: "New Full Stack Web Development",
-    description: "Enroll in our new Full Stack Web Development course. Learn React, Node.js, and database design from industry experts.",
-    date: "22 Apr 2026",
-    cta: "View Courses",
-    link: "/courses"
+    description: "Enroll in our new Full Stack Web Development course. Learn Vue.js, Flask, and database design.",
+    date: "4 May 2026",
+    cta: "Enroll Now",
+    link: "/Signup"
   },
   {
-    type: "Batch",
-    title: "Evening Batch Starts 1 May",
-    description: "Fresh evening batch for Class 9-12 begins May 1st. Perfect for working professionals and students.",
-    date: "22 Apr 2026",
+    type: "Course",
+    title: "Python Programming for Beginners",
+    description: "Learn the fundamentals of Python programming. Perfect for students new to coding. Enroll now!",
+    date: "10 May 2026",
     cta: "Enroll Now",
     link: "/signup"
   },
-  {
-    type: "General",
-    title: "Fee Payment Deadline Extended",
-    description: "Extended fee payment deadline to 30 April. Log in to your dashboard to complete your payment.",
-    date: "22 Apr 2026",
-    cta: "Go to Dashboard",
-    link: "/login"
-  }
+  // {
+  //   type: "General",
+  //   title: "Fee Payment Deadline Extended",
+  //   description: "Extended fee payment deadline to 30 April. Log in to your dashboard to complete your payment.",
+  //   date: "22 Apr 2026",
+  //   cta: "Go to Dashboard",
+  //   link: "/login"
+  // }
 ]);
 
 // Steps data
@@ -844,7 +844,7 @@ const whyChooseUs = ref([
   {
     icon: "fa-solid fa-certificate",
     title: "Certification",
-    description: "Get recognized certificates upon course completion to boost your academic profile.",
+    description: "Get certificates and prizes from the institution upon course completion.",
     color: "from-indigo-500 to-indigo-600",
   },
 ]);
