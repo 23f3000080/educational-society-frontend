@@ -127,7 +127,7 @@
                       {{ course.title }}
                     </h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400">
-                      Last accessed 2 days ago
+                      Class {{ course.class_level }} &middot; {{ course.duration_months }} months
                     </p>
                   </div>
                 </div>

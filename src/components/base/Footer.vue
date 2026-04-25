@@ -67,12 +67,16 @@
         Made with <span class="text-red-500">❤️</span> by <span class="font-semibold">Educational Society</span>
       </p>
       <p class="text-gray-500 dark:text-gray-500 mt-1">
-        © 2025 Educational Society. All rights reserved.
+        © {{ currentYear }} Educational Society. All rights reserved.
       </p>
     </div>
   </footer>
 </template>
 
-<script setup></script>
+<script setup>
+
+// dynamic copyright year (optional)
+const currentYear = new Date().getFullYear();
+</script>
 
 <style scoped></style>
