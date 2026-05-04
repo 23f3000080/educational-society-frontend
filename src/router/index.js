@@ -210,6 +210,13 @@ const routes = [
         meta: { requiresAuth: true, role: 'student' }
       },
 
+      {
+        path: '/student/my-purchase',
+        name: 'StudentMyPurchase',
+        component: () => import('../pages/student_temp/student_profile_dropdown/MyPurchase.vue'),
+        meta: { requiresAuth: true, role: 'student' }
+      },
+
       // path to enroll in a course
       {
         path: '/courses/:id/enroll',

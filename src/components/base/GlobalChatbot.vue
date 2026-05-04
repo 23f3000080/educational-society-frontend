@@ -6,9 +6,21 @@
         class="mb-3 w-[min(92vw,390px)] overflow-hidden rounded-2xl border border-cyan-200 bg-white shadow-2xl dark:border-cyan-900 dark:bg-gray-900"
       >
         <div class="flex items-center justify-between bg-linear-to-r from-cyan-600 to-blue-600 px-4 py-3 text-white">
-          <div>
-            <p class="text-sm font-semibold">{{ assistantName }}</p>
-            <p class="text-[11px] text-cyan-100">Powered by Educational Society</p>
+          <div class="flex items-center gap-2">
+            <!-- Animated Bot Icon in Header -->
+            <div class="relative">
+              <div class="absolute inset-0 animate-ping rounded-full bg-cyan-300 opacity-20"></div>
+              <svg class="relative h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="4" width="16" height="16" rx="4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                <circle cx="9" cy="10" r="1.5" fill="currentColor"/>
+                <circle cx="15" cy="10" r="1.5" fill="currentColor"/>
+                <path d="M8 15H16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm font-semibold">{{ assistantName }}</p>
+              <p class="text-[11px] text-cyan-100">Powered by Educational Society</p>
+            </div>
           </div>
           <button
             type="button"
@@ -73,19 +85,54 @@
       </div>
     </transition>
 
+    <!-- Modern Animated Bot Button -->
     <button
       type="button"
       @click="toggleWidget"
-      class="group relative flex h-15 w-15 items-center justify-center rounded-full border-2 border-white/80 bg-linear-to-br from-teal-500 via-cyan-600 to-blue-700 text-white shadow-[0_12px_32px_rgba(8,145,178,0.45)] transition hover:scale-105 hover:from-teal-400 hover:via-cyan-500 hover:to-blue-600 dark:border-cyan-100/20"
+      class="group relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-cyan-400 via-teal-500 to-blue-600 shadow-2xl transition-all duration-500 hover:scale-110 hover:shadow-xl dark:from-cyan-500 dark:via-teal-600 dark:to-blue-700"
       aria-label="Open chatbot"
     >
-      <span class="pointer-events-none absolute -inset-1 rounded-full border border-cyan-200/40 opacity-0 transition group-hover:opacity-100"></span>
-      <svg class="h-8 w-8 drop-shadow-sm" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 4L3 8.5L12 13L21 8.5L12 4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M7 11.5V15.1C7 16.2 9.24 18 12 18C14.76 18 17 16.2 17 15.1V11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M21 10V14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        <circle cx="21" cy="15.8" r="1.2" fill="currentColor"/>
-      </svg>
+      <!-- Ripple Effect -->
+      <span class="absolute inset-0 rounded-full bg-cyan-400 opacity-30 animate-ripple"></span>
+      <span class="absolute inset-0 rounded-full bg-cyan-400 opacity-20 animate-ripple-delay"></span>
+      
+      <!-- Pulse Ring -->
+      <span class="absolute inset-0 rounded-full border-2 border-cyan-300 opacity-40 animate-pulse-ring"></span>
+      
+      <!-- Bot Icon with Animation -->
+      <div class="relative transform transition-transform duration-500 group-hover:rotate-12">
+        <svg 
+          class="h-8 w-8 drop-shadow-lg animate-float" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Robot Head -->
+          <rect x="5" y="5" width="14" height="14" rx="3" stroke="white" stroke-width="1.8" fill="white/20"/>
+          
+          <!-- Antenna -->
+          <path d="M12 5L12 2" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="12" cy="1.5" r="1.5" fill="white"/>
+          
+          <!-- Eyes -->
+          <circle cx="9" cy="10" r="1.5" fill="white" class="animate-blink"/>
+          <circle cx="15" cy="10" r="1.5" fill="white" class="animate-blink-delay"/>
+          
+          <!-- Smile -->
+          <path d="M8 15C9 16.5 11 17 12 17C13 17 15 16.5 16 15" stroke="white" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          
+          <!-- Face Details -->
+          <circle cx="12" cy="13" r="0.5" fill="white"/>
+        </svg>
+      </div>
+      
+      <!-- Notification Badge -->
+      <span class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-lg animate-bounce">
+        💬
+      </span>
+      
+      <!-- Hover Glow -->
+      <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 opacity-0 transition-opacity duration-300 group-hover:opacity-100 blur-xl"></div>
     </button>
   </div>
 </template>
@@ -217,5 +264,128 @@ onMounted(() => {
 .chat-fade-leave-to {
   opacity: 0;
   transform: translateY(8px);
+}
+
+/* Modern Bot Button Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%, 90%, 100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  95% {
+    opacity: 0.3;
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-ripple {
+  animation: ripple 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-ripple-delay {
+  animation: ripple 2s cubic-bezier(0.4, 0, 0.2, 1) infinite 1s;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.animate-blink {
+  animation: blink 3s ease-in-out infinite;
+}
+
+.animate-blink-delay {
+  animation: blink 3s ease-in-out infinite 0.5s;
+}
+
+/* Hover Effects */
+.group:hover .group-hover\:rotate-12 {
+  transform: rotate(12deg);
+}
+
+.group:hover .group-hover\:shadow-xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.duration-500 {
+  transition-duration: 500ms;
+}
+
+/* Custom styling for the button */
+button:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .fixed.bottom-5.right-5 {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .group.h-16.w-16 {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+  
+  svg.h-8.w-8 {
+    height: 1.75rem;
+    width: 1.75rem;
+  }
 }
 </style>

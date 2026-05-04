@@ -355,7 +355,7 @@ const checkAuthStatus = () => {
   if (token && user) {
     isLoggedIn.value = true
     userRole.value = user.role || user.user_role || 'student'
-    userName.value = user.username || user.name || 'User'
+    userName.value = user.first_name || user.name || 'User'
   } else {
     isLoggedIn.value = false
     userRole.value = null

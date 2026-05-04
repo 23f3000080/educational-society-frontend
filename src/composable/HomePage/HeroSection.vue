@@ -12,10 +12,12 @@
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-18">
         <div class="grid items-center gap-8 lg:grid-cols-12">
           <div class="lg:col-span-7">
-            <div class="inline-flex items-center gap-2 rounded-full border border-[#07363f]/15 bg-white/75 px-4 py-1.5 text-sm font-semibold text-[#0f4f5e] shadow-md backdrop-blur-md">
-              <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-              New session admissions open - 2026
-            </div>
+            <transition name="fade-slide" appear>
+              <div class="inline-flex items-center gap-2 rounded-full border border-[#07363f]/15 bg-white/75 px-4 py-1.5 text-sm font-semibold text-[#0f4f5e] shadow-md backdrop-blur-md">
+                <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
+                New session admissions open - 2026
+              </div>
+            </transition>
 
             <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-[#052b35]">
               Build Your Future
@@ -27,13 +29,15 @@
             </p>
 
             <div class="mt-7 flex flex-col sm:flex-row gap-3">
-              <router-link
-                to="/courses"
-                class="inline-flex items-center justify-center gap-2 rounded-xl bg-[#073b4c] px-6 py-3 font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                Start Exploring
-                <i class="fa-solid fa-arrow-right"></i>
-              </router-link>
+              <transition name="fade-slide-delayed" appear>
+                <router-link
+                  to="/courses"
+                  class="hero-cta-float inline-flex items-center justify-center gap-2 rounded-xl bg-[#073b4c] px-6 py-3 font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  Start Exploring
+                  <i class="fa-solid fa-arrow-right"></i>
+                </router-link>
+              </transition>
               <router-link
                 to="/signup"
                 class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#0f766e]/35 bg-white/75 px-6 py-3 font-semibold text-[#0c4a58] transition-all duration-300 hover:bg-white"
@@ -1172,5 +1176,54 @@ html {
 .notices-swiper :deep(.swiper-button-next) {
   right: 8px;
   left: auto;
+}
+
+/* Hero entrance transitions */
+.fade-slide-enter-active {
+  transition: opacity 480ms cubic-bezier(0.2,0.9,0.2,1), transform 480ms cubic-bezier(0.2,0.9,0.2,1);
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.995);
+}
+.fade-slide-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Slightly delayed variant for CTA */
+.fade-slide-delayed-enter-active {
+  transition: opacity 560ms cubic-bezier(0.2,0.9,0.2,1), transform 560ms cubic-bezier(0.2,0.9,0.2,1);
+  transition-delay: 140ms;
+}
+.fade-slide-delayed-enter-from {
+  opacity: 0;
+  transform: translateY(6px) scale(0.995);
+}
+.fade-slide-delayed-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* CTA floating animation */
+.hero-cta-float {
+  animation: heroFloatBtn 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+.hero-cta-float:hover,
+.hero-cta-float:focus {
+  animation-play-state: paused;
+}
+
+@keyframes heroFloatBtn {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .hero-cta-float {
+    animation: none;
+  }
 }
 </style>
