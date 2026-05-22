@@ -304,6 +304,15 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
       createPeer(participant.socket_id, false)
     })
 
+    socket.value.on('room:existing-participants', (payload) => {
+      const list = Array.isArray(payload?.participants) ? payload.participants : []
+      list.forEach((participant) => {
+        if (!participant?.socket_id || participant.socket_id === localSocketId.value) return
+        upsertParticipant(participant)
+        createPeer(participant.socket_id, true)
+      })
+    })
+
     socket.value.on('room:participant-left', (payload) => {
       const socketId = payload?.socket_id
       if (!socketId) return
