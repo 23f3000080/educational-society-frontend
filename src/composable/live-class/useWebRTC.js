@@ -30,6 +30,7 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
   const localSocketId = ref('')
   const hasJoinedRoom = ref(false)
   const peerMap = new Map()
+  const pendingSignals = new Map()
   const speakingTimer = ref(null)
   const speechAudioContext = ref(null)
   const activeDisplayStream = ref(null)
@@ -177,6 +178,18 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
     })
 
     peerMap.set(socketId, peer)
+
+    const queuedSignals = pendingSignals.get(socketId)
+    if (Array.isArray(queuedSignals) && queuedSignals.length > 0) {
+      queuedSignals.forEach((signal) => {
+        try {
+          peer.signal(signal)
+        } catch (_error) {
+          // If a queued signal is stale we keep the peer alive and continue.
+        }
+      })
+      pendingSignals.delete(socketId)
+    }
   }
 
   const ensureLocalMedia = async () => {
@@ -267,23 +280,21 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
       localSocketId.value = payload?.socket_id || socket.value?.id || ''
     })
 
-    socket.value.on('room:error', (payload) => {
-      setError(payload?.message || 'Unable to join room')
-    })
+    socket.value.on('signal', (payload) => {
+      const fromSocketId = payload?.from_socket_id
+      const signal = payload?.signal
+      const peer = peerMap.get(fromSocketId)
 
-    socket.value.on('room:ready', (payload) => {
-      roomInfo.value = payload?.live_class || null
-      roomParticipantCount.value = payload?.room?.participant_count || 1
-      participants.value = Array.isArray(payload?.room?.participants) ? payload.room.participants.filter((participant) => participant.socket_id !== localSocketId.value) : participants.value
-      chatMessages.value = Array.isArray(payload?.room?.chat) ? payload.room.chat : []
-    })
+      if (!signal || !fromSocketId) return
 
-    socket.value.on('room:existing-participants', (payload) => {
-      const list = Array.isArray(payload?.participants) ? payload.participants : []
-      syncParticipants(list.filter((participant) => participant.socket_id !== localSocketId.value))
-      list
-        .filter((participant) => participant.socket_id !== localSocketId.value)
-        .forEach((participant) => createPeer(participant.socket_id, true))
+      if (peer) {
+        peer.signal(signal)
+        return
+      }
+
+      const queuedSignals = pendingSignals.get(fromSocketId) || []
+      queuedSignals.push(signal)
+      pendingSignals.set(fromSocketId, queuedSignals)
     })
 
     socket.value.on('room:participant-joined', (payload) => {
@@ -296,6 +307,7 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
     socket.value.on('room:participant-left', (payload) => {
       const socketId = payload?.socket_id
       if (!socketId) return
+      pendingSignals.delete(socketId)
       removeParticipant(socketId)
       removePeer(socketId)
     })
