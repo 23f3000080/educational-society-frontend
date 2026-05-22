@@ -148,6 +148,17 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
     remoteStreams.value = remoteStreams.value.filter((item) => item.socket_id !== socketId)
   }
 
+  const shouldInitiatePeer = (socketId) => {
+    if (!localSocketId.value || !socketId) return false
+    return String(localSocketId.value).localeCompare(String(socketId)) < 0
+  }
+
+  const registerPeerForParticipant = (participant) => {
+    if (!participant?.socket_id || participant.socket_id === localSocketId.value) return
+    upsertParticipant(participant)
+    createPeer(participant.socket_id, shouldInitiatePeer(participant.socket_id))
+  }
+
   const createPeer = (socketId, initiator) => {
     if (!localStream.value || peerMap.has(socketId)) return
 
@@ -298,19 +309,12 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
     })
 
     socket.value.on('room:participant-joined', (payload) => {
-      const participant = payload?.participant
-      if (!participant || participant.socket_id === localSocketId.value) return
-      upsertParticipant(participant)
-      createPeer(participant.socket_id, false)
+      registerPeerForParticipant(payload?.participant)
     })
 
     socket.value.on('room:existing-participants', (payload) => {
       const list = Array.isArray(payload?.participants) ? payload.participants : []
-      list.forEach((participant) => {
-        if (!participant?.socket_id || participant.socket_id === localSocketId.value) return
-        upsertParticipant(participant)
-        createPeer(participant.socket_id, true)
-      })
+      list.forEach(registerPeerForParticipant)
     })
 
     socket.value.on('room:participant-left', (payload) => {
@@ -323,7 +327,9 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
 
     socket.value.on('room:participants', (payload) => {
       const list = Array.isArray(payload?.participants) ? payload.participants : []
-      syncParticipants(list.filter((participant) => participant.socket_id !== localSocketId.value))
+      const remoteParticipants = list.filter((participant) => participant.socket_id !== localSocketId.value)
+      syncParticipants(remoteParticipants)
+      remoteParticipants.forEach(registerPeerForParticipant)
     })
 
     socket.value.on('room:participant-count', (payload) => {
