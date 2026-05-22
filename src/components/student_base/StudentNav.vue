@@ -53,24 +53,24 @@
               </svg>
 
               <svg v-else-if="item.icon === 'assignments'" class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-２V5a２ ２ ０ Ｃ１６.５ １８ｃ－１.７４６ －１.７４６ －３.３３２ －１.７４６ －４.５ －１.２５３" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2H7z" />
               </svg>
 
               <span class="whitespace-nowrap">{{ item.name }}</span>
 
               <!-- Badge -->
               <span v-if="item.badge"
-                class="absolute -top-2 -right-2 bg-gradient-to-br from-red-500 via-yellow-500 to-pink-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center shadow-sm dark:shadow-gray-900">
+                class="absolute -top-2 -right-2 bg-linear-to-br from-red-500 via-yellow-500 to-pink-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center shadow-sm dark:shadow-gray-900">
                 {{ item.badge }}
               </span>
 
               <!-- Hover underline effect -->
               <span v-if="!isActive(item.path)"
-                class="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-600 via-purple-500 to-pink-500 transition-all duration-300 group-hover:w-full group-hover:opacity-100 opacity-0"></span>
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-linear-to-r from-indigo-600 via-purple-500 to-pink-500 transition-all duration-300 group-hover:w-full group-hover:opacity-100 opacity-0"></span>
 
               <!-- Active underline -->
               <span v-if="isActive(item.path)"
-                class="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 dark:from-indigo-300 dark:via-purple-300 dark:to-pink-300"></span>
+                class="absolute bottom-0 left-0 w-full h-0.5 bg-linear-to-r from-indigo-400 via-purple-400 to-pink-400 dark:from-indigo-300 dark:via-purple-300 dark:to-pink-300"></span>
             </router-link>
           </div>
         </div>
@@ -112,7 +112,7 @@
                       class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-800 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
                 <!-- Profile Avatar with Status Indicator -->
                 <div class="relative">
-                  <div class="w-9 h-9 bg-gradient-to-r from-teal-600 to-emerald-600 dark:from-teal-500 dark:to-emerald-500 rounded-full flex items-center justify-center shadow-sm">
+                  <div class="w-9 h-9 bg-linear-to-r from-teal-600 to-emerald-600 dark:from-teal-500 dark:to-emerald-500 rounded-full flex items-center justify-center shadow-sm">
                     <span class="text-white font-medium text-sm">{{ userInitials }}</span>
                   </div>
                   <!-- Online Status Indicator -->

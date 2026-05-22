@@ -4,7 +4,7 @@ import { getApiBaseUrl } from './baseUrl'
 export function createLiveSocket(token) {
   return io(getApiBaseUrl(), {
     autoConnect: false,
-    transports: ['websocket'],
+    transports: ['polling', 'websocket'],
     withCredentials: true,
     reconnection: true,
     reconnectionAttempts: Infinity,
