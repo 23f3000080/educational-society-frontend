@@ -23,6 +23,7 @@ import StudentCoursesPage from '../pages/student_temp/StudentCoursesPage.vue'
 import StudentTestsPage from '../pages/student_temp/StudentTestsPage.vue'
 import StudentTestResultsPage from '../pages/student_temp/StudentTestResultsPage.vue'
 import StudentAssignmentsPage from '../pages/student_temp/StudentAssignmentsPage.vue'
+import StudentLiveClassPage from '../pages/student_temp/StudentLiveClassPage.vue'
 
 import AdminDashboardPage from '../pages/admin_temp/AdminDashboardPage.vue'
 import AdminDefaultPage from '../components/admin_base/AdminDefaultPage.vue'
@@ -42,6 +43,8 @@ import AdminSettingsPage from '../pages/admin_temp/admin_profile_dropdown_temp/A
 import AdminSystemlogsPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminSystemlogsPage.vue'
 import AdminAuditTrailPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminAuditTrailPage.vue'
 import AdminHelpPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminHelpPage.vue'
+import AdminLiveClassPage from '../pages/admin_temp/AdminLiveClassPage.vue'
+import liveClassRoutes from './liveClassRoutes'
 
 const routes = [
   {
@@ -223,6 +226,14 @@ const routes = [
         name: 'CourseEnrollment',
         component: () => import('../pages/enrollments_temp/CourseEnrollmentPage.vue'),
         meta: { requiresAuth: true, role: 'student' }
+      },
+
+      // path for live class page
+      {
+        path: '/student/live-class',
+        name: 'StudentLiveClass',
+        component: StudentLiveClassPage,
+        meta: { requiresAuth: true, role: 'student' }
       }
     ]
   },
@@ -232,6 +243,8 @@ const routes = [
     name: 'CourseDetail',
     component: () => import('../pages/courses_temp/CourseDetailPage.vue'),
   },
+
+  ...liveClassRoutes,
 
   {
     path: '/admin',
@@ -333,6 +346,14 @@ const routes = [
         path: '/admin/help',
         name: 'AdminHelp',
         component: AdminHelpPage,
+        meta: { requiresAuth: true, role: 'admin' }
+      },
+
+      // path to admin live class management page
+      {
+        path: '/admin/live-classes',
+        name: 'AdminLiveClasses',
+        component: AdminLiveClassPage,
         meta: { requiresAuth: true, role: 'admin' }
       }
 

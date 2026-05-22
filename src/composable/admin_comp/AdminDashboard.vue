@@ -11,13 +11,26 @@
                         </p>
                     </div>
 
-                    <button
-                        type="button"
-                        @click="fetchDashboard"
-                        class="rounded-xl bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-400"
-                    >
-                        Refresh Dashboard
-                    </button>
+                    <div class="flex flex-wrap gap-3">
+                        <RouterLink
+                            to="/admin/live-classes"
+                            class="group inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-rose-500 via-red-500 to-orange-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:scale-[1.02] hover:from-rose-600 hover:via-red-600 hover:to-orange-600 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                        >
+                            <span class="flex h-2.5 w-2.5">
+                                <span class="absolute inline-flex h-2.5 w-2.5 animate-ping rounded-full bg-white/70 opacity-75"></span>
+                                <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-white"></span>
+                            </span>
+                            Live Class
+                        </RouterLink>
+
+                        <button
+                            type="button"
+                            @click="fetchDashboard"
+                            class="rounded-xl bg-cyan-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-400"
+                        >
+                            Refresh Dashboard
+                        </button>
+                    </div>
                 </div>
 
                 <p v-if="errorMessage" class="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm font-semibold text-rose-700 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300">

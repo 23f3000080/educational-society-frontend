@@ -1,5 +1,7 @@
 export const courseCatalog = [
   {
+    id: 2,
+    course_code: 'CL6TO8',
     slug: 'foundation-course',
     aliases: ['class-6-8', 'foundation'],
     title: 'Foundation Course',
@@ -52,6 +54,8 @@ export const courseCatalog = [
   //   support: 'Math doubt clinic every weekend',
   // },
   {
+    id: 3,
+    course_code: 'MSCOMBO',
     slug: 'maths-science-board-focus',
     aliases: ['board-focus', 'maths-science-combo', 'class-9-10'],
     title: 'Maths + Science Combo',
@@ -78,6 +82,8 @@ export const courseCatalog = [
     support: 'Board exam strategy + test review calls',
   },
   {
+    id: 1,
+    course_code: 'BOARD1026',
     slug: 'board-exam-preparation',
     aliases: ['board-exam-preparation-course', 'board-prep', 'class-10-board'],
     title: 'Board Exam Preparation Course',
@@ -104,6 +110,8 @@ export const courseCatalog = [
     support: 'Extra revision before board exams',
   },
   {
+    id: 4,
+    course_code: 'WEBDEV',
     slug: 'web-development-bootcamp',
     aliases: ['web-dev', 'web-development'],
     title: 'Web Development Bootcamp',
@@ -156,6 +164,8 @@ export const courseCatalog = [
   //   support: 'Career roadmap and project mentorship',
   // },
   {
+    id: 5,
+    course_code: 'FSWDEV',
     slug: 'Full Stack Web Development in Vue.js and Flask',
     aliases: ['web-dev', 'web-development'],
     title: 'Full Stack Web Development',

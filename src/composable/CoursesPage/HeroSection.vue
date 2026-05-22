@@ -145,11 +145,11 @@
           </router-link>
 
           <router-link
-            to="/signup"
-            class="group/link block w-full rounded-2xl bg-linear-to-r from-[#0f766e] via-[#0ea5a6] to-[#0284c7] px-4 py-3 text-center text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg transition hover:scale-[1.01] hover:shadow-xl"
-          >
-            Enroll Now
-            <span class="ml-2 inline-block transition group-hover/link:translate-x-1">→</span>
+              :to="getEnrollRoute(course.id)"
+              class="group/link block w-full rounded-2xl bg-linear-to-r from-[#0f766e] via-[#0ea5a6] to-[#0284c7] px-4 py-3 text-center text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg transition hover:scale-[1.01] hover:shadow-xl"
+            >
+              Enroll Now
+              <span class="ml-2 inline-block transition group-hover/link:translate-x-1">→</span>
           </router-link>
 
           <p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
@@ -178,6 +178,15 @@ const savingsLabel = (course) => {
 }
 
 const courses = courseCatalog
+
+const getEnrollRoute = (courseId) => {
+  const token = sessionStorage.getItem("token")
+
+  return token
+    ? `/courses/${courseId}/enroll`
+    : "/signup"
+}
+
 </script>
 
 <style>

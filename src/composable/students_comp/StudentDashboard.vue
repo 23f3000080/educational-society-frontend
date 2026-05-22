@@ -3,6 +3,132 @@
     <!-- Main Container with improved padding for mobile -->
     <div class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
       <div class="space-y-4 sm:space-y-6 md:space-y-8">
+        <!-- Side Navigation with Toggle Button -->
+        <div class="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex items-start">
+          <!-- Toggle Button -->
+          <button @click="isSideNavOpen = !isSideNavOpen"
+            class="relative z-50 flex items-center justify-center rounded-r-2xl bg-gradient-to-r from-indigo-600 to-violet-600 p-2 sm:p-3 text-white shadow-lg transition-all duration-300 hover:from-indigo-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            :class="{ 'rounded-l-none ml-0': isSideNavOpen }" aria-label="Toggle navigation">
+            <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300"
+              :class="{ 'rotate-180': isSideNavOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <!-- Navigation Panel - Fixed with proper hiding -->
+          <div class="transition-all duration-300 ease-in-out overflow-hidden"
+            :class="isSideNavOpen ? 'ml-3 w-48 sm:w-56 opacity-100 pointer-events-auto' : 'ml-0 w-0 opacity-0 pointer-events-none'">
+            <div class="rounded-2xl bg-white/95 backdrop-blur-xl shadow-2xl dark:bg-gray-900/95">
+              <nav class="p-2 sm:p-3">
+                <div class="space-y-1">
+                  <!-- Home Link -->
+                  <router-link to="/"
+                    class="flex items-center gap-2 sm:gap-3 rounded-xl px-3 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-gray-700 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300"
+                    :class="{ 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300': $route.path === '/' }"
+                    @click="isSideNavOpen = false">
+                    <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                    </svg>
+                    <span>Home</span>
+                  </router-link>
+
+                  <!-- Resources Link with Dropdown - FULLY WORKING -->
+<div class="relative resources-container">
+  <div
+    class="resources-trigger flex items-center justify-between rounded-xl px-3 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-gray-700 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 cursor-pointer"
+    @mouseenter="showResourcesDropdown = true" 
+    @mouseleave="showResourcesDropdown = false"
+  >
+    <div class="flex items-center gap-2 sm:gap-3">
+      <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16" />
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6v12M16 6v12" />
+      </svg>
+      <span>Resources</span>
+    </div>
+    <svg class="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200"
+      :class="{ 'rotate-180': showResourcesDropdown }" fill="none" stroke="currentColor"
+      viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
+
+  <!-- Dropdown Menu - Teleport to body to avoid overflow issues -->
+  <Teleport to="body">
+    <div 
+      v-show="showResourcesDropdown"
+      class="fixed z-[9999]"
+      :style="dropdownStyle"
+      @mouseenter="showResourcesDropdown = true" 
+      @mouseleave="showResourcesDropdown = false"
+    >
+      <div class="min-w-[140px] sm:min-w-[160px] rounded-xl bg-white shadow-lg border border-gray-100 dark:bg-gray-900 dark:border-gray-800 py-1">
+        <router-link to="/resource/notes"
+          class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
+          @click="showResourcesDropdown = false; isSideNavOpen = false">
+          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>Notes</span>
+        </router-link>
+
+        <router-link to="/resource/youtube"
+          class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
+          @click="showResourcesDropdown = false; isSideNavOpen = false">
+          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          <span>Youtube</span>
+        </router-link>
+
+        <router-link to="/resource/books"
+          class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
+          @click="showResourcesDropdown = false; isSideNavOpen = false">
+          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <span>Books</span>
+        </router-link>
+      </div>
+    </div>
+  </Teleport>
+</div>
+
+                  <!-- Courses Link -->
+                  <router-link to="/courses"
+                    class="flex items-center gap-2 sm:gap-3 rounded-xl px-3 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-gray-700 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300"
+                    :class="{ 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300': $route.path === '/courses' }"
+                    @click="isSideNavOpen = false">
+                    <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    <span>Courses</span>
+                  </router-link>
+
+                  <!-- Support Link -->
+                  <router-link to="/contact"
+                    class="flex items-center gap-2 sm:gap-3 rounded-xl px-3 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-gray-700 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300"
+                    :class="{ 'bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300': $route.path === '/contact' }"
+                    @click="isSideNavOpen = false">
+                    <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M18.364 5.636L16.95 7.05M21 12h-2M3 12H1m4-7.05L3.636 5.636M16.95 16.95L18.364 18.364M12 21v-2m-7.05-3.636L3.636 16.95M12 3V1m-4 8a4 4 0 108 0 4 4 0 00-8 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 17a5 5 0 00-5 5h10a5 5 0 00-5-5z" />
+                    </svg>
+                    <span>Support</span>
+                  </router-link>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
         
         <!-- Hero Section - Completely responsive -->
         <section class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-indigo-700 via-violet-700 to-fuchsia-700 text-white shadow-2xl">
@@ -25,20 +151,44 @@
                 </div>
 
                 <div class="flex flex-wrap gap-2 sm:gap-3">
-                  <button
-                    type="button"
-                    @click="router.push('/student/courses')"
-                    class="rounded-lg sm:rounded-xl bg-white px-3 py-1.5 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-indigo-700 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-indigo-50"
-                  >
+                  <!-- Live Class Button - Most Prominent -->
+                  <button type="button" @click="router.push('/student/live-class')"
+                    class="group relative overflow-hidden rounded-lg sm:rounded-xl bg-linear-to-r from-red-500 via-pink-500 to-rose-500 px-4 py-1.5 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-red-500/40 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                    <!-- Animated pulse effect -->
+                    <span
+                      class="absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-r from-red-500 via-pink-500 to-rose-500 animate-pulse-slow opacity-75"></span>
+
+                    <!-- Ripple effect on hover -->
+                    <span
+                      class="absolute inset-0 rounded-lg sm:rounded-xl bg-white opacity-0 transition-opacity duration-300 group-hover:opacity-20"></span>
+
+                    <!-- Live dot indicator -->
+                    <span class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 flex h-2 w-2 sm:h-2.5 sm:w-2.5">
+                      <span
+                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                      <span class="relative inline-flex h-full w-full rounded-full bg-red-500"></span>
+                    </span>
+
+                    <span class="relative flex items-center gap-1 sm:gap-2 pl-3 sm:pl-4">
+                      <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      <span>LIVE CLASS</span>
+                      <span class="hidden sm:inline text-xs font-normal opacity-90">• Join Now</span>
+                    </span>
+                  </button>
+
+                  <button type="button" @click="router.push('/student/courses')"
+                    class="rounded-lg sm:rounded-xl bg-white px-3 py-1.5 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-indigo-700 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-indigo-50">
                     View Courses
                   </button>
-                  <button
-                    type="button"
-                    @click="router.push('/student/assignments')"
-                    class="rounded-lg sm:rounded-xl border border-white/20 bg-white/10 px-3 py-1.5 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20"
-                  >
+
+                  <button type="button" @click="router.push('/student/assignments')"
+                    class="rounded-lg sm:rounded-xl border border-white/20 bg-white/10 px-3 py-1.5 sm:px-4 sm:py-2.5 text-xs sm:text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20">
                     Open Assignments
                   </button>
+
                 </div>
               </div>
 
@@ -350,6 +500,60 @@ const allCourses = ref([])
 const notifications = ref([])
 const assignments = ref([])
 
+const isSideNavOpen = ref(false)
+// Add these refs
+const showResourcesDropdown = ref(false)
+const dropdownStyle = ref({
+  top: '0px',
+  left: '0px'
+})
+
+// Add this function to update dropdown position
+const updateDropdownPosition = () => {
+  const trigger = document.querySelector('.resources-trigger')
+  if (trigger && showResourcesDropdown.value) {
+    const rect = trigger.getBoundingClientRect()
+    dropdownStyle.value = {
+      top: `${rect.top}px`,
+      left: `${rect.right + 8}px`
+    }
+  }
+}
+
+// Add watcher to update position when dropdown shows
+import { watch, nextTick } from 'vue'
+
+// Add this watch
+watch(showResourcesDropdown, (newVal) => {
+  if (newVal) {
+    nextTick(() => {
+      updateDropdownPosition()
+    })
+  }
+})
+
+// Also update on window resize and scroll
+const handleResize = () => {
+  if (showResourcesDropdown.value) {
+    updateDropdownPosition()
+  }
+}
+
+// Add event listeners in onMounted
+onMounted(() => {
+  loadDashboard()
+  window.addEventListener('resize', handleResize)
+  window.addEventListener('scroll', handleResize)
+})
+
+// Clean up in onUnmounted
+import { onUnmounted } from 'vue'
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+  window.removeEventListener('scroll', handleResize)
+})
+
 const studentName = computed(() => {
   const firstName = user?.first_name || user?.firstName || 'Student'
   const lastName = user?.last_name || user?.lastName || ''
@@ -620,5 +824,14 @@ onMounted(() => {
   ::-webkit-scrollbar-thumb {
     background: #4f46e5;
   }
+}
+
+.fixed {
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.resources-trigger {
+  position: relative;
+  z-index: 1;
 }
 </style>
