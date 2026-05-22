@@ -31,6 +31,7 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
   const hasJoinedRoom = ref(false)
   const peerMap = new Map()
   const pendingSignals = new Map()
+  const pendingParticipants = new Map()
   const speakingTimer = ref(null)
   const speechAudioContext = ref(null)
   const activeDisplayStream = ref(null)
@@ -156,7 +157,21 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
   const registerPeerForParticipant = (participant) => {
     if (!participant?.socket_id || participant.socket_id === localSocketId.value) return
     upsertParticipant(participant)
+    if (!localSocketId.value) {
+      pendingParticipants.set(participant.socket_id, participant)
+      return
+    }
     createPeer(participant.socket_id, shouldInitiatePeer(participant.socket_id))
+  }
+
+  const flushPendingParticipants = () => {
+    if (!localSocketId.value || !pendingParticipants.size) return
+
+    const queuedParticipants = [...pendingParticipants.values()]
+    pendingParticipants.clear()
+    queuedParticipants.forEach((participant) => {
+      registerPeerForParticipant(participant)
+    })
   }
 
   const attachOutboundStreamToPeer = (peer) => {
@@ -299,6 +314,7 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
     socket.value.on('connect', () => {
       isConnected.value = true
       localSocketId.value = socket.value.id || ''
+      flushPendingParticipants()
       if (hasJoinedRoom.value) {
         socket.value.emit('join-room', { live_class_id: liveClassId.value })
       }
@@ -314,6 +330,7 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
 
     socket.value.on('socket:connected', (payload) => {
       localSocketId.value = payload?.socket_id || socket.value?.id || ''
+      flushPendingParticipants()
     })
 
     socket.value.on('signal', (payload) => {
@@ -346,6 +363,7 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
       const socketId = payload?.socket_id
       if (!socketId) return
       pendingSignals.delete(socketId)
+      pendingParticipants.delete(socketId)
       removeParticipant(socketId)
       removePeer(socketId)
     })
@@ -516,6 +534,8 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
     stopSpeakingMonitor()
     peerMap.forEach((peer) => peer.destroy())
     peerMap.clear()
+    pendingSignals.clear()
+    pendingParticipants.clear()
     remoteStreams.value = []
     participants.value = []
     chatMessages.value = []
