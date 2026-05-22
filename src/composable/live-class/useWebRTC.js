@@ -159,14 +159,39 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
     createPeer(participant.socket_id, shouldInitiatePeer(participant.socket_id))
   }
 
+  const attachOutboundStreamToPeer = (peer) => {
+    const outboundStream = getOutboundStream()
+    if (!peer || !outboundStream) return
+
+    if (typeof peer.addTrack === 'function' && typeof peer._pc?.addTrack === 'function') {
+      outboundStream.getTracks().forEach((track) => {
+        try {
+          peer.addTrack(track, outboundStream)
+        } catch (_error) {
+          // Skip tracks the browser cannot attach.
+        }
+      })
+      return
+    }
+
+    if (typeof peer._pc?.addStream === 'function') {
+      try {
+        peer._pc.addStream(outboundStream)
+      } catch (_error) {
+        // Older browsers expose addStream but may still reject specific streams.
+      }
+    }
+  }
+
   const createPeer = (socketId, initiator) => {
     if (!localStream.value || peerMap.has(socketId)) return
 
     const peer = new Peer({
       initiator,
       trickle: false,
-      stream: getOutboundStream(),
     })
+
+    attachOutboundStreamToPeer(peer)
 
     peer.on('signal', (signal) => {
       if (!socket.value?.connected) return
