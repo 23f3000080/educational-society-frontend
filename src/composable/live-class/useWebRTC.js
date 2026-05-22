@@ -337,15 +337,6 @@ export function useWebRTC({ liveClassId, token, currentUser }) {
       chatMessages.value = [...chatMessages.value, message].slice(-100)
     })
 
-    socket.value.on('signal', (payload) => {
-      const fromSocketId = payload?.from_socket_id
-      const signal = payload?.signal
-      const peer = peerMap.get(fromSocketId)
-      if (peer && signal) {
-        peer.signal(signal)
-      }
-    })
-
     socket.value.on('room:pong', () => {})
   }
 
