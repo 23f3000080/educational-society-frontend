@@ -60,11 +60,21 @@
             <div class="text-xs text-slate-500 dark:text-slate-400">
               {{ formatTime(liveClass.start_time) }} - {{ formatTime(liveClass.end_time) }}
             </div>
+            <a
+              v-if="getMeetingLink(liveClass)"
+              :href="getMeetingLink(liveClass)"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            >
+              Join now
+            </a>
             <router-link
+              v-else
               :to="`/student/live-class/${liveClass.id}`"
               class="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-700"
             >
-              Join Room
+              Join now
             </router-link>
           </div>
         </article>
@@ -101,6 +111,13 @@ const formatTime = (value) => {
   if (!value) return 'TBD'
   const date = new Date(value)
   return Number.isNaN(date.getTime()) ? 'TBD' : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
+
+const getMeetingLink = (liveClass) => {
+  const meetingLink = liveClass?.meeting_link?.trim()
+  if (!meetingLink) return ''
+  if (/^https?:\/\//i.test(meetingLink)) return meetingLink
+  return `https://${meetingLink}`
 }
 
 const loadLiveClasses = async () => {
