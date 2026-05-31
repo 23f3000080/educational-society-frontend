@@ -2,9 +2,9 @@
   <section class="min-h-screen bg-linear-to-b from-slate-50 via-white to-cyan-50 px-4 py-10 sm:px-6 lg:px-8 dark:from-gray-950 dark:via-gray-900 dark:to-slate-900">
     <div class="mx-auto max-w-7xl">
       <div v-if="course" class="space-y-8">
-        <div class="overflow-hidden rounded-[2rem] border border-white/70 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900">
+        <div class="overflow-hidden rounded-4xl border border-white/70 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900">
           <div class="grid lg:grid-cols-2">
-            <div class="relative min-h-[320px] overflow-hidden">
+            <div class="relative min-h-80 overflow-hidden">
               <img :src="course.image" :alt="course.title" class="h-full w-full object-cover" />
               <div class="absolute inset-0 bg-linear-to-t from-black/85 via-black/30 to-transparent"></div>
 

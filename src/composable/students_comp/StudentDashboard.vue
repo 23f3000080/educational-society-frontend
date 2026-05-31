@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50 dark:from-slate-950 dark:via-gray-950 dark:to-indigo-950">
+  <div class="min-h-screen bg-linear-to-br from-slate-50 via-white to-indigo-50 dark:from-slate-950 dark:via-gray-950 dark:to-indigo-950">
     <!-- Main Container with improved padding for mobile -->
     <div class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-4 sm:py-6 md:py-8">
       <div class="space-y-4 sm:space-y-6 md:space-y-8">
@@ -7,7 +7,7 @@
         <div class="fixed left-0 top-1/2 -translate-y-1/2 z-40 flex items-start">
           <!-- Toggle Button -->
           <button @click="isSideNavOpen = !isSideNavOpen"
-            class="relative z-50 flex items-center justify-center rounded-r-2xl bg-gradient-to-r from-indigo-600 to-violet-600 p-2 sm:p-3 text-white shadow-lg transition-all duration-300 hover:from-indigo-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="relative z-50 flex items-center justify-center rounded-r-2xl bg-linear-to-r from-indigo-600 to-violet-600 p-2 sm:p-3 text-white shadow-lg transition-all duration-300 hover:from-indigo-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             :class="{ 'rounded-l-none ml-0': isSideNavOpen }" aria-label="Toggle navigation">
             <svg class="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-300"
               :class="{ 'rotate-180': isSideNavOpen }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,7 +59,7 @@
   <Teleport to="body">
     <div 
       v-show="showResourcesDropdown"
-      class="fixed z-[9999]"
+      class="fixed z-9999"
       :style="dropdownStyle"
       @mouseenter="showResourcesDropdown = true" 
       @mouseleave="showResourcesDropdown = false"
