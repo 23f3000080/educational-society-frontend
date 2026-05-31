@@ -361,6 +361,7 @@
 import { ref, onMounted, computed } from "vue";
 import api from "../../services/axios";
 import { useRouter } from "vue-router";
+import { getEnrollmentRoute } from "../../utils/auth.js";
 
 const router = useRouter();
 
@@ -443,7 +444,7 @@ const fetchMyCourses = async () => {
 };
 
 const enrollCourse = (courseId) => {
-  router.push(`/courses/${courseId}/enroll`);
+  router.push(getEnrollmentRoute(courseId));
 };
 
 const goToCourse = (courseId) => {

@@ -1,404 +1,375 @@
 <template>
-  <div class="min-h-screen bg-linear-to-br from-blue-100 via-indigo-200 to-purple-200 dark:from-gray-900 dark:via-slate-900 dark:to-purple-950 flex items-center justify-center p-4 md:p-8">
-    <div class="w-full max-w-md">
-      <!-- Logo/Header Section -->
-      <div class="text-center mb-8 md:mb-10">
-        <div class="flex justify-center mb-4">
-          <div class="w-14 h-14 rounded-full bg-linear-to-br
-            from-indigo-700 via-purple-700 to-pink-700
-            dark:from-indigo-500 dark:via-purple-500 dark:to-pink-500
+  <div class="min-h-screen overflow-hidden bg-linear-to-br from-slate-50 via-white to-cyan-50 px-4 py-6 text-slate-900 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 sm:px-6 lg:px-8">
+    <div class="mx-auto grid min-h-[calc(100vh-3rem)] w-full max-w-6xl items-center gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10">
+      <aside class="relative hidden overflow-hidden rounded-4xl border border-white/70 bg-linear-to-br from-[#073b4c] via-[#0f766e] to-[#2563eb] p-8 text-white shadow-[0_30px_80px_rgba(15,23,42,0.18)] lg:block">
+        <div class="absolute -top-24 right-0 h-56 w-56 rounded-full bg-cyan-300/20 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-white/10 blur-3xl"></div>
 
-            flex items-center justify-center shadow-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-          </div>
-        </div>
-        <h1 class="text-2xl md:text-3xl font-bold bg-linear-to-r from-purple-800 via-teal-900 to-pink-500 dark:from-purple-600 dark:via-yellow-500 dark:to-pink-600 bg-clip-text text-transparent">
-          Password Recovery
-        </h1>
-        <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm md:text-base">
-          Follow these steps to reset your password
-        </p>
-      </div>
-
-      <!-- Main Card -->
-      <div class="bg-slate-300 dark:bg-slate-800 rounded-2xl shadow-xl p-6 md:p-8 relative overflow-hidden">
-        <!-- Decorative background elements -->
-        <div class="absolute -top-20 -right-20 w-40 h-40 rounded-full bg-linear-to-r from-purple-500/10 via-yellow-500/10 to-pink-500/10 blur-3xl"></div>
-        <div class="absolute -bottom-20 -left-20 w-40 h-40 rounded-full bg-linear-to-r from-pink-500/10 via-yellow-500/10 to-purple-500/10 blur-3xl"></div>
-        
-        <!-- Message display -->
-        <transition name="slide-down">
-          <div v-if="message" 
-               class="flex items-center justify-between mb-6 p-4 rounded-xl backdrop-blur-sm"
-               :class="messageClass">
-            <div class="flex items-center">
-              <svg v-if="messageType === 'success'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <p class="flex-1 font-medium">{{ message }}</p>
-            </div>
-            <button @click="clearMessage" class="ml-4 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
-              ✕
-            </button>
-          </div>
-        </transition>
-
-        <!-- Progress Steps -->
-        <div class="mb-8">
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center space-x-4">
-              <div v-for="(step, index) in 3" :key="step"
-                   class="flex items-center">
-                <!-- Step indicator -->
-                <div class="relative">
-                  <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
-                       :class="currentStep > index ? 
-                              'bg-green-700 text-white shadow-lg shadow-purple-500/30' :
-                              'bg-gray-100 dark:bg-slate-700 text-gray-400'">
-                    <span v-if="currentStep > index" class="text-lg">✓</span>
-                    <span v-else class="font-semibold">{{ index + 1 }}</span>
-                  </div>
-                  <!-- Connecting line -->
-                  <div v-if="index < 2" 
-                       class="absolute top-1/2 left-10 w-12 h-0.5 -translate-y-1/2"
-                       :class="currentStep > index ? 'bg-linear-to-r from-pink-500 via-lime-600 to-purple-600' : 'bg-gray-200 dark:bg-slate-700'"></div>
-                </div>
-                <!-- Step label -->
-                <div class="ml-4 hidden sm:block">
-                  <p class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ stepTitles[index] }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Step label for mobile -->
-          <div class="sm:hidden text-center mt-2">
-            <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ stepTitles[currentStep] }}</p>
-          </div>
-        </div>
-
-        <!-- Step 1: Enter Email -->
-        <transition name="slide-fade" mode="out-in">
-          <div v-if="currentStep === 0" class="space-y-6">
-            <div class="text-center mb-2">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        <div class="relative z-10 flex h-full flex-col justify-between">
+          <div>
+            <div class="mb-6 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur">
+              <span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
-              </div>
-              <p class="text-gray-600 dark:text-gray-400">
-                Enter your email address to receive a 6-digit verification code.
-              </p>
-            </div>
-            
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                Email Address
-              </label>
-              <div class="relative">
-                <input
-                  type="email"
-                  id="email"
-                  v-model="formData.email"
-                  placeholder="you@example.com"
-                  required
-                  class="w-full px-4 py-3 pl-12 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-50 dark:bg-slate-700 dark:text-white transition-all duration-200"
-                  :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.email }"
-                  @keyup.enter="sendResetCode"
-                />
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              </div>
-              <p v-if="errors.email" class="mt-2 text-sm text-red-500 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                {{ errors.email }}
-              </p>
-            </div>
-
-            <button
-              @click="sendResetCode"
-              :disabled="loading"
-              class="w-full bg-linear-to-r from-purple-600 via-pink-500 to-pink-500 text-white py-3.5 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none"
-            >
-              <span v-if="loading" class="flex items-center justify-center">
-                <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Sending Reset Code...
               </span>
-              <span v-else class="font-semibold">Send Reset Code</span>
-            </button>
-
-            <div class="text-center pt-4 border-t border-gray-100 dark:border-slate-700">
-              <router-link to="/login" class="inline-flex items-center text-sm text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Back to Login
-              </router-link>
+              Secure password recovery
             </div>
+
+            <h1 class="max-w-md text-4xl font-black leading-tight tracking-tight xl:text-5xl">
+              Reset your password with a clean, guided flow.
+            </h1>
+            <p class="mt-4 max-w-lg text-base leading-7 text-cyan-50/85">
+              Verify your email, confirm your code, and create a new password with a modern interface that works smoothly on mobile and desktop.
+            </p>
           </div>
 
-          <!-- Step 2: Verify Code -->
-          <div v-else-if="currentStep === 1" class="space-y-6">
-            <div class="text-center mb-2">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-purple-600 dark:text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                </svg>
-              </div>
-              <p class="text-gray-600 dark:text-gray-400">
-                Enter the 6-digit code sent to 
-                <span class="font-semibold text-purple-600 dark:text-purple-400">{{ formData.email }}</span>
+          <div class="mt-10 grid grid-cols-3 gap-3 text-center">
+            <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
+              <p class="text-2xl font-black">3</p>
+              <p class="mt-1 text-xs text-cyan-50/80">Steps</p>
+            </div>
+            <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
+              <p class="text-2xl font-black">6</p>
+              <p class="mt-1 text-xs text-cyan-50/80">Digit code</p>
+            </div>
+            <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
+              <p class="text-2xl font-black">10m</p>
+              <p class="mt-1 text-xs text-cyan-50/80">Expiry</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <div class="w-full">
+        <div class="mb-6 text-center lg:hidden">
+          <div class="mb-4 flex justify-center">
+            <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-br from-[#073b4c] via-[#0f766e] to-[#2563eb] shadow-lg shadow-cyan-500/20">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+          </div>
+          <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl">
+            Password Recovery
+          </h1>
+          <p class="mt-2 text-sm text-slate-600 dark:text-slate-400 sm:text-base">
+            Follow three quick steps to regain access.
+          </p>
+        </div>
+
+        <div class="relative overflow-hidden rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-950/85 sm:p-7 lg:p-8">
+          <div class="absolute -top-24 right-0 h-56 w-56 rounded-full bg-cyan-400/10 blur-3xl"></div>
+          <div class="absolute -bottom-24 left-0 h-56 w-56 rounded-full bg-emerald-400/10 blur-3xl"></div>
+
+          <div class="relative z-10">
+            <div class="mb-7 hidden text-center lg:block">
+              <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white xl:text-4xl">
+                Password Recovery
+              </h1>
+              <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                Follow these steps to reset your password
               </p>
             </div>
-            
-            <div class="text-center">
-              <div class="flex justify-center space-x-2 sm:space-x-3 mb-6">
-                <input
-                  v-for="n in 6"
-                  :key="n"
-                  v-model="verificationCode[n-1]"
-                  @input="onCodeInput(n-1, $event)"
-                  @keydown.delete="onCodeDelete(n-1, $event)"
-                  @paste="onCodePaste"
-                  type="text"
-                  maxlength="1"
-                  class="w-12 h-14 sm:w-14 sm:h-16 text-center text-2xl sm:text-3xl font-bold border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 dark:focus:ring-purple-900 bg-white dark:bg-slate-700 dark:text-white transition-all duration-200"
-                  :class="{ 'border-purple-500 ring-2 ring-purple-200 dark:ring-purple-900': verificationCode[n-1] }"
-                  :ref="el => codeInputs[n-1] = el"
-                />
-              </div>
-              
-              <!-- Timer -->
-              <div class="mb-6">
-                <div class="inline-flex items-center justify-center space-x-2 px-4 py-2 rounded-full bg-linear-to-r
-from-slate-100 via-blue-100 to-indigo-100
-dark:from-gray-800 dark:via-blue-900 dark:to-indigo-900">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+
+            <transition name="slide-down">
+              <div v-if="message" class="mb-6 flex items-center justify-between rounded-2xl p-4 shadow-sm backdrop-blur-sm" :class="messageClass">
+                <div class="flex items-center">
+                  <svg v-if="messageType === 'success'" xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span class="text-sm text-gray-600 dark:text-gray-400">Code expires in:</span>
-                  <span class="font-mono font-bold text-lg" :class="timerClass">
-                    {{ formatTime(countdown) }}
-                  </span>
+                  <svg v-else xmlns="http://www.w3.org/2000/svg" class="mr-3 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p class="flex-1 font-medium">{{ message }}</p>
+                </div>
+                <button @click="clearMessage" class="ml-4 text-current/70 transition-colors hover:text-current">✕</button>
+              </div>
+            </transition>
+
+            <div class="mb-8">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3 sm:gap-4">
+                  <div v-for="(step, index) in 3" :key="step" class="flex items-center">
+                    <div class="relative">
+                      <div class="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300" :class="currentStep > index ? 'bg-linear-to-br from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25' : 'bg-slate-100 text-slate-400 dark:bg-slate-800 dark:text-slate-500'">
+                        <span v-if="currentStep > index" class="text-lg">✓</span>
+                        <span v-else class="font-semibold">{{ index + 1 }}</span>
+                      </div>
+                      <div v-if="index < 2" class="absolute top-1/2 left-10 h-0.5 w-12 -translate-y-1/2" :class="currentStep > index ? 'bg-linear-to-r from-cyan-400 via-teal-400 to-emerald-500' : 'bg-slate-200 dark:bg-slate-700'"></div>
+                    </div>
+                    <div class="ml-4 hidden sm:block">
+                      <p class="text-sm font-medium text-slate-600 dark:text-slate-300">{{ stepTitles[index] }}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <p v-if="errors.code" class="mt-2 text-sm text-red-500">{{ errors.code }}</p>
+              <div class="mt-3 text-center sm:hidden">
+                <p class="text-lg font-semibold text-slate-900 dark:text-slate-200">{{ stepTitles[currentStep] }}</p>
+              </div>
             </div>
 
-            <div class="flex space-x-3">
-              <button
-                @click="currentStep = 0"
-                class="flex-1 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-3.5 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-700 transition-all duration-200 font-medium"
-              >
-                Back
-              </button>
-              <button
+            <transition name="slide-fade" mode="out-in">
+              <div v-if="currentStep === 0" class="space-y-6">
+                <div class="text-center">
+                  <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-cyan-50 to-teal-100 text-cyan-700 shadow-sm dark:from-cyan-950/30 dark:to-teal-900/30 dark:text-cyan-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <p class="text-slate-600 dark:text-slate-400">
+                    Enter your email address to receive a 6-digit verification code.
+                  </p>
+                </div>
+
+                <div>
+                  <label for="email" class="mb-3 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Email Address
+                  </label>
+                  <div class="relative">
+                    <input
+                      type="email"
+                      id="email"
+                      v-model="formData.email"
+                      placeholder="you@example.com"
+                      required
+                      class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 pl-12 text-slate-900 shadow-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:bg-slate-950"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.email }"
+                      @keyup.enter="sendResetCode"
+                    />
+                    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                  </div>
+                  <p v-if="errors.email" class="mt-2 flex items-center text-sm text-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ errors.email }}
+                  </p>
+                </div>
+
+                <button
+                  @click="sendResetCode"
+                  :disabled="loading"
+                  class="w-full rounded-2xl bg-linear-to-r from-[#073b4c] via-[#0f766e] to-[#0ea5a6] py-3.5 text-white shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-500/25 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+                >
+                  <span v-if="loading" class="flex items-center justify-center">
+                    <svg class="mr-2 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending Reset Code...
+                  </span>
+                  <span v-else class="font-semibold">Send Reset Code</span>
+                </button>
+
+                <div class="border-t border-slate-100 pt-4 text-center dark:border-slate-800">
+                  <router-link to="/login" class="inline-flex items-center text-sm font-medium text-cyan-700 transition-colors hover:text-cyan-900 dark:text-cyan-400 dark:hover:text-cyan-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Back to Login
+                  </router-link>
+                </div>
+              </div>
+
+              <div v-else-if="currentStep === 1" class="space-y-6">
+                <div class="text-center">
+                  <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-cyan-50 to-teal-100 text-cyan-700 shadow-sm dark:from-cyan-950/30 dark:to-teal-900/30 dark:text-cyan-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                  </div>
+                  <p class="text-slate-600 dark:text-slate-400">
+                    Enter the 6-digit code sent to
+                    <span class="font-semibold text-cyan-700 dark:text-cyan-400">{{ formData.email }}</span>
+                  </p>
+                </div>
+
+                <div class="text-center">
+                  <div class="mb-6 flex justify-center space-x-2 sm:space-x-3">
+                    <input
+                      v-for="n in 6"
+                      :key="n"
+                      v-model="verificationCode[n-1]"
+                      @input="onCodeInput(n-1, $event)"
+                      @keydown.delete="onCodeDelete(n-1, $event)"
+                      @paste="onCodePaste"
+                      type="text"
+                      maxlength="1"
+                      class="h-14 w-12 rounded-2xl border-2 border-slate-200 bg-white text-center text-2xl font-bold text-slate-900 shadow-sm transition-all duration-200 focus:border-cyan-500 focus:ring-4 focus:ring-cyan-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-white sm:h-16 sm:w-14 sm:text-3xl"
+                      :class="{ 'border-cyan-500 ring-2 ring-cyan-500/10': verificationCode[n-1] }"
+                      :ref="el => codeInputs[n-1] = el"
+                    />
+                  </div>
+
+                  <div class="mb-6">
+                    <div class="inline-flex items-center justify-center space-x-2 rounded-full bg-linear-to-r from-slate-100 via-cyan-50 to-teal-100 px-4 py-2 dark:from-slate-800 dark:via-cyan-950 dark:to-teal-950">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-700 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span class="text-sm text-slate-600 dark:text-slate-400">Code expires in:</span>
+                      <span class="font-mono text-lg font-bold" :class="timerClass">{{ formatTime(countdown) }}</span>
+                    </div>
+                  </div>
+
+                  <p v-if="errors.code" class="mt-2 text-sm text-red-500">{{ errors.code }}</p>
+                </div>
+
+                <div class="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    @click="currentStep = 0"
+                    class="flex-1 rounded-2xl border-2 border-slate-200 py-3.5 font-medium text-slate-700 transition-all duration-200 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900"
+                  >
+                    Back
+                  </button>
+                  <button
                     @click="verifyResetCode"
                     :disabled="loading || verificationCode.join('').length !== 6"
-                    class="
-                        flex-1
-                        bg-indigo-600
-                        hover:bg-indigo-700
-                        dark:bg-indigo-500
-                        dark:hover:bg-indigo-600
-                        text-white
-                        py-3.5
-                        rounded-xl
-                        shadow-md shadow-indigo-500/30
-                        hover:shadow-lg hover:shadow-indigo-500/40
-                        transition-all duration-300
-                        transform hover:-translate-y-0.5
-                        disabled:opacity-50
-                        disabled:cursor-not-allowed
-                        disabled:hover:transform-none
-                        font-medium
-                        focus:outline-none
-                        focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2
-                        dark:focus:ring-offset-gray-900
-                    "
-                    >
-                    <!-- Loading state -->
+                    class="flex-1 rounded-2xl bg-linear-to-r from-[#073b4c] via-[#0f766e] to-[#0ea5a6] py-3.5 font-medium text-white shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-500/25 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0 focus:outline-none focus:ring-4 focus:ring-cyan-500/20"
+                  >
                     <span v-if="loading" class="flex items-center justify-center">
-                        <svg
-                        class="animate-spin h-5 w-5 mr-2 text-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        >
-                        <circle
-                            class="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            stroke-width="4"
-                        ></circle>
-                        <path
-                            class="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                        </svg>
-                        Verifying...
+                      <svg class="mr-2 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Verifying...
                     </span>
-
-                    <!-- Normal state -->
                     <span v-else>Verify Code</span>
-                </button>
-
-            </div>
-
-            <div class="text-center pt-4 border-t border-gray-100 dark:border-slate-700">
-              <button
-                @click="resendCode"
-                :disabled="resendCooldown > 0"
-                class="inline-flex items-center text-sm text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors disabled:text-gray-400 disabled:cursor-not-allowed"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                {{ resendCooldown > 0 ? `Resend code in ${resendCooldown}s` : 'Resend code' }}
-              </button>
-            </div>
-          </div>
-
-          <!-- Step 3: Reset Password -->
-          <div v-else class="space-y-6">
-            <div class="text-center mb-2">
-              <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-linear-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                </svg>
-              </div>
-              <p class="text-gray-600 dark:text-gray-400">
-                Create a strong, secure password for your account
-              </p>
-            </div>
-            
-            <div>
-              <label for="newPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                New Password
-              </label>
-              <div class="relative">
-                <input
-                  :type="showNewPassword ? 'text' : 'password'"
-                  id="newPassword"
-                  v-model="formData.new_password"
-                  placeholder="Enter new password"
-                  required
-                  class="w-full px-4 py-3 pl-12 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-50 dark:bg-slate-700 dark:text-white transition-all duration-200 pr-12"
-                  :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.new_password }"
-                />
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  @click="showNewPassword = !showNewPassword"
-                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400 transition-colors"
-                >
-                  <svg v-if="showNewPassword" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.223-3.592m3.124-2.384A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.956 9.956 0 01-1.284 2.419M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3l18 18" />
-                  </svg>
-                  <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </button>
-              </div>
-              <p v-if="errors.new_password" class="mt-2 text-sm text-red-500">{{ errors.new_password }}</p>
-            </div>
 
-            <div>
-              <label for="confirmPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                Confirm Password
-              </label>
-              <div class="relative">
-                <input
-                  :type="showConfirmPassword ? 'text' : 'password'"
-                  id="confirmPassword"
-                  v-model="formData.confirm_password"
-                  placeholder="Confirm new password"
-                  required
-                  class="w-full px-4 py-3 pl-12 border border-gray-300 dark:border-gray-700 rounded-xl shadow-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-gray-50 dark:bg-slate-700 dark:text-white transition-all duration-200 pr-12"
-                  :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.confirm_password }"
-                />
-                <div class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                  </svg>
+                <div class="border-t border-slate-100 pt-4 text-center dark:border-slate-800">
+                  <button
+                    @click="resendCode"
+                    :disabled="resendCooldown > 0"
+                    class="inline-flex items-center text-sm font-medium text-cyan-700 transition-colors hover:text-cyan-900 disabled:cursor-not-allowed disabled:text-slate-400 dark:text-cyan-400 dark:hover:text-cyan-300"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    {{ resendCooldown > 0 ? `Resend code in ${resendCooldown}s` : 'Resend code' }}
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  @click="showConfirmPassword = !showConfirmPassword"
-                  class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-purple-600 dark:text-gray-400 dark:hover:text-purple-400 transition-colors"
-                >
-                  <svg v-if="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.223-3.592m3.124-2.384A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.956 9.956 0 01-1.284 2.419M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3l18 18" />
-                  </svg>
-                  <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </button>
               </div>
-              <p v-if="errors.confirm_password" class="mt-2 text-sm text-red-500">{{ errors.confirm_password }}</p>
-            </div>
 
-            <div class="flex space-x-3">
-              <button
-                @click="currentStep = 1"
-                class="flex-1 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 py-3.5 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-700 transition-all duration-200 font-medium"
-              >
-                Back
-              </button>
-              <button
-                @click="resetPassword"
-                :disabled="loading"
-                class="flex-1 bg-indigo-600 dark:bg-indigo-800 text-white py-3.5 rounded-xl shadow-lg shadow-purple-500/30 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:transform-none font-medium"
-              >
-                <span v-if="loading" class="flex items-center justify-center">
-                  <svg class="animate-spin h-5 w-5 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Resetting Password...
-                </span>
-                <span v-else>Reset Password</span>
-              </button>
-            </div>
+              <div v-else class="space-y-6">
+                <div class="text-center">
+                  <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-br from-cyan-50 to-teal-100 text-cyan-700 shadow-sm dark:from-cyan-950/30 dark:to-teal-900/30 dark:text-cyan-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                    </svg>
+                  </div>
+                  <p class="text-slate-600 dark:text-slate-400">
+                    Create a strong, secure password for your account.
+                  </p>
+                </div>
+
+                <div>
+                  <label for="newPassword" class="mb-3 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    New Password
+                  </label>
+                  <div class="relative">
+                    <input
+                      :type="showNewPassword ? 'text' : 'password'"
+                      id="newPassword"
+                      v-model="formData.new_password"
+                      placeholder="Enter new password"
+                      required
+                      class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 pl-12 pr-12 text-slate-900 shadow-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:bg-slate-950"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.new_password }"
+                    />
+                    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                      </svg>
+                    </div>
+                    <button type="button" @click="showNewPassword = !showNewPassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 transition-colors hover:text-cyan-700 dark:text-slate-400 dark:hover:text-cyan-400">
+                      <svg v-if="showNewPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.223-3.592m3.124-2.384A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.956 9.956 0 01-1.284 2.419M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3l18 18" />
+                      </svg>
+                      <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </button>
+                  </div>
+                  <p v-if="errors.new_password" class="mt-2 text-sm text-red-500">{{ errors.new_password }}</p>
+                </div>
+
+                <div>
+                  <label for="confirmPassword" class="mb-3 block text-sm font-medium text-slate-700 dark:text-slate-300">
+                    Confirm Password
+                  </label>
+                  <div class="relative">
+                    <input
+                      :type="showConfirmPassword ? 'text' : 'password'"
+                      id="confirmPassword"
+                      v-model="formData.confirm_password"
+                      placeholder="Confirm new password"
+                      required
+                      class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 pl-12 pr-12 text-slate-900 shadow-sm transition-all duration-200 placeholder:text-slate-400 focus:border-cyan-500 focus:bg-white focus:ring-4 focus:ring-cyan-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:focus:bg-slate-950"
+                      :class="{ 'border-red-500 ring-2 ring-red-500/20': errors.confirm_password }"
+                    />
+                    <div class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                      </svg>
+                    </div>
+                    <button type="button" @click="showConfirmPassword = !showConfirmPassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 transition-colors hover:text-cyan-700 dark:text-slate-400 dark:hover:text-cyan-400">
+                      <svg v-if="showConfirmPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.956 9.956 0 012.223-3.592m3.124-2.384A9.956 9.956 0 0112 5c4.478 0 8.268 2.943 9.542 7a9.956 9.956 0 01-1.284 2.419M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3l18 18" />
+                      </svg>
+                      <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </button>
+                  </div>
+                  <p v-if="errors.confirm_password" class="mt-2 text-sm text-red-500">{{ errors.confirm_password }}</p>
+                </div>
+
+                <div class="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    @click="currentStep = 1"
+                    class="flex-1 rounded-2xl border-2 border-slate-200 py-3.5 font-medium text-slate-700 transition-all duration-200 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-900"
+                  >
+                    Back
+                  </button>
+                  <button
+                    @click="resetPassword"
+                    :disabled="loading"
+                    class="flex-1 rounded-2xl bg-linear-to-r from-[#073b4c] via-[#0f766e] to-[#0ea5a6] py-3.5 font-medium text-white shadow-lg shadow-cyan-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-cyan-500/25 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0"
+                  >
+                    <span v-if="loading" class="flex items-center justify-center">
+                      <svg class="mr-2 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Resetting Password...
+                    </span>
+                    <span v-else>Reset Password</span>
+                  </button>
+                </div>
+              </div>
+            </transition>
           </div>
-        </transition>
-      </div>
+        </div>
 
-      <!-- Footer -->
-      <div class="text-center mt-6 md:mt-8">
-        <p class="text-sm text-gray-500 dark:text-gray-400">
-          Need help? 
-          
-          <!-- router-link to contact page -->
-          <router-link to="/contact" class="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-300 transition-colors font-medium">
-            Contact support
-          </router-link>
-        </p>
+        <div class="mt-6 text-center md:mt-8">
+          <p class="text-sm text-slate-500 dark:text-slate-400">
+            Need help?
+            <router-link to="/contact" class="font-medium text-cyan-700 transition-colors hover:text-cyan-900 dark:text-cyan-400 dark:hover:text-cyan-300">
+              Contact support
+            </router-link>
+          </p>
+        </div>
       </div>
     </div>
   </div>

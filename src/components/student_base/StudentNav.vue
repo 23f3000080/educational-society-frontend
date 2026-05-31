@@ -78,7 +78,7 @@
         <!-- Right Section: User Profile & Mobile Menu Button -->
         <div class="flex items-center space-x-2">
           <!-- Dark Mode Toggle -->
-          <button @click="toggleDarkMode"
+          <button id="student-dark-toggle" @click="toggleDarkMode"
             class="p-2 rounded-full text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200">
             <svg v-if="darkMode" class="h-5 w-5 text-yellow-400" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636 5.636 7.05 3.515 4.93zM16.95 18.364l1.414-1.414 2.121 2.121-1.414 1.414-2.121-2.121zm2.121-14.85l1.414 1.415-2.121 2.121-1.414-1.414 2.121-2.121zM5.636 16.95l1.414 1.414-2.121 2.121-1.414-1.414 2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z" />
@@ -90,7 +90,7 @@
           
           <!-- Notification Bell Button -->
           <div class="relative">
-            <button @click="toggleNotifications" ref="notificationButton"
+            <button id="student-notification-bell" @click="toggleNotifications" ref="notificationButton"
               class="relative p-2 text-gray-500 hover:text-indigo-600 dark:text-gray-400 dark:hover:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-all duration-300">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
@@ -108,6 +108,7 @@
           <div class="hidden md:flex items-center">
             <div class="relative">
               <button @click="toggleProfileDropdown" 
+                      id="student-profile-button"
                       ref="profileButton"
                       class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-800 dark:hover:bg-gray-800 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
                 <!-- Profile Avatar with Status Indicator -->
@@ -210,7 +211,7 @@
       <div v-if="mobileMenuOpen" class="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-lg">
         <div class="px-4 py-3 space-y-1">
           <!-- Mobile Navigation Links -->
-          <router-link v-for="item in navItems" :key="item.name" :to="item.path" @click="closeMobileMenu" :class="[
+            <router-link v-for="item in navItems" :key="item.name" :to="item.path" @click="closeMobileMenu" :class="[
             'flex items-center justify-between px-4 py-3 rounded-lg text-base font-medium transition-all duration-200',
             isActive(item.path)
               ? 'bg-linear-to-r from-indigo-50 via-indigo-50 to-purple-50 dark:from-indigo-900/30 dark:via-indigo-900/30 dark:to-purple-900/30 text-indigo-600 dark:text-indigo-400'

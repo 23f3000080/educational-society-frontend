@@ -38,6 +38,17 @@ export function getAuth() {
     return { token, user };
 }
 
+export function getEnrollmentRoute(courseId) {
+    const { token } = getAuth();
+    const targetRoute = `/courses/${courseId}/enroll`;
+
+    if (token) {
+        return targetRoute;
+    }
+
+    return `/login?redirect=${encodeURIComponent(targetRoute)}`;
+}
+
 export function clearAuth() {
     localStorage.clear();
     sessionStorage.clear();

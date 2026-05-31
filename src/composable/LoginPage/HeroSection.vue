@@ -138,6 +138,16 @@ const showMessage = (text, type = "error") => {
   messageClass.value = type === "error" ? "text-red-500" : "text-green-500";
 };
 
+const getPostLoginRoute = (fallbackRoute) => {
+        const redirectTarget = route.query.redirect;
+
+        if (typeof redirectTarget === "string" && redirectTarget.startsWith("/")) {
+                return redirectTarget;
+        }
+
+        return fallbackRoute;
+};
+
 const clearMessage = () => {
     message.value = "";
     messageClass.value = "";
@@ -170,16 +180,17 @@ const loginUser = async () => {
 
         if (response.data.success) {
             const role = response.data.user.role;
+            const nextRoute = getPostLoginRoute(
+                role === "admin"
+                    ? "/admin/dashboard"
+                    : role === "student"
+                        ? "/student/dashboard"
+                        : "/"
+            );
 
             // ✅ Role-based redirect
             setTimeout(() => {
-                if (role === "admin") {
-                    window.location.href = "/admin/dashboard";
-                } else if (role === "student") {
-                    window.location.href = "/student/dashboard";
-                } else {
-                    window.location.href = "/";
-                }
+                router.replace(nextRoute);
             }, 1000);
         }
 
@@ -196,15 +207,16 @@ const handleGoogleLogin = async (response) => {
     try {
         const result = await handleGoogleSignIn(response, false);
         showMessage("Login successful!", "success");
+        const nextRoute = getPostLoginRoute(
+            result.role === "admin"
+                ? "/admin/dashboard"
+                : result.role === "student"
+                    ? "/student/dashboard"
+                    : "/"
+        );
         
         setTimeout(() => {
-            if (result.role === "admin") {
-                window.location.href = "/admin/dashboard";
-            } else if (result.role === "student") {
-                window.location.href = "/student/dashboard";
-            } else {
-                window.location.href = "/";
-            }
+            router.replace(nextRoute);
         }, 1000);
     } catch (error) {
         showMessage(error.message || "Google login failed");

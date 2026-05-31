@@ -152,7 +152,9 @@
 
                 <div class="flex flex-wrap gap-2 sm:gap-3">
                   <!-- Live Class Button - Most Prominent -->
-                  <button type="button" @click="router.push('/student/live-class')"
+                    <button
+                      type="button"
+                      @click="router.push('/student/live-class')"
                     class="group relative overflow-hidden rounded-lg sm:rounded-xl bg-linear-to-r from-red-500 via-pink-500 to-rose-500 px-4 py-1.5 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-red-500/40 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                     <!-- Animated pulse effect -->
                     <span
@@ -165,8 +167,8 @@
                     <!-- Live dot indicator -->
                     <span class="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 flex h-2 w-2 sm:h-2.5 sm:w-2.5">
                       <span
-                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-                      <span class="relative inline-flex h-full w-full rounded-full bg-red-500"></span>
+                        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-300 opacity-75"></span>
+                      <span class="relative inline-flex h-full w-full rounded-full bg-green-400"></span>
                     </span>
 
                     <span class="relative flex items-center gap-1 sm:gap-2 pl-3 sm:pl-4">
@@ -520,7 +522,6 @@ const updateDropdownPosition = () => {
   }
 }
 
-// Add watcher to update position when dropdown shows
 import { watch, nextTick } from 'vue'
 
 // Add this watch
@@ -737,10 +738,6 @@ const loadDashboard = async () => {
     loading.value = false
   }
 }
-
-onMounted(() => {
-  loadDashboard()
-})
 </script>
 
 <style scoped>

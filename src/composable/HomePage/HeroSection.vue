@@ -95,7 +95,12 @@
     </section>
 
     <!-- Why Choose Us Section -->
-<section class="py-20 px-4 bg-gray-50 dark:bg-gray-900">
+<section
+  v-motion
+  :initial="motionInitial"
+  :visibleOnce="motionVisible(40)"
+  class="py-20 px-4 bg-gray-50 dark:bg-gray-900 transition-all duration-700 ease-out"
+>
   <div class="max-w-7xl mx-auto">
     <div class="text-center max-w-3xl mx-auto mb-16">
       <span class="inline-block px-4 py-1.5 bg-fuchsia-100 dark:bg-fuchsia-900/30 text-fuchsia-600 dark:text-fuchsia-400 rounded-full text-sm font-medium mb-4">
@@ -112,7 +117,10 @@
 
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div v-for="(feature, index) in whyChooseUs" :key="index"
-        class="group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
+        v-motion
+        :initial="motionInitial"
+        :visibleOnce="motionVisible(80 + index * 80)"
+        class="group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-700 ease-out hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
         <div :class="`w-14 h-14 rounded-xl bg-linear-to-br ${feature.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`">
           <i :class="feature.icon" class="text-white text-2xl"></i>
         </div>
@@ -128,9 +136,19 @@
 </section>
 
     <!-- How to Join Section - Enhanced -->
-    <section class="py-20 px-4 bg-linear-to-br from-blue-50 via-teal-50 to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
+    <section
+      v-motion
+      :initial="motionInitial"
+      :visibleOnce="motionVisible(40)"
+      class="py-20 px-4 bg-linear-to-br from-blue-50 via-teal-50 to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-all duration-700 ease-out"
+    >
       <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-12" data-aos="fade-up">
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(80)"
+          class="text-center mb-12 transition-all duration-700 ease-out"
+        >
           <h2 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-4">
             How to <span class="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-teal-500">Join</span>
           </h2>
@@ -138,22 +156,42 @@
           <p class="mt-4 text-gray-600 dark:text-gray-300">Start your learning journey in 4 simple steps</p>
         </div>
 
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="join-tree relative grid gap-6 md:grid-cols-2 md:gap-x-16 md:gap-y-10">
+          <div class="join-tree-trunk hidden md:block"></div>
+
           <!-- Step Cards -->
-          <div v-for="(step, index) in steps" :key="index" 
-            class="group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
-            <div class="flex items-center gap-4 mb-4">
-              <div class="w-12 h-12 rounded-full bg-linear-to-r from-blue-500 to-teal-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform">
-                {{ index + 1 }}
+          <div
+            v-for="(step, index) in steps"
+            :key="index"
+            :class="index % 2 === 0 ? 'md:justify-self-end' : 'md:justify-self-start'"
+          >
+            <article
+              v-motion
+              :initial="joinTreeInitial(index)"
+              :visibleOnce="joinTreeVisible(index)"
+              :class="[
+                'join-tree-card group relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-700 ease-out hover:-translate-y-2',
+                index % 2 === 0 ? 'join-tree-card-left' : 'join-tree-card-right',
+              ]"
+            >
+              <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 rounded-full bg-linear-to-r from-blue-500 to-teal-500 flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:scale-110 transition-transform">
+                  {{ index + 1 }}
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">{{ step.title }}</h3>
               </div>
-              <h3 class="text-xl font-bold text-gray-800 dark:text-white">{{ step.title }}</h3>
-            </div>
-            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ step.description }}</p>
+              <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ step.description }}</p>
+            </article>
           </div>
         </div>
 
         <!-- CTA Button -->
-        <div class="text-center mt-12" data-aos="fade-up">
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(220)"
+          class="text-center mt-12 transition-all duration-700 ease-out"
+        >
           <router-link to="/signup" 
             class="inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-blue-600 to-teal-500 text-white rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105">
             Start Your Journey Now
@@ -163,100 +201,109 @@
       </div>
     </section>
 
-    <!-- Notice Section with Mobile Carousel -->
-    <section class="py-16 px-4 bg-linear-to-br from-amber-50 via-orange-50 to-rose-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      <div class="max-w-7xl mx-auto">
-        <div class="text-center max-w-3xl mx-auto mb-12" data-aos="fade-up">
-          <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 text-sm font-semibold mb-4">
-            <i class="fa-solid fa-bell"></i>Latest Notices
+    <!-- Notice Section -->
+    <section
+      v-motion
+      :initial="motionInitial"
+      :visibleOnce="motionVisible(40)"
+      class="py-16 px-4 bg-linear-to-br from-slate-50 via-amber-50/60 to-rose-50 dark:from-gray-950 dark:via-slate-900 dark:to-slate-900 transition-all duration-700 ease-out"
+    >
+      <div class="mx-auto max-w-7xl">
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(80)"
+          class="mx-auto mb-10 max-w-3xl text-center transition-all duration-700 ease-out"
+        >
+          <span class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-white/80 px-4 py-2 text-sm font-semibold text-amber-800 shadow-sm backdrop-blur dark:border-amber-900/50 dark:bg-amber-950/40 dark:text-amber-200">
+            <i class="fa-solid fa-bell"></i>
+            Latest Notices
           </span>
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Important <span class="text-transparent bg-clip-text bg-linear-to-r from-amber-600 to-rose-500">Announcements</span>
+          <h2 class="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-white md:text-4xl">
+            Notice Board built for
+            <span class="text-transparent bg-clip-text bg-linear-to-r from-amber-600 via-orange-500 to-rose-500">frequent updates</span>
           </h2>
-          <p class="text-gray-600 dark:text-gray-300">
-            Stay updated with new courses, batch schedules, and important notices.
-          </p>
         </div>
 
-        <!-- Desktop Grid View (Hidden on Mobile) -->
-        <div class="hidden md:grid gap-6 md:grid-cols-2 lg:grid-cols-3" data-aos="fade-up" data-aos-delay="100">
-          <article
-            v-for="(notice, index) in notices"
-            :key="index"
-            class="rounded-2xl border border-orange-100 bg-white/90 p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-gray-700 dark:bg-gray-800"
-          >
-            <div class="flex items-start justify-between gap-3 mb-4">
-              <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-                :class="notice.type === 'Course'
-                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-                  : notice.type === 'Batch'
-                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-                    : 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'"
-              >
-                {{ notice.type }}
-              </span>
-              <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ notice.date }}</span>
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(120)"
+          class="mx-auto max-w-4xl rounded-4xl border border-slate-200/80 bg-white/85 p-4 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/80 sm:p-5"
+        >
+          <div class="mb-4 flex items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">All notices</p>
+              <h3 class="mt-1 text-lg font-bold text-slate-900 dark:text-white">Recent updates</h3>
             </div>
+            <div class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+              {{ notices.length }} total
+            </div>
+          </div>
 
-            <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-2">{{ notice.title }}</h3>
-            <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300 mb-4">{{ notice.description }}</p>
-
-            <router-link
-              :to="notice.link"
-              class="inline-flex items-center gap-2 text-sm font-semibold text-rose-600 transition-colors hover:text-rose-700 dark:text-rose-400"
-            >
-              {{ notice.cta }}
-              <i class="fa-solid fa-arrow-right"></i>
-            </router-link>
-          </article>
-        </div>
-
-        <!-- Mobile Carousel View (Visible on Mobile Only) -->
-        <div class="md:hidden">
-          <Swiper
-            :modules="modules"
-            :slides-per-view="1"
-            :space-between="20"
-            :pagination="{ clickable: true }"
-            :navigation="true"
-            class="notices-swiper"
-          >
-            <SwiperSlide v-for="(notice, index) in notices" :key="index">
-              <article class="rounded-2xl border border-orange-100 bg-white/90 p-6 shadow-lg dark:border-gray-700 dark:bg-gray-800 h-full">
-                <div class="flex items-start justify-between gap-3 mb-4">
-                  <span class="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-                    :class="notice.type === 'Course'
-                      ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-                      : notice.type === 'Batch'
-                        ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-                        : 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300'"
+          <div class="notice-ticker group relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-50/70 p-2 dark:border-slate-800 dark:bg-slate-900/60">
+            <div class="notice-ticker-track group-hover:[animation-play-state:paused]">
+              <article
+                v-for="(notice, index) in noticesLooped"
+                :key="`${notice.title}-${index}`"
+                class="group/notice rounded-2xl border border-slate-200 bg-white px-4 py-4 shadow-sm transition-all duration-300 hover:border-cyan-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-950/90"
+              >
+                <div class="flex items-start gap-3">
+                  <div
+                    class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl text-white shadow-sm"
+                    :class="noticeTone(notice.type).bg"
                   >
-                    {{ notice.type }}
-                  </span>
-                  <span class="text-xs font-medium text-gray-500 dark:text-gray-400">{{ notice.date }}</span>
+                    <i :class="noticeTone(notice.type).icon"></i>
+                  </div>
+
+                  <div class="min-w-0 flex-1">
+                    <div class="mb-2 flex flex-wrap items-center gap-2">
+                      <span
+                        class="rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]"
+                        :class="noticeTone(notice.type).pill"
+                      >
+                        {{ notice.type }}
+                      </span>
+                      <span class="text-xs font-medium text-slate-500 dark:text-slate-400">{{ notice.date }}</span>
+                    </div>
+
+                    <h4 class="truncate text-sm font-bold text-slate-900 transition-colors group-hover/notice:text-cyan-800 dark:text-white dark:group-hover/notice:text-cyan-300 sm:text-base">
+                      {{ notice.title }}
+                    </h4>
+                    <p class="mt-1 line-clamp-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                      {{ notice.description }}
+                    </p>
+
+                    <router-link
+                      :to="notice.link"
+                      class="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-cyan-700 transition-colors hover:text-cyan-900 dark:text-cyan-400 dark:hover:text-cyan-300"
+                    >
+                      {{ notice.cta }}
+                      <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </router-link>
+                  </div>
                 </div>
-
-                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-3">{{ notice.title }}</h3>
-                <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300 mb-6">{{ notice.description }}</p>
-
-                <router-link
-                  :to="notice.link"
-                  class="inline-flex items-center gap-2 text-sm font-semibold text-rose-600 transition-colors hover:text-rose-700 dark:text-rose-400"
-                >
-                  {{ notice.cta }}
-                  <i class="fa-solid fa-arrow-right"></i>
-                </router-link>
               </article>
-            </SwiperSlide>
-          </Swiper>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Our Courses Section - Enhanced with Mobile Carousel -->
-    <section class="py-20 px-4 bg-white dark:bg-gray-900">
+    <section
+      v-motion
+      :initial="motionInitial"
+      :visibleOnce="motionVisible(40)"
+      class="py-20 px-4 bg-white dark:bg-gray-900 transition-all duration-700 ease-out"
+    >
       <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12" data-aos="fade-up">
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(80)"
+          class="text-center mb-12 transition-all duration-700 ease-out"
+        >
           <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-300 text-sm font-semibold mb-4">
             Featured Programs
           </span>
@@ -272,9 +319,10 @@
           <article
             v-for="(course, index) in featuredCourses"
             :key="course.slug"
-            class="group overflow-hidden rounded-3xl border border-gray-200/80 bg-linear-to-br from-gray-50 to-white shadow-lg transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl dark:border-gray-700 dark:from-gray-800 dark:to-gray-800"
-            data-aos="fade-up"
-            :data-aos-delay="index * 100"
+            v-motion
+            :initial="motionInitial"
+            :visibleOnce="motionVisible(120 + index * 90)"
+            class="group overflow-hidden rounded-3xl border border-gray-200/80 bg-linear-to-br from-gray-50 to-white shadow-lg transition-all duration-700 ease-out hover:-translate-y-2 hover:shadow-2xl dark:border-gray-700 dark:from-gray-800 dark:to-gray-800"
           >
             <div class="relative h-56 overflow-hidden">
               <img :src="course.image" :alt="course.title" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -337,7 +385,7 @@
                   <i class="fa-solid fa-arrow-right"></i>
                 </router-link>
                 <router-link
-                  to="/signup"
+                  :to="getEnrollmentRoute(course.id)"
                   class="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-700 transition-colors hover:border-red-400 hover:text-red-600 dark:border-gray-600 dark:text-gray-200"
                 >
                   Enroll Now
@@ -412,7 +460,7 @@
                       <i class="fa-solid fa-arrow-right"></i>
                     </router-link>
                     <router-link
-                      to="/signup"
+                      :to="getEnrollmentRoute(course.id)"
                       class="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-gray-300 px-5 py-3 text-sm font-semibold text-gray-700 dark:border-gray-600 dark:text-gray-200"
                     >
                       Enroll Now
@@ -424,7 +472,12 @@
           </Swiper>
         </div>
 
-        <div class="mt-10 text-center" data-aos="fade-up">
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(240)"
+          class="mt-10 text-center transition-all duration-700 ease-out"
+        >
           <router-link
             to="/courses"
             class="inline-flex items-center justify-center gap-2 rounded-full bg-[#073b4c] px-8 py-4 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
@@ -437,7 +490,12 @@
     </section>
 
     <!-- Director Section - Enhanced -->
-<section class="py-20 px-4 bg-linear-to-br from-gray-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800">
+<section
+  v-motion
+  :initial="motionInitial"
+  :visibleOnce="motionVisible(40)"
+  class="py-20 px-4 bg-linear-to-br from-gray-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 transition-all duration-700 ease-out"
+>
   <div class="max-w-6xl mx-auto">
     <!-- Section Header -->
     <div class="text-center max-w-3xl mx-auto mb-12">
@@ -453,7 +511,12 @@
     </div>
 
     <!-- Director Card -->
-    <div class="relative group">
+    <div
+      v-motion
+      :initial="motionInitial"
+      :visibleOnce="motionVisible(120)"
+      class="relative group transition-all duration-700 ease-out"
+    >
       <!-- Animated Background Effects -->
       <div class="absolute -inset-1 bg-linear-to-r from-purple-600 via-pink-600 to-red-500 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
       
@@ -572,9 +635,17 @@
 
     <!-- Testimonials Section - Carousel -->
     <section
-      class="py-20 px-4 bg-linear-to-br from-indigo-100 via-purple-200 to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800">
+      v-motion
+      :initial="motionInitial"
+      :visibleOnce="motionVisible(40)"
+      class="py-20 px-4 bg-linear-to-br from-indigo-100 via-purple-200 to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-all duration-700 ease-out">
       <div class="max-w-7xl mx-auto">
-        <div class="text-center max-w-3xl mx-auto mb-16">
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(80)"
+          class="text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ease-out"
+        >
           <span
             class="inline-block px-4 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium mb-4">
             Testimonials
@@ -589,7 +660,10 @@
 
         <div class="max-w-4xl mx-auto">
           <div
-            class="relative bg-linear-to-br from-indigo-50 to-purple-50 dark:from-gray-700 dark:to-gray-800 rounded-3xl p-8 md:p-12"
+            v-motion
+            :initial="motionInitial"
+            :visibleOnce="motionVisible(140)"
+            class="relative bg-linear-to-br from-indigo-50 to-purple-50 dark:from-gray-700 dark:to-gray-800 rounded-3xl p-8 md:p-12 transition-all duration-700 ease-out"
             @mouseenter="pauseTestimonialTimer" @mouseleave="resumeTestimonialTimer">
             <i
               class="fa-solid fa-quote-left absolute top-6 left-6 text-4xl text-indigo-200 dark:text-indigo-800 opacity-50"></i>
@@ -643,13 +717,18 @@
     </section>
 
     <!-- Newsletter Section (New) -->
-    <section class="py-16 px-4 bg-linear-to-r from-fuchsia-600 to-pink-600">
+    <section
+      v-motion
+      :initial="motionInitial"
+      :visibleOnce="motionVisible(40)"
+      class="py-16 px-4 bg-linear-to-r from-fuchsia-600 to-pink-600 transition-all duration-700 ease-out"
+    >
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Stay Updated with Us</h2>
         <p class="text-white/90 mb-8">Subscribe to our newsletter for the latest updates and offers</p>
         <form @submit.prevent="subscribeNewsletter" class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-          <input type="email" v-model="newsletterEmail" placeholder="Enter your email" 
-            class="flex-1 px-6 py-3 rounded-full border-0 focus:ring-2 focus:ring-white outline-none" required />
+          <input type="email" v-model="newsletterEmail" placeholder="Enter your email here" 
+            class="flex-1 px-6 py-3 rounded-full border border-pink-500 focus:ring-2 focus:ring-white outline-none" required />
           <button type="submit" 
             :disabled="newsletterLoading"
             class="px-8 py-3 bg-white text-fuchsia-600 rounded-full font-bold hover:bg-gray-100 transition-all hover:scale-105 shadow-lg disabled:cursor-not-allowed disabled:opacity-70">
@@ -677,6 +756,7 @@ import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 import api from "../../services/axios.js";
 import corsImg5 from "../../assets/images/cors_img-5.webp";
 import { courseCatalog } from "../../data/courseCatalog.js";
+import { getEnrollmentRoute } from "../../utils/auth.js";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
@@ -684,6 +764,39 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 const modules = [Pagination, Navigation];
+const motionInitial = {
+  opacity: 0,
+  y: 28,
+};
+
+const motionVisible = (delay = 0) => ({
+  opacity: 1,
+  y: 0,
+  transition: {
+    delay: Math.min(delay, 700) / 1000,
+    duration: 0.68,
+    ease: [0.22, 1, 0.36, 1],
+  },
+});
+
+const joinTreeInitial = (index) => ({
+  opacity: 0,
+  x: index % 2 === 0 ? -32 : 32,
+  y: 26,
+  scale: 0.96,
+});
+
+const joinTreeVisible = (index) => ({
+  opacity: 1,
+  x: 0,
+  y: 0,
+  scale: 1,
+  transition: {
+    delay: Math.min(120 + index * 110, 720) / 1000,
+    duration: 0.78,
+    ease: [0.22, 1, 0.36, 1],
+  },
+});
 
 // Notice data - Edit these to publish announcements on home page
 const notices = ref([
@@ -710,8 +823,36 @@ const notices = ref([
   //   date: "22 Apr 2026",
   //   cta: "Go to Dashboard",
   //   link: "/login"
-  // }
+  // },
 ]);
+
+const noticesLooped = computed(() => [...notices.value, ...notices.value]);
+
+const noticeToneMap = {
+  Course: {
+    bg: "bg-linear-to-br from-cyan-500 to-blue-600",
+    pill: "bg-cyan-50 text-cyan-700 dark:bg-cyan-950/50 dark:text-cyan-200",
+    icon: "fa-solid fa-graduation-cap",
+  },
+  Batch: {
+    bg: "bg-linear-to-br from-emerald-500 to-teal-600",
+    pill: "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-200",
+    icon: "fa-solid fa-calendar-check",
+  },
+  General: {
+    bg: "bg-linear-to-br from-amber-500 to-orange-600",
+    pill: "bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-200",
+    icon: "fa-solid fa-circle-info",
+  },
+};
+
+const noticeTone = (type) => {
+  return noticeToneMap[type] || {
+    bg: "bg-linear-to-br from-slate-500 to-slate-700",
+    pill: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+    icon: "fa-solid fa-bell",
+  };
+};
 
 // Steps data
 const steps = ref([
@@ -1031,6 +1172,60 @@ html {
   50% { transform: translateY(-10px); }
 }
 
+.join-tree-trunk {
+  position: absolute;
+  left: 50%;
+  top: 1rem;
+  bottom: 1rem;
+  width: 2px;
+  transform: translateX(-50%);
+  border-radius: 9999px;
+  background: linear-gradient(to bottom, rgba(37, 99, 235, 0.08), rgba(20, 184, 166, 0.55), rgba(59, 130, 246, 0.08));
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.join-tree-card {
+  width: 100%;
+}
+
+.join-tree-card::before {
+  content: "";
+  position: absolute;
+  top: 2.25rem;
+  width: 3rem;
+  height: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, rgba(37, 99, 235, 0.18), rgba(20, 184, 166, 0.7));
+}
+
+.join-tree-card::after {
+  content: "";
+  position: absolute;
+  top: 2rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #2563eb, #14b8a6);
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.9), 0 0 20px rgba(20, 184, 166, 0.22);
+}
+
+.join-tree-card-left::before,
+.join-tree-card-left::after {
+  right: -3rem;
+}
+
+.join-tree-card-right::before,
+.join-tree-card-right::after {
+  left: -3rem;
+}
+
+@media (max-width: 767px) {
+  .join-tree-card::before,
+  .join-tree-card::after {
+    display: none;
+  }
+}
+
 /* Swiper Carousel Styles for Mobile */
 .courses-swiper {
   padding-bottom: 0;
@@ -1109,7 +1304,47 @@ html {
   align-items: stretch;
 }
 
-/* Notice Carousel Styles for Mobile */
+/* Notice ticker */
+.notice-ticker {
+  height: 24rem;
+}
+
+.notice-ticker-track {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: noticeTickerScroll 24s linear infinite;
+  will-change: transform;
+}
+
+.notice-ticker:hover .notice-ticker-track {
+  animation-play-state: paused;
+}
+
+.notice-ticker-track > * {
+  flex-shrink: 0;
+}
+
+@keyframes noticeTickerScroll {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@media (max-width: 640px) {
+  .notice-ticker {
+    height: 20rem;
+  }
+
+  .notice-ticker-track {
+    animation-duration: 28s;
+  }
+}
+
 .notices-swiper {
   padding-bottom: 50px;
 }
@@ -1226,4 +1461,5 @@ html {
     animation: none;
   }
 }
+
 </style>

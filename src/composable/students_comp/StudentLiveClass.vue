@@ -105,7 +105,7 @@
 
           <div class="flex-1 space-y-5 px-5 py-5 sm:px-6">
             <p class="text-sm leading-6 text-slate-300">
-              {{ liveClass.description || 'Your instructor has not shared a description yet.' }}
+              {{ liveClass.description }}
             </p>
 
             <div class="grid gap-3 sm:grid-cols-2">
@@ -141,21 +141,29 @@
               </div>
 
               <a
-                v-if="getMeetingLink(liveClass)"
+                v-if="canJoinClass(liveClass) && getMeetingLink(liveClass)"
                 :href="getMeetingLink(liveClass)"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="inline-flex items-center justify-center rounded-2xl bg-emerald-500 px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400"
               >
-                Join {{ getMeetingProvider(liveClass) }}
+                + Join Now
               </a>
               <router-link
-                v-else
+                v-else-if="canJoinClass(liveClass)"
                 :to="`/student/live-class/${liveClass.id}`"
                 class="inline-flex items-center justify-center rounded-2xl bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-400"
               >
                 Open class page
               </router-link>
+              <button
+                v-else
+                type="button"
+                disabled
+                class="inline-flex cursor-not-allowed items-center justify-center rounded-2xl bg-slate-600 px-4 py-2.5 text-sm font-semibold text-slate-300 opacity-70"
+              >
+                Class ended
+              </button>
             </div>
           </div>
         </article>
@@ -165,7 +173,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import api from '../../services/axios.js'
 
 const liveClasses = ref([])
@@ -194,6 +202,23 @@ const formatTime = (value) => {
   return Number.isNaN(date.getTime()) ? 'TBD' : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
 
+const now = ref(new Date())
+
+const isTerminalStatus = (status) => ['Completed', 'Cancelled'].includes(status)
+
+const isWithinLiveWindow = (liveClass) => {
+  if (!liveClass?.start_time || !liveClass?.end_time) return false
+  const startTime = new Date(liveClass.start_time)
+  const endTime = new Date(liveClass.end_time)
+
+  if (Number.isNaN(startTime.getTime()) || Number.isNaN(endTime.getTime())) {
+    return false
+  }
+
+  const currentTime = now.value.getTime()
+  return currentTime >= startTime.getTime() && currentTime <= endTime.getTime() && !isTerminalStatus(liveClass.status)
+}
+
 const getMeetingLink = (liveClass) => {
   const meetingLink = liveClass?.meeting_link?.trim()
   if (!meetingLink) return ''
@@ -211,7 +236,9 @@ const getMeetingProvider = (liveClass) => {
 
 const joinableCount = computed(() => liveClasses.value.filter((liveClass) => Boolean(getMeetingLink(liveClass))).length)
 
-const liveCount = computed(() => liveClasses.value.filter((liveClass) => liveClass.status === 'Live').length)
+const liveCount = computed(() => liveClasses.value.filter(isWithinLiveWindow).length)
+
+const canJoinClass = (liveClass) => !isTerminalStatus(liveClass.status)
 
 const loadLiveClasses = async () => {
   loading.value = true
@@ -231,5 +258,18 @@ const refreshLiveClasses = () => {
   loadLiveClasses()
 }
 
-onMounted(loadLiveClasses)
+let timeTicker
+
+onMounted(() => {
+  loadLiveClasses()
+  timeTicker = window.setInterval(() => {
+    now.value = new Date()
+  }, 60000)
+})
+
+onBeforeUnmount(() => {
+  if (timeTicker) {
+    window.clearInterval(timeTicker)
+  }
+})
 </script>

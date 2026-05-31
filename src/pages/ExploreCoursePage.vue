@@ -83,7 +83,7 @@
 
               <div class="flex flex-wrap gap-3 pt-2">
                 <router-link
-                  to="/signup"
+                  :to="getEnrollmentRoute(course.id)"
                   class="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-[#0f766e] via-[#0ea5a6] to-[#0284c7] px-6 py-3 text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg transition hover:scale-[1.01] hover:shadow-xl"
                 >
                   Enroll Now
@@ -152,6 +152,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getCourseBySlug } from '../data/courseCatalog.js'
+import { getEnrollmentRoute } from '../utils/auth.js'
 
 const route = useRoute()
 

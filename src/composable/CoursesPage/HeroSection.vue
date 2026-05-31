@@ -145,7 +145,7 @@
           </router-link>
 
           <router-link
-              :to="getEnrollRoute(course.id)"
+              :to="getEnrollmentRoute(course.id)"
               class="group/link block w-full rounded-2xl bg-linear-to-r from-[#0f766e] via-[#0ea5a6] to-[#0284c7] px-4 py-3 text-center text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg transition hover:scale-[1.01] hover:shadow-xl"
             >
               Enroll Now
@@ -163,6 +163,7 @@
 
 <script setup>
 import { courseCatalog } from '../../data/courseCatalog.js'
+import { getEnrollmentRoute } from '../../utils/auth.js'
 
 const formatPrice = (value) => {
   return new Intl.NumberFormat('en-IN', {
@@ -178,14 +179,6 @@ const savingsLabel = (course) => {
 }
 
 const courses = courseCatalog
-
-const getEnrollRoute = (courseId) => {
-  const token = sessionStorage.getItem("token")
-
-  return token
-    ? `/courses/${courseId}/enroll`
-    : "/signup"
-}
 
 </script>
 

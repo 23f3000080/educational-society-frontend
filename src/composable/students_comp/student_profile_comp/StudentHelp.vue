@@ -337,15 +337,17 @@ const queryForm = ref({
 })
 
 const topics = [
-  { label: 'General', value: 'other' },
-  { label: 'Profile', value: 'technical' },
-  { label: 'Login', value: 'technical' },
-  { label: 'Assignments', value: 'course' },
-  { label: 'Courses', value: 'course' },
-  { label: 'Payments', value: 'fees' }
+  { label: 'General', value: 'General' },
+  { label: 'Profile', value: 'Profile' },
+  { label: 'Login', value: 'Login' },
+  { label: 'Assignments', value: 'Assignments' },
+  { label: 'Courses', value: 'Courses' },
+  { label: 'Payments', value: 'Payments' },
+  { label: 'Technical', value: 'Technical'  },
+  { label: 'Other', value: 'Other' }
 ]
 
-const selectedTopic = ref('other')
+const selectedTopic = ref('General')
 
 const submitting = ref(false)
 const submitMessage = ref('')
@@ -446,10 +448,10 @@ const resetForm = () => {
   queryForm.value = {
     name: user?.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : '',
     email: user?.email || '',
-    issue_type: 'other',
+    issue_type: 'General',
     message: ''
   }
-  selectedTopic.value = 'other'
+  selectedTopic.value = 'General'
   submitMessage.value = ''
 }
 
@@ -554,7 +556,7 @@ onMounted(() => {
   const { user } = getAuth()
   queryForm.value.name = user?.first_name ? `${user.first_name} ${user.last_name || ''}`.trim() : ''
   queryForm.value.email = user?.email || ''
-  queryForm.value.issue_type = 'other'
+  queryForm.value.issue_type = 'General'
   queryStatusEmail.value = user?.email || ''
 })
 </script>

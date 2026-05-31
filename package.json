@@ -12,6 +12,7 @@
     "@heroicons/vue": "^2.2.0",
     "@react-oauth/google": "^0.13.4",
     "@tailwindcss/vite": "^4.2.1",
+    "@vueuse/motion": "^3.0.3",
     "axios": "^1.11.0",
     "country-state-city": "^3.2.1",
     "flowbite": "^3.1.2",

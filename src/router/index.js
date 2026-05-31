@@ -371,6 +371,14 @@ const routes = [
     name: 'NotFound',
     component: ErrorPage,
   },
+
+  // website map
+  {
+    path: '/website-map',
+    name: 'WebsiteMap',
+    component: () => import('../pages/WebsiteMap.vue'),
+    meta: { requiresAuth: true }
+  }
 ]
 
 const router = createRouter({
@@ -393,7 +401,10 @@ router.beforeEach((to, from, next) => {
     if (!token || !user || !userRole) {
             return next({
                 path: "/login",
-                query: { msg: "Please login to continue" }
+          query: {
+            msg: "Please login to continue",
+            redirect: to.fullPath
+          }
             });
         }
 
