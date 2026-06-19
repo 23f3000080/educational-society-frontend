@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getAuth, normalizeRole } from '../utils/auth'
+import { updateMeta } from '../utils/seo'
 import Home from "../pages/HomePage.vue"
 import DefaultBase from '../components/base/DefaultBase.vue'
 import About from "../pages/AboutPage.vue"
@@ -54,31 +55,51 @@ const routes = [
       {
         path: '/',
         name: 'Home',
-        component: Home
+        component: Home,
+        meta: {
+          title: 'Home',
+          description: 'Explore courses, resources and live classes at Educational Society.'
+        }
       },
 
       {
         path: '/about',
         name: 'About',
-        component: About
+        component: About,
+        meta: {
+          title: 'About Us',
+          description: 'About Educational Society — mission, team and values.'
+        }
       },
 
       {
         path: '/contact',
         name: 'Contact',
-        component: Contact
+        component: Contact,
+        meta: {
+          title: 'Contact',
+          description: 'Get in touch with Educational Society for support and partnerships.'
+        }
       },
 
       {
         path: '/courses',
         name: 'Courses',
-        component: CoursesPage
+        component: CoursesPage,
+        meta: {
+          title: 'Courses',
+          description: 'Browse available courses and learning paths.'
+        }
       },
 
       {
         path: '/courses/:slug',
         name: 'ExploreCourse',
-        component: ExploreCoursePage
+        component: ExploreCoursePage,
+        meta: {
+          title: 'Course Detail',
+          description: 'Course details, syllabus, and enrollment information.'
+        }
       },
 
       {
@@ -105,13 +126,15 @@ const routes = [
       {
         path: '/signup',
         name: 'Signup',
-        component: SignUpPage
+        component: SignUpPage,
+        meta: { title: 'Sign Up', description: 'Create an account to access courses and resources.' }
       },
       
       {
         path: '/login',
         name: 'Login',
-        component: LoginPage
+        component: LoginPage,
+        meta: { title: 'Login', description: 'Sign in to your Educational Society account.' }
       },
 
       {
@@ -123,19 +146,22 @@ const routes = [
       {
         path: '/terms',
         name: 'Terms',
-        component: TermsPage
+        component: TermsPage,
+        meta: { title: 'Terms & Conditions', description: 'Terms and conditions of Educational Society.' }
       },
 
       {
         path: '/privacy',
         name: 'Privacy',
-        component: PrivacyPolicyPage
+        component: PrivacyPolicyPage,
+        meta: { title: 'Privacy Policy', description: 'Privacy policy and data handling practices.' }
       },
 
       {
         path: '/refund',
         name: 'Refund',
-        component: RefundPolicy
+        component: RefundPolicy,
+        meta: { title: 'Refund Policy', description: 'Information about refunds and cancellations.' }
       },
     ]
   },
@@ -423,6 +449,15 @@ router.beforeEach((to, from, next) => {
   router.onError(() => {
     router.push('/error');
   });
+
+// Update document head meta after each navigation
+router.afterEach((to) => {
+  try {
+    updateMeta(to.meta || {});
+  } catch (e) {
+    // fail silently
+  }
+});
 
 
 export default router
