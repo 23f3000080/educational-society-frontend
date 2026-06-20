@@ -490,151 +490,151 @@
     </section>
 
     <!-- Director Section - Enhanced -->
-<section
-  v-motion
-  :initial="motionInitial"
-  :visibleOnce="motionVisible(40)"
-  class="py-20 px-4 bg-linear-to-br from-gray-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 transition-all duration-700 ease-out"
->
-  <div class="max-w-6xl mx-auto">
-    <!-- Section Header -->
-    <div class="text-center max-w-3xl mx-auto mb-12">
-      <span class="inline-block px-4 py-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-sm font-medium mb-4">
-        Leadership
-      </span>
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-        Message from the <span class="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600">Director</span>
-      </h2>
-      <p class="text-gray-600 dark:text-gray-400">
-        A word of inspiration and guidance from our visionary leader
-      </p>
-    </div>
-
-    <!-- Director Card -->
-    <div
+    <section
       v-motion
       :initial="motionInitial"
-      :visibleOnce="motionVisible(120)"
-      class="relative group transition-all duration-700 ease-out"
+      :visibleOnce="motionVisible(40)"
+      class="py-20 px-4 bg-linear-to-br from-gray-50 to-indigo-50 dark:from-gray-900 dark:to-gray-800 transition-all duration-700 ease-out"
     >
-      <!-- Animated Background Effects -->
-      <div class="absolute -inset-1 bg-linear-to-r from-purple-600 via-pink-600 to-red-500 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
-      
-      <!-- Stats Badges - Floating Elements -->
-      <div class="absolute -top-4 -right-4 z-20 flex gap-2">
-        <div class="bg-white dark:bg-gray-800 rounded-full px-4 py-2 shadow-lg transform rotate-6 hover:rotate-0 transition-transform duration-300">
-          <span class="text-sm font-bold text-purple-600">5+ Years</span>
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="inline-block px-4 py-1.5 bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full text-sm font-medium mb-4">
+            Leadership
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Message from the <span class="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600">Director</span>
+          </h2>
+          <p class="text-gray-600 dark:text-gray-400">
+            A word of inspiration and guidance from our visionary leader
+          </p>
         </div>
-        <!-- <div class="bg-white dark:bg-gray-800 rounded-full px-4 py-2 shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-300">
-          <span class="text-sm font-bold text-pink-600">5000+ Students</span>
-        </div> -->
-      </div>
 
-      <!-- Main Content -->
-      <div class="relative bg-linear-to-r from-purple-600 via-pink-600 to-red-500 rounded-3xl overflow-hidden shadow-2xl transition-all duration-500">
-        <!-- Texture Overlay -->
-        <div class="absolute inset-0 opacity-20" :style="textureStyle"></div>
+        <!-- Director Card -->
+        <div
+          v-motion
+          :initial="motionInitial"
+          :visibleOnce="motionVisible(120)"
+          class="relative group transition-all duration-700 ease-out"
+        >
+          <!-- Animated Background Effects -->
+          <div class="absolute -inset-1 bg-linear-to-r from-purple-600 via-pink-600 to-red-500 rounded-3xl blur-xl opacity-75 group-hover:opacity-100 transition duration-500"></div>
+          
+          <!-- Stats Badges - Floating Elements -->
+          <div class="absolute -top-4 -right-4 z-20 flex gap-2">
+            <div class="bg-white dark:bg-gray-800 rounded-full px-4 py-2 shadow-lg transform rotate-6 hover:rotate-0 transition-transform duration-300">
+              <span class="text-sm font-bold text-purple-600">5+ Years</span>
+            </div>
+            <!-- <div class="bg-white dark:bg-gray-800 rounded-full px-4 py-2 shadow-lg transform -rotate-6 hover:rotate-0 transition-transform duration-300">
+              <span class="text-sm font-bold text-pink-600">5000+ Students</span>
+            </div> -->
+          </div>
 
-        <!-- Animated Shapes -->
-        <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-        <div class="absolute bottom-0 left-0 w-48 h-48 bg-yellow-300/20 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s"></div>
+          <!-- Main Content -->
+          <div class="relative bg-linear-to-r from-purple-600 via-pink-600 to-red-500 rounded-3xl overflow-hidden shadow-2xl transition-all duration-500">
+            <!-- Texture Overlay -->
+            <div class="absolute inset-0 opacity-20" :style="textureStyle"></div>
 
-        <div class="relative flex flex-col lg:flex-row items-center gap-8 p-8 md:p-12 z-10">
-          <!-- Director Image with Social Links -->
-          <div class="shrink-0">
-            <div class="relative">
-              <!-- Animated Ring -->
-              <div class="absolute -inset-2 rounded-full bg-linear-to-r from-yellow-400 via-pink-400 to-purple-400 opacity-75 blur-md animate-pulse"></div>
-              
-              <!-- Image Container -->
-              <!-- <div class="relative">
-                <img src="../../assets/images/director_img.jpg" alt="Director Ankit Kumar" 
-                  class="relative w-40 h-40 lg:w-56 lg:h-56 rounded-full border-4 border-white shadow-2xl object-cover transform group-hover:scale-105 transition-transform duration-500" />
-                
-                
-                <div class="absolute -bottom-2 -right-2 bg-blue-500 rounded-full p-1.5 border-2 border-white shadow-lg">
-                  <i class="fa-solid fa-check-circle text-white text-sm"></i>
+            <!-- Animated Shapes -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 left-0 w-48 h-48 bg-yellow-300/20 rounded-full blur-2xl animate-pulse" style="animation-delay: 1s"></div>
+
+            <div class="relative flex flex-col lg:flex-row items-center gap-8 p-8 md:p-12 z-10">
+              <!-- Director Image with Social Links -->
+              <div class="shrink-0">
+                <div class="relative">
+                  <!-- Animated Ring -->
+                  <div class="absolute -inset-2 rounded-full bg-linear-to-r from-yellow-400 via-pink-400 to-purple-400 opacity-75 blur-md animate-pulse"></div>
+                  
+                  <!-- Image Container -->
+                  <!-- <div class="relative">
+                    <img src="../../assets/images/director_img.jpg" alt="Director Ankit Kumar" 
+                      class="relative w-40 h-40 lg:w-56 lg:h-56 rounded-full border-4 border-white shadow-2xl object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                    
+                    
+                    <div class="absolute -bottom-2 -right-2 bg-blue-500 rounded-full p-1.5 border-2 border-white shadow-lg">
+                      <i class="fa-solid fa-check-circle text-white text-sm"></i>
+                    </div>
+                  </div> -->
+
+                  <!-- Social Icons -->
+                  <div class="flex justify-center gap-2 mt-4">
+                    <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                      <i class="fa-brands fa-linkedin-in text-white text-sm"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                      <i class="fa-brands fa-twitter text-white text-sm"></i>
+                    </a>
+                    <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                      <i class="fa-brands fa-instagram text-white text-sm"></i>
+                    </a>
+                  </div>
                 </div>
-              </div> -->
+              </div>
 
-              <!-- Social Icons -->
-              <div class="flex justify-center gap-2 mt-4">
-                <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
-                  <i class="fa-brands fa-linkedin-in text-white text-sm"></i>
-                </a>
-                <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
-                  <i class="fa-brands fa-twitter text-white text-sm"></i>
-                </a>
-                <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
-                  <i class="fa-brands fa-instagram text-white text-sm"></i>
-                </a>
+              <!-- Director Info -->
+              <div class="flex-1 text-center lg:text-left">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4">
+                  <i class="fa-solid fa-star text-yellow-300 text-sm"></i>
+                  <span class="text-white text-sm font-medium">Visionary Leader</span>
+                </div>
+
+                <h3 class="text-3xl lg:text-4xl font-bold text-white mb-2">
+                  Ankit Kumar
+                </h3>
+                <p class="text-yellow-300 font-semibold mb-4 flex items-center gap-2 justify-center lg:justify-start">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                  Director & Founder
+                </p>
+
+                <!-- Message -->
+                <div class="mb-6">
+                  <p class="text-white/90 leading-relaxed text-base lg:text-lg">
+                    "I am passionate about creating an educational ecosystem where every student can thrive. 
+                    At <span class="font-bold text-yellow-200">Educational Society</span>, we believe in nurturing 
+                    not just academic excellence but also character, creativity, and critical thinking. 
+                    Our dedicated team of educators works tirelessly to ensure that every child receives 
+                    personalized attention and guidance. Together, let's build a brighter future!"
+                  </p>
+                </div>
+
+                <!-- Quote and Signature -->
+                <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+                  <div class="flex items-center gap-2 text-white/80">
+                    <i class="fa-solid fa-quote-left text-2xl text-yellow-300"></i>
+                    <span class="text-sm">Education is the most powerful weapon</span>
+                  </div>
+                  <div class="h-6 w-px bg-white/30 hidden sm:block"></div>
+                  <div class="flex items-center gap-1">
+                    <span class="text-yellow-300 font-serif text-xl">Ankit Kumar</span>
+                    <i class="fa-solid fa-pen-fancy text-white/60 text-sm"></i>
+                  </div>
+                </div>
+
+                <!-- Achievement Icons -->
+                <div class="mt-6 flex gap-4 justify-center lg:justify-start">
+                  <!-- <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
+                    <i class="fa-solid fa-trophy text-yellow-300 text-sm"></i>
+                    <span class="text-white text-xs"></span>
+                  </div> -->
+                  <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
+                    <i class="fa-solid fa-award text-yellow-300 text-sm"></i>
+                    <span class="text-white text-xs">IIT Madras</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Director Info -->
-          <div class="flex-1 text-center lg:text-left">
-            <!-- Badge -->
-            <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-1.5 mb-4">
-              <i class="fa-solid fa-star text-yellow-300 text-sm"></i>
-              <span class="text-white text-sm font-medium">Visionary Leader</span>
-            </div>
-
-            <h3 class="text-3xl lg:text-4xl font-bold text-white mb-2">
-              Ankit Kumar
-            </h3>
-            <p class="text-yellow-300 font-semibold mb-4 flex items-center gap-2 justify-center lg:justify-start">
-              <i class="fa-solid fa-graduation-cap"></i>
-              Director & Founder
-            </p>
-
-            <!-- Message -->
-            <div class="mb-6">
-              <p class="text-white/90 leading-relaxed text-base lg:text-lg">
-                "I am passionate about creating an educational ecosystem where every student can thrive. 
-                At <span class="font-bold text-yellow-200">Educational Society</span>, we believe in nurturing 
-                not just academic excellence but also character, creativity, and critical thinking. 
-                Our dedicated team of educators works tirelessly to ensure that every child receives 
-                personalized attention and guidance. Together, let's build a brighter future!"
-              </p>
-            </div>
-
-            <!-- Quote and Signature -->
-            <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <div class="flex items-center gap-2 text-white/80">
-                <i class="fa-solid fa-quote-left text-2xl text-yellow-300"></i>
-                <span class="text-sm">Education is the most powerful weapon</span>
-              </div>
-              <div class="h-6 w-px bg-white/30 hidden sm:block"></div>
-              <div class="flex items-center gap-1">
-                <span class="text-yellow-300 font-serif text-xl">Ankit Kumar</span>
-                <i class="fa-solid fa-pen-fancy text-white/60 text-sm"></i>
-              </div>
-            </div>
-
-            <!-- Achievement Icons -->
-            <div class="mt-6 flex gap-4 justify-center lg:justify-start">
-              <!-- <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
-                <i class="fa-solid fa-trophy text-yellow-300 text-sm"></i>
-                <span class="text-white text-xs"></span>
-              </div> -->
-              <div class="flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5">
-                <i class="fa-solid fa-award text-yellow-300 text-sm"></i>
-                <span class="text-white text-xs">IIT Madras</span>
-              </div>
-            </div>
+            <!-- Decorative Bottom Element -->
+            <div class="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-transparent via-yellow-300 to-transparent"></div>
           </div>
         </div>
-
-        <!-- Decorative Bottom Element -->
-        <div class="absolute bottom-0 left-0 right-0 h-1 bg-linear-to-r from-transparent via-yellow-300 to-transparent"></div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- Testimonials Section - Carousel -->
-    <section
+    <!-- <section
       v-motion
       :initial="motionInitial"
       :visibleOnce="motionVisible(40)"
@@ -692,7 +692,6 @@
               </div>
             </div>
 
-            <!-- Navigation -->
             <div class="flex justify-center gap-4 mt-8">
               <button @click="prevTestimonial"
                 class="p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all hover:scale-110">
@@ -710,6 +709,118 @@
                 class="p-2 rounded-full bg-white dark:bg-gray-700 shadow-md hover:shadow-lg transition-all hover:scale-110">
                 <i class="fa-solid fa-chevron-right text-gray-600 dark:text-gray-300"></i>
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section> -->
+
+    <!-- Testimonials Section - Carousel -->
+    <section v-motion :initial="motionInitial" :visibleOnce="motionVisible(40)"
+      class="py-20 px-4 bg-linear-to-br from-indigo-100 via-purple-200 to-pink-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 transition-all duration-700 ease-out">
+      <div class="max-w-7xl mx-auto">
+        <div v-motion :initial="motionInitial" :visibleOnce="motionVisible(80)"
+          class="text-center max-w-3xl mx-auto mb-16 transition-all duration-700 ease-out">
+          <span
+            class="inline-block px-4 py-1.5 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium mb-4">
+            Join Our Community
+          </span>
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            Ready to <span class="text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-pink-600">Begin Your
+              Journey?</span>
+          </h2>
+          <!-- <p class="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+            🌟 Join thousands of successful students who have transformed their careers with our expert-led courses
+          </p> -->
+        </div>
+
+        <div class="max-w-4xl mx-auto">
+          <div v-motion :initial="motionInitial" :visibleOnce="motionVisible(140)"
+            class="relative bg-linear-to-br from-indigo-50 to-purple-50 dark:from-gray-700 dark:to-gray-800 rounded-3xl p-8 md:p-12 transition-all duration-700 ease-out text-center">
+            <!-- Decorative Elements -->
+            <div class="absolute inset-0 overflow-hidden rounded-3xl">
+              <div
+                class="absolute -top-20 -right-20 w-64 h-64 bg-indigo-200/20 dark:bg-indigo-500/10 rounded-full blur-3xl">
+              </div>
+              <div
+                class="absolute -bottom-20 -left-20 w-64 h-64 bg-pink-200/20 dark:bg-pink-500/10 rounded-full blur-3xl">
+              </div>
+            </div>
+
+            <div class="relative z-10">
+              <!-- Icon -->
+              <div
+                class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-linear-to-br from-indigo-500 to-pink-500 shadow-lg mb-6">
+                <i class="fa-solid fa-rocket text-3xl text-white"></i>
+              </div>
+
+              <!-- Main Message -->
+              <h3 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                Start Learning Today! 🚀
+              </h3>
+
+              <p class="text-lg text-gray-700 dark:text-gray-300 mb-2 max-w-2xl mx-auto leading-relaxed">
+                "The best time to start was yesterday. The next best time is now."
+              </p>
+
+              <!-- <p class="text-base text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+                Join 1000+ learners and take the first step toward mastering new skills that will shape your future.
+              </p> -->
+
+              <!-- CTA Buttons -->
+              <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <router-link to="/courses"
+                  class="inline-flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-indigo-600 to-pink-600 px-8 py-3.5 font-bold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                  Explore Courses
+                  <i class="fa-solid fa-arrow-right"></i>
+                </router-link>
+                <router-link to="/signup"
+                  class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-indigo-300 dark:border-indigo-700 px-8 py-3.5 font-bold text-indigo-700 dark:text-indigo-300 transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:scale-105">
+                  <i class="fa-solid fa-user-plus"></i>
+                  Join Now
+                </router-link>
+              </div>
+
+              <!-- Stats -->
+              <!-- <div class="mt-8 flex justify-center gap-8 flex-wrap">
+                <div class="text-center">
+                  <p class="text-2xl font-black text-indigo-600 dark:text-indigo-400">1000+</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Active Students</p>
+                </div>
+                <div class="text-center">
+                  <p class="text-2xl font-black text-pink-600 dark:text-pink-400">98%</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Satisfaction Rate</p>
+                </div>
+                <div class="text-center">
+                  <p class="text-2xl font-black text-purple-600 dark:text-purple-400">60+</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Live Batches</p>
+                </div>
+              </div> -->
+
+              <!-- Trust Badges -->
+              <!-- <div class="mt-8 flex flex-wrap justify-center gap-4">
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full bg-white/60 dark:bg-gray-800/60 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 backdrop-blur-sm">
+                  <i class="fa-solid fa-check-circle text-emerald-500"></i>
+                  24/7 Support
+                </span>
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full bg-white/60 dark:bg-gray-800/60 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 backdrop-blur-sm">
+                  <i class="fa-solid fa-check-circle text-emerald-500"></i>
+                  Live Classes
+                </span>
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full bg-white/60 dark:bg-gray-800/60 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 backdrop-blur-sm">
+                  <i class="fa-solid fa-check-circle text-emerald-500"></i>
+                  Projects & Practice
+                </span>
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full bg-white/60 dark:bg-gray-800/60 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 backdrop-blur-sm">
+                  <i class="fa-solid fa-check-circle text-emerald-500"></i>
+                  Certificate
+                </span>
+              </div> -->
             </div>
           </div>
         </div>
@@ -802,9 +913,9 @@ const joinTreeVisible = (index) => ({
 const notices = ref([
   {
     type: "Course",
-    title: "New Full Stack Web Development",
-    description: "Enroll in our new Full Stack Web Development course. Learn Vue.js, Flask, and database design.",
-    date: "4 May 2026",
+    title: "New Full Stack Web Development Bootcamp",
+    description: "Enroll in our new Full Stack Web Development course. Learn HTML, CSS, JavaScript, Flask, and database design.",
+    date: "1 July 2026",
     cta: "Enroll Now",
     link: "/Signup"
   },
@@ -812,7 +923,7 @@ const notices = ref([
     type: "Course",
     title: "Python Programming for Beginners",
     description: "Learn the fundamentals of Python programming. Perfect for students new to coding. Enroll now!",
-    date: "10 May 2026",
+    date: "5 July 2026",
     cta: "Enroll Now",
     link: "/signup"
   },

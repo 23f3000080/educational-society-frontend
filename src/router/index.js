@@ -47,6 +47,11 @@ import AdminHelpPage from '../pages/admin_temp/admin_profile_dropdown_temp/Admin
 import AdminLiveClassPage from '../pages/admin_temp/AdminLiveClassPage.vue'
 import liveClassRoutes from './liveClassRoutes'
 
+// courses details pages
+import python_course from '../pages/courses_details_pages/python_course.vue'
+import sql_course from '../pages/courses_details_pages/sql_course.vue'
+import web_dev_bootcamp_course from '../pages/courses_details_pages/web-dev_bootcamp_course.vue'
+
 const routes = [
   {
     path: '/',
@@ -267,6 +272,11 @@ const routes = [
   {
     path: '/course/:id',
     name: 'CourseDetail',
+    beforeEnter: (to) => {
+      if (String(to.params.id) === '6') {
+        return { path: '/courses/python-course' }
+      }
+    },
     component: () => import('../pages/courses_temp/CourseDetailPage.vue'),
   },
 
@@ -404,7 +414,38 @@ const routes = [
     name: 'WebsiteMap',
     component: () => import('../pages/WebsiteMap.vue'),
     meta: { requiresAuth: true }
-  }
+  },
+
+  // courses details pages
+  {
+    path: '/courses/python-course',
+    name: 'PythonCourse',
+    component: python_course,
+    meta: {
+      title: 'Python Course',
+      description: 'Learn Python programming from basics to advanced concepts.'
+    }
+  },
+
+  {
+    path: '/courses/sql-course',
+    name: 'SqlCourse',
+    component: sql_course,
+    meta: {
+      title: 'SQL Course',
+      description: 'Learn SQL programming and database fundamentals with a practical curriculum.'
+    }
+  },
+
+  {
+    path: '/courses/web-development-bootcamp',
+    name: 'WebDevelopmentBootcampCourse',
+    component: web_dev_bootcamp_course,
+    meta: {
+      title: 'Web Development Bootcamp',
+      description: 'Build modern responsive websites with HTML, CSS, JavaScript, and practical projects.'
+    }
+  },
 ]
 
 const router = createRouter({

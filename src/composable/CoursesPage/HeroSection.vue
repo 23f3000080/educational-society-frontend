@@ -153,7 +153,7 @@
           </router-link>
 
           <p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
-            Quick admission • Demo support • Limited seats
+            Quick admission • Limited seats
           </p>
         </div>
       </div>
