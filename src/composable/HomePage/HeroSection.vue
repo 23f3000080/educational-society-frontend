@@ -25,7 +25,8 @@
             </h1>
 
             <p class="mt-5 max-w-2xl text-base sm:text-lg text-[#18414b] leading-relaxed">
-              “School boards ho ya coding ka future — yahan milti hai complete learning jo marks bhi badhaye aur skills bhi.”
+              “Your journey to coding excellence starts here. Unlock your potential with code. Transform ideas into digital solutions where curiosity meets coding magic.”
+
             </p>
 
             <div class="mt-7 flex flex-col sm:flex-row gap-3">
@@ -85,7 +86,7 @@
 
                 <div class="absolute bottom-4 right-4 hero-card-tilt rounded-2xl border border-white/40 bg-green-500/20 p-3 backdrop-blur-md">
                   <p class="text-xs text-stone-200">This Month</p>
-                  <p class="text-base font-bold text-white">Board, Web Development</p>
+                  <p class="text-base font-bold text-white">Python, SQL, Web Development</p>
                 </div>
               </div>
             </div>
@@ -347,7 +348,7 @@
 
               <div class="mt-5 flex items-center justify-between rounded-2xl bg-gray-100 px-4 py-3 dark:bg-gray-700/60">
                 <div>
-                  <p class="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Fee</p>
+                  <p class="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">Price</p>
                   <div class="flex items-end gap-2">
                     <span class="text-2xl font-bold text-gray-900 dark:text-white">{{ formatCurrency(course.offerPrice) }}</span>
                     <span class="pb-1 text-sm text-gray-500 line-through">{{ formatCurrency(course.price) }}</span>
