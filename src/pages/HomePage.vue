@@ -1,5 +1,6 @@
 <template>
   <HeroSection />
+  
   <Footer />
   
 </template>
