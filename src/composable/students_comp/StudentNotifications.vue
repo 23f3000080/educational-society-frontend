@@ -115,7 +115,9 @@
                 <article
                     v-for="notification in filteredNotifications"
                     :key="notification.id"
-                    class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/80"
+                    :id="notificationDomId(notification)"
+                    @click="openNotification(notification)"
+                    class="cursor-pointer rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900/80 dark:hover:border-indigo-800"
                 >
                     <div class="mb-3 flex items-start justify-between gap-3">
                         <div>
@@ -137,18 +139,19 @@
                         </div>
                     </div>
 
-                    <p class="line-clamp-3 text-sm text-gray-600 dark:text-gray-300">{{ notification.message }}</p>
+                    <p class="line-clamp-2 text-sm text-gray-600 dark:text-gray-300">{{ notification.message }}</p>
 
-                    <div class="mt-4 text-xs text-gray-500 dark:text-gray-400">
+                    <div class="mt-4 flex items-center justify-between gap-3 text-xs text-gray-500 dark:text-gray-400">
                         <p>
                             Created: <span class="font-medium text-gray-700 dark:text-gray-200">{{ formatDateTime(notification.created_at) }}</span>
                         </p>
+                        <span class="font-medium text-indigo-600 dark:text-indigo-300">Open</span>
                     </div>
 
                     <button
                         v-if="!notification.is_read"
                         type="button"
-                        @click="markOneAsRead(notification)"
+                        @click.stop="markOneAsRead(notification)"
                         class="mt-4 w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400"
                     >
                         Mark as read
@@ -161,19 +164,106 @@
                     </p>
                 </article>
             </section>
+
+            <Teleport to="body">
+                <Transition name="modal">
+                    <div
+                        v-if="selectedNotification"
+                        class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/60 px-4 py-6 backdrop-blur-sm sm:py-8"
+                        @click.self="closeNotificationDetails"
+                    >
+                        <div class="w-full max-w-2xl rounded-3xl border border-gray-200 bg-white p-5 shadow-2xl dark:border-gray-800 dark:bg-gray-900 sm:p-6">
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="min-w-0">
+                                    <div class="mb-2 flex flex-wrap gap-2">
+                                        <span :class="sourceBadgeClass(selectedNotification)" class="rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide">
+                                            {{ selectedNotification.is_global ? 'Global' : 'Personal' }}
+                                        </span>
+                                        <span v-if="selectedNotification.type" class="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                                            {{ selectedNotification.type }}
+                                        </span>
+                                        <span
+                                            v-if="!selectedNotification.is_read"
+                                            class="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-700 dark:bg-amber-950/50 dark:text-amber-300"
+                                        >
+                                            Unread
+                                        </span>
+                                    </div>
+                                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl">
+                                        {{ selectedNotification.title }}
+                                    </h2>
+                                </div>
+
+                                <button
+                                    type="button"
+                                    @click="closeNotificationDetails"
+                                    class="rounded-xl bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                                >
+                                    Close
+                                </button>
+                            </div>
+
+                            <div class="mt-5 rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-950/60">
+                                <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Message</p>
+                                <p class="mt-3 whitespace-pre-wrap text-sm leading-6 text-gray-700 dark:text-gray-200">
+                                    {{ selectedNotification.message }}
+                                </p>
+                            </div>
+
+                            <div class="mt-4 grid gap-3 sm:grid-cols-2">
+                                <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900/80">
+                                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Created</p>
+                                    <p class="mt-1 text-sm font-medium text-gray-800 dark:text-gray-100">
+                                        {{ formatDateTime(selectedNotification.created_at) }}
+                                    </p>
+                                </div>
+                                <div class="rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900/80">
+                                    <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">Status</p>
+                                    <p class="mt-1 text-sm font-medium" :class="selectedNotification.is_read ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300'">
+                                        {{ selectedNotification.is_read ? 'Read' : 'Unread' }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 flex flex-wrap justify-end gap-2">
+                                <button
+                                    v-if="!selectedNotification.is_read"
+                                    type="button"
+                                    @click="markOneAsRead(selectedNotification)"
+                                    class="rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400"
+                                >
+                                    Mark as read
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="closeNotificationDetails"
+                                    class="rounded-xl bg-gray-100 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                                >
+                                    Done
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </Transition>
+            </Teleport>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import api from '../../services/axios'
 import { getAuth } from '../../utils/auth'
+
+const route = useRoute()
+const router = useRouter()
 
 const notifications = ref([])
 const loading = ref(false)
 const markingAll = ref(false)
 const errorMessage = ref('')
+const selectedNotification = ref(null)
 
 const searchQuery = ref('')
 const activeFilter = ref('All')
@@ -237,6 +327,32 @@ const sourceBadgeClass = (notification) => {
     return 'bg-purple-100 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300'
 }
 
+const notificationDomId = (notification) => `notification-${notification.id}`
+
+const scrollToNotification = async (notificationId) => {
+    if (!notificationId) return
+
+    await nextTick()
+    const element = document.getElementById(notificationDomId({ id: notificationId }))
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        element.classList.add('ring-2', 'ring-indigo-400', 'ring-offset-2', 'ring-offset-white', 'dark:ring-offset-gray-950')
+        window.setTimeout(() => {
+            element.classList.remove('ring-2', 'ring-indigo-400', 'ring-offset-2', 'ring-offset-white', 'dark:ring-offset-gray-950')
+        }, 1600)
+    }
+}
+
+const openNotification = async (notification) => {
+    await markOneAsRead(notification)
+    selectedNotification.value = notification
+    await router.push({ path: '/student/notifications', hash: `#${notificationDomId(notification)}` })
+}
+
+const closeNotificationDetails = () => {
+    selectedNotification.value = null
+}
+
 const refreshNotifications = async () => {
     if (!currentUserId.value) {
         errorMessage.value = 'User not found. Please login again.'
@@ -249,6 +365,14 @@ const refreshNotifications = async () => {
     try {
         const { data } = await api.get(`/api/notifications/${currentUserId.value}`)
         notifications.value = Array.isArray(data) ? data : []
+        const hashMatch = route.hash?.match(/^#notification-(\d+)$/)
+        if (hashMatch) {
+            const target = notifications.value.find((item) => String(item.id) === hashMatch[1])
+            if (target) {
+                selectedNotification.value = target
+            }
+            await scrollToNotification(hashMatch[1])
+        }
     } catch (error) {
         errorMessage.value = error.response?.data?.error || 'Failed to load notifications.'
     } finally {
@@ -299,17 +423,41 @@ const markVisibleAsRead = async () => {
 onMounted(() => {
     refreshNotifications()
 })
+
+watch(
+    () => route.hash,
+    (hash) => {
+        const match = hash?.match(/^#notification-(\d+)$/)
+        if (match) {
+            scrollToNotification(match[1])
+        }
+        if (!match) {
+            selectedNotification.value = null
+        }
+    },
+    { immediate: true }
+)
 </script>
 
 <style scoped>
 .line-clamp-2 {
+    line-clamp: 2;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
+.line-clamp-1 {
+    line-clamp: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
 .line-clamp-3 {
+    line-clamp: 3;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;

@@ -1,6 +1,7 @@
 // Google OAuth Configuration
 export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || "YOUR_GOOGLE_CLIENT_ID_HERE";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "https://educationalsociety.duckdns.org";
+import { startGlobalLoading, stopGlobalLoading } from './globalLoading.js';
 
 // Initialize Google Sign-In
 export function initializeGoogleSignIn() {
@@ -23,6 +24,8 @@ export async function handleGoogleSignIn(response, isSignUp = false) {
     }
 
     const endpoint = isSignUp ? "/api/auth/google-signup" : "/api/auth/google-login";
+
+    startGlobalLoading();
     
     const result = await fetch(`${API_BASE_URL}${endpoint}`, {
       method: "POST",
@@ -57,6 +60,8 @@ export async function handleGoogleSignIn(response, isSignUp = false) {
   } catch (error) {
     console.error("Google Auth Error:", error);
     throw error;
+  } finally {
+    stopGlobalLoading();
   }
 }
 

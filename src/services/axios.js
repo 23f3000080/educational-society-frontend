@@ -1,12 +1,19 @@
 import axios from "axios";
 import { logout } from "../utils/auth.js";
 import { getApiBaseUrl } from "./baseUrl";
+import { startGlobalLoading, stopGlobalLoading } from "../utils/globalLoading.js";
 
 const api = axios.create({
   baseURL: getApiBaseUrl()
 });
 
 api.interceptors.request.use(config => {
+  const skipGlobalLoader = config.meta?.skipGlobalLoader === true;
+
+  if (!skipGlobalLoader) {
+    startGlobalLoading();
+  }
+
   const token =
     localStorage.getItem("token") ||
     sessionStorage.getItem("token");
@@ -20,10 +27,29 @@ api.interceptors.request.use(config => {
   return config;
 });
 
+api.interceptors.request.use(
+  config => config,
+  error => {
+    if (error.config?.meta?.skipGlobalLoader !== true) {
+      stopGlobalLoading();
+    }
+    return Promise.reject(error);
+  }
+);
+
 
 api.interceptors.response.use(
-  res => res,
+  res => {
+    if (res.config?.meta?.skipGlobalLoader !== true) {
+      stopGlobalLoading();
+    }
+    return res;
+  },
   err => {
+    if (err.config?.meta?.skipGlobalLoader !== true) {
+      stopGlobalLoading();
+    }
+
     const status = err.response?.status;
     const serverError = String(err.response?.data?.error || "").toLowerCase();
     const isAuthFailure =

@@ -41,7 +41,7 @@ import AdminTestResultsPage from '../pages/admin_temp/TestResultsPage.vue'
 import AdminTestQuestions from '../composable/admin_comp/TestQuestions.vue'
 import AdminProfilePage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminProfilePage.vue'
 import AdminSettingsPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminSettingsPage.vue'
-import AdminSystemlogsPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminSystemlogsPage.vue'
+import AdminManagementPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminManagementPage.vue'
 import AdminAuditTrailPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminAuditTrailPage.vue'
 import AdminHelpPage from '../pages/admin_temp/admin_profile_dropdown_temp/AdminHelpPage.vue'
 import AdminLiveClassPage from '../pages/admin_temp/AdminLiveClassPage.vue'
@@ -367,9 +367,9 @@ const routes = [
         meta: { requiresAuth: true, role: 'admin' }
       },
       {
-        path: '/admin/logs',
-        name: 'AdminSystemLogs',
-        component: AdminSystemlogsPage,
+        path: '/admin/management',
+        name: 'AdminManagement',
+        component: AdminManagementPage,
         meta: { requiresAuth: true, role: 'admin' }
       },
       {

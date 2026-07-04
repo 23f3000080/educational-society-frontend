@@ -210,6 +210,10 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                     </svg>
 
+                    <svg v-else-if="item.name === 'Management'" class="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 20h12M8 16V8a4 4 0 118 0v8M7 16h10" />
+                    </svg>
+
                     <span>{{ item.name }}</span>
 
                     <!-- Arrow Right Icon -->
@@ -395,6 +399,10 @@
 
                   <svg v-else-if="item.name === 'Audit Trail'" class="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+
+                  <svg v-else-if="item.name === 'Management'" class="w-5 h-5 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 20h12M8 16V8a4 4 0 118 0v8M7 16h10" />
                   </svg>
 
                   <span>{{ item.name }}</span>
@@ -630,7 +638,7 @@ const navItems = [
 const profileMenu = [
   { name: "Profile", path: "/admin/profile", icon: "profile" },
   { name: "Settings", path: "/admin/settings", icon: "settings" },
-  { name: "System Logs", path: "/admin/logs", icon: "logs" },
+  { name: "Management", path: "/admin/management", icon: "management" },
   { name: "Audit Trail", path: "/admin/audit", icon: "audit" },
   { name: "Help Center", path: "/admin/help", icon: "help" }
 ];

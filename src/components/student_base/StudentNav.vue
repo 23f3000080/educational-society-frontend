@@ -598,8 +598,7 @@ function closeProfileDropdown() {
 function handleNotificationClick(notification) {
   markNotificationRead(notification);
   showNotificationPanel.value = false;
-  // Navigate to notification related page if needed
-  // router.push(notification.link);
+  router.push({ path: '/student/notifications', hash: `#notification-${notification.id}` });
 }
 
 function markAllAsRead() {
@@ -722,6 +721,7 @@ onUnmounted(() => {
 
 /* Line clamp utility */
 .line-clamp-2 {
+  line-clamp: 2;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

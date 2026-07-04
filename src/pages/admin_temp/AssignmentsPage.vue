@@ -350,28 +350,35 @@ const form = reactive({
 	total_points: 0
 })
 
+const silentRequestMeta = { meta: { skipGlobalLoader: true } }
+
 const fetchCoursesAndWeeks = async () => {
 	try {
-		const { data } = await api.get('/api/admin/courses', { params: { page: 1, per_page: 200 } })
+		const { data } = await api.get('/api/admin/courses', {
+			params: { page: 1, per_page: 200 },
+			...silentRequestMeta
+		})
 		courses.value = data?.courses || []
 
 		const weekBucket = []
-		for (const course of courses.value) {
+		const weekRequests = courses.value.map(async (course) => {
 			try {
-				const res = await api.get(`/api/admin/courses/${course.id}/weeks`)
+				const res = await api.get(`/api/admin/courses/${course.id}/weeks`, silentRequestMeta)
 				const weeks = res.data || []
-				for (const week of weeks) {
-					weekBucket.push({
-						id: week.id,
-						week_number: week.week_number,
-						title: week.title,
-						course_id: course.id,
-						course_title: course.title
-					})
-				}
+				return weeks.map((week) => ({
+					id: week.id,
+					week_number: week.week_number,
+					title: week.title,
+					course_id: course.id,
+					course_title: course.title
+				}))
 			} catch {
-				// Ignore week load errors per course to keep page usable.
+				return []
 			}
+		})
+		const weekResults = await Promise.all(weekRequests)
+		for (const weeks of weekResults) {
+			weekBucket.push(...weeks)
 		}
 		allWeeksOptions.value = weekBucket
 	} catch {
@@ -385,6 +392,7 @@ const fetchAssignments = async () => {
 
 	try {
 		const { data } = await api.get('/api/admin/assignments', {
+			...silentRequestMeta,
 			params: {
 				page: pagination.current_page,
 				per_page: pagination.per_page,
@@ -511,18 +519,18 @@ const submitForm = async () => {
 				description: form.description,
 				due_date: form.due_date || null,
 				total_points: form.total_points
-			})
+			}, silentRequestMeta)
 		} else {
 			await api.post(`/api/admin/weeks/${form.week_id}/assignments`, {
 				title: form.title,
 				description: form.description,
 				due_date: form.due_date || null,
 				total_points: form.total_points
-			})
+			}, silentRequestMeta)
 		}
 
 		closeModal()
-		fetchAssignments()
+		await fetchAssignments()
 	} catch (error) {
 		modalError.value = error.response?.data?.error || 'Could not save assignment.'
 	} finally {
@@ -535,8 +543,8 @@ const deleteAssignment = async (assignment) => {
 	if (!ok) return
 
 	try {
-		await api.delete(`/api/admin/assignments/${assignment.id}`)
-		fetchAssignments()
+		await api.delete(`/api/admin/assignments/${assignment.id}`, silentRequestMeta)
+		await fetchAssignments()
 	} catch (error) {
 		errorMessage.value = error.response?.data?.error || 'Could not delete assignment.'
 	}
@@ -557,7 +565,6 @@ const StatCard = defineComponent({
 })
 
 onMounted(async () => {
-	await fetchCoursesAndWeeks()
-	await fetchAssignments()
+	await Promise.all([fetchCoursesAndWeeks(), fetchAssignments()])
 })
 </script>

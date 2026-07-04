@@ -64,7 +64,7 @@
       @mouseenter="showResourcesDropdown = true" 
       @mouseleave="showResourcesDropdown = false"
     >
-      <div class="min-w-[140px] sm:min-w-[160px] rounded-xl bg-white shadow-lg border border-gray-100 dark:bg-gray-900 dark:border-gray-800 py-1">
+      <div class="min-w-35 sm:min-w-40 rounded-xl bg-white shadow-lg border border-gray-100 dark:bg-gray-900 dark:border-gray-800 py-1">
         <router-link to="/resource/notes"
           class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
           @click="showResourcesDropdown = false; isSideNavOpen = false">
@@ -131,7 +131,7 @@
         </div>
         
         <!-- Hero Section - Completely responsive -->
-        <section class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r from-indigo-700 via-violet-700 to-fuchsia-700 text-white shadow-2xl">
+        <section class="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-linear-to-r from-indigo-700 via-violet-700 to-fuchsia-700 text-white shadow-2xl">
           <div class="relative z-10 p-5 sm:p-6 md:p-8">
             <!-- Mobile/Tablet/Desktop Layout -->
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5 lg:gap-8">
@@ -142,7 +142,7 @@
                 </div>
                 
                 <div>
-                  <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight break-words">
+                  <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight wrap-break-word">
                     Welcome back, {{ studentName }}
                   </h1>
                   <p class="mt-1 sm:mt-2 md:mt-3 text-xs sm:text-sm md:text-base text-white/85 max-w-2xl">
@@ -158,7 +158,7 @@
                     class="group relative overflow-hidden rounded-lg sm:rounded-xl bg-linear-to-r from-red-500 via-pink-500 to-rose-500 px-4 py-1.5 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-bold text-white shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-red-500/40 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                     <!-- Animated pulse effect -->
                     <span
-                      class="absolute inset-0 rounded-lg sm:rounded-xl bg-gradient-to-r from-red-500 via-pink-500 to-rose-500 animate-pulse-slow opacity-75"></span>
+                      class="absolute inset-0 rounded-lg sm:rounded-xl bg-linear-to-r from-red-500 via-pink-500 to-rose-500 animate-pulse-slow opacity-75"></span>
 
                     <!-- Ripple effect on hover -->
                     <span
@@ -195,7 +195,7 @@
               </div>
 
               <!-- Stats Cards - Responsive Grid -->
-              <div class="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:w-auto lg:min-w-[280px]">
+              <div class="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:w-auto lg:min-w-70">
                 <div
                   v-for="stat in stats"
                   :key="stat.label"
@@ -206,7 +206,7 @@
                       <p class="text-[10px] sm:text-xs uppercase tracking-wide text-white/70 truncate">{{ stat.label }}</p>
                       <p class="mt-0.5 sm:mt-1 text-lg sm:text-xl md:text-2xl font-bold">{{ stat.value }}</p>
                     </div>
-                    <div class="flex-shrink-0 rounded-lg sm:rounded-xl bg-white/15 p-1.5 sm:p-2 text-white">
+                    <div class="shrink-0 rounded-lg sm:rounded-xl bg-white/15 p-1.5 sm:p-2 text-white">
                       <component :is="stat.icon" class="h-3 w-3 sm:h-4 sm:w-4 md:h-5 md:w-5" />
                     </div>
                   </div>
@@ -218,33 +218,6 @@
           <!-- Decorative Elements -->
           <div class="absolute -top-20 -right-20 h-40 w-40 sm:h-60 sm:w-60 rounded-full bg-white/5 blur-3xl"></div>
           <div class="absolute -bottom-20 -left-20 h-40 w-40 sm:h-60 sm:w-60 rounded-full bg-white/5 blur-3xl"></div>
-        </section>
-
-        <!-- Stats Cards Row - Responsive Grid -->
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-          <div class="rounded-xl sm:rounded-2xl border border-gray-200 bg-white p-3 sm:p-4 md:p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/80">
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Enrolled Courses</p>
-            <p class="mt-1 sm:mt-2 text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{{ dashboardCounts.enrolledCourses }}</p>
-            <p class="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 line-clamp-2">Active courses you can continue learning</p>
-          </div>
-          
-          <div class="rounded-xl sm:rounded-2xl border border-gray-200 bg-white p-3 sm:p-4 md:p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/80">
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Assignments</p>
-            <p class="mt-1 sm:mt-2 text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{{ dashboardCounts.totalAssignments }}</p>
-            <p class="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Across all enrolled courses</p>
-          </div>
-          
-          <div class="rounded-xl sm:rounded-2xl border border-gray-200 bg-white p-3 sm:p-4 md:p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/80">
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Pending</p>
-            <p class="mt-1 sm:mt-2 text-xl sm:text-2xl md:text-3xl font-bold text-amber-600 dark:text-amber-400">{{ dashboardCounts.pendingAssignments }}</p>
-            <p class="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Assignments waiting for submission</p>
-          </div>
-          
-          <div class="rounded-xl sm:rounded-2xl border border-gray-200 bg-white p-3 sm:p-4 md:p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900/80">
-            <p class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Submitted</p>
-            <p class="mt-1 sm:mt-2 text-xl sm:text-2xl md:text-3xl font-bold text-emerald-600 dark:text-emerald-400">{{ dashboardCounts.submittedAssignments }}</p>
-            <p class="mt-0.5 sm:mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Already completed</p>
-          </div>
         </section>
 
         <!-- Loading State -->
@@ -285,11 +258,11 @@
                 </button>
               </div>
 
-              <div v-if="topCourse" class="mt-4 sm:mt-5 rounded-xl sm:rounded-2xl bg-gradient-to-br from-indigo-50 to-violet-50 p-4 sm:p-5 dark:from-indigo-950 dark:to-violet-950">
+              <div v-if="topCourse" class="mt-4 sm:mt-5 rounded-xl sm:rounded-2xl bg-linear-to-br from-indigo-50 to-violet-50 p-4 sm:p-5 dark:from-indigo-950 dark:to-violet-950">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
                   <div class="min-w-0 flex-1">
                     <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">Top Course</p>
-                    <h3 class="mt-1 text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white break-words">{{ topCourse.title }}</h3>
+                    <h3 class="mt-1 text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white wrap-break-word">{{ topCourse.title }}</h3>
                     <p class="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">{{ topCourse.subject }} • {{ topCourse.class_level }}</p>
                   </div>
                   <div class="flex items-center gap-3 sm:gap-4">
@@ -338,7 +311,7 @@
                   <div class="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
                     <div class="min-w-0 flex-1">
                       <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-300">{{ course.subject }}</p>
-                      <h3 class="mt-0.5 sm:mt-1 text-sm sm:text-base md:text-lg font-semibold text-gray-900 dark:text-white break-words">{{ course.title }}</h3>
+                      <h3 class="mt-0.5 sm:mt-1 text-sm sm:text-base md:text-lg font-semibold text-gray-900 dark:text-white wrap-break-word">{{ course.title }}</h3>
                       <p class="mt-0.5 sm:mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">Class {{ course.class_level }} • {{ course.duration_months }} months</p>
                     </div>
                     <div class="rounded-lg sm:rounded-xl bg-emerald-50 px-2 py-1 sm:px-3 sm:py-2 text-center dark:bg-emerald-950/60">
@@ -390,7 +363,7 @@
                   <div class="flex flex-wrap items-start justify-between gap-2">
                     <div class="min-w-0 flex-1">
                       <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-300">{{ assignment.status }}</p>
-                      <h3 class="mt-0.5 sm:mt-1 text-sm sm:text-base font-semibold text-gray-900 dark:text-white break-words">{{ assignment.title }}</h3>
+                      <h3 class="mt-0.5 sm:mt-1 text-sm sm:text-base font-semibold text-gray-900 dark:text-white wrap-break-word">{{ assignment.title }}</h3>
                       <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{{ assignment.courseTitle }} • Week {{ assignment.weekNumber }}</p>
                     </div>
                     <span class="rounded-full px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-xs font-semibold whitespace-nowrap" :class="assignment.statusClass">
@@ -441,7 +414,7 @@
                   <div class="flex items-start gap-2 sm:gap-3">
                     <div class="flex-1 min-w-0">
                       <div class="flex flex-wrap items-start justify-between gap-1 sm:gap-2">
-                        <h3 class="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white break-words">{{ notification.title }}</h3>
+                        <h3 class="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white wrap-break-word">{{ notification.title }}</h3>
                         <span
                           class="rounded-full px-1.5 py-0.5 text-[9px] sm:text-[11px] font-semibold whitespace-nowrap"
                           :class="notification.is_read ? 'bg-gray-200 text-gray-600 dark:bg-gray-800 dark:text-gray-300' : 'bg-indigo-600 text-white'"
@@ -509,6 +482,7 @@ const dropdownStyle = ref({
   top: '0px',
   left: '0px'
 })
+const silentRequestMeta = { meta: { skipGlobalLoader: true } }
 
 // Add this function to update dropdown position
 const updateDropdownPosition = () => {
@@ -663,12 +637,14 @@ const mapAssignmentStatus = (dueDate, submittedAt) => {
 }
 
 const loadDashboard = async () => {
+  if (loading.value) return
+
   loading.value = true
 
   try {
     const [coursesRes, notificationsRes] = await Promise.all([
-      api.get('/api/my-courses'),
-      user?.id ? api.get(`/api/notifications/${user.id}`) : Promise.resolve({ data: [] })
+      api.get('/api/my-courses', silentRequestMeta),
+      user?.id ? api.get(`/api/notifications/${user.id}`, silentRequestMeta) : Promise.resolve({ data: [] })
     ])
 
     enrolledCourses.value = Array.isArray(coursesRes.data) ? coursesRes.data : []
@@ -677,7 +653,7 @@ const loadDashboard = async () => {
     const courseAssignmentResponses = await Promise.all(
       enrolledCourses.value.map(async (course) => {
         try {
-          const weeksRes = await api.get(`/api/courses/${course.course_id}/weeks`)
+          const weeksRes = await api.get(`/api/courses/${course.course_id}/weeks`, silentRequestMeta)
           const weeks = Array.isArray(weeksRes.data) ? weeksRes.data : []
 
           const courseAssignments = []
@@ -704,28 +680,28 @@ const loadDashboard = async () => {
     )
 
     const flattenedAssignments = courseAssignmentResponses.flat()
-    const enrichedAssignments = []
+    const enrichedAssignments = await Promise.all(
+      flattenedAssignments.map(async (assignment) => {
+        try {
+          const questionRes = await api.get(`/api/assignments/${assignment.assignmentId}/questions`, silentRequestMeta)
+          const submittedAt = questionRes.data?.latest_submission_at || null
+          const statusInfo = mapAssignmentStatus(assignment.dueDate, submittedAt)
 
-    for (const assignment of flattenedAssignments) {
-      try {
-        const questionRes = await api.get(`/api/assignments/${assignment.assignmentId}/questions`)
-        const submittedAt = questionRes.data?.latest_submission_at || null
-        const statusInfo = mapAssignmentStatus(assignment.dueDate, submittedAt)
-
-        enrichedAssignments.push({
-          ...assignment,
-          submittedAt,
-          ...statusInfo
-        })
-      } catch (_err) {
-        const statusInfo = mapAssignmentStatus(assignment.dueDate, null)
-        enrichedAssignments.push({
-          ...assignment,
-          submittedAt: null,
-          ...statusInfo
-        })
-      }
-    }
+          return {
+            ...assignment,
+            submittedAt,
+            ...statusInfo
+          }
+        } catch (_err) {
+          const statusInfo = mapAssignmentStatus(assignment.dueDate, null)
+          return {
+            ...assignment,
+            submittedAt: null,
+            ...statusInfo
+          }
+        }
+      })
+    )
 
     assignments.value = enrichedAssignments.sort((a, b) => {
       const aTime = a.dueDate ? new Date(a.dueDate).getTime() : Number.MAX_SAFE_INTEGER
