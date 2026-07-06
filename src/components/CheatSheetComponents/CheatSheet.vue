@@ -82,6 +82,7 @@
 import { ref, onMounted, watch } from 'vue';
 import axios from 'axios';
 import courseData from './courses.js';
+import api from '../../services/axios.js';
 
 import Navbar from './Navbar.vue';
 import Sidebar from './Sidebar.vue';
@@ -104,8 +105,6 @@ const isDarkMode = ref(false);
 const currentTopics = ref([]);
 const topicsVisible = ref(false);
 
-// API Base URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 // Get auth token
 const getAuthToken = () => {
@@ -118,9 +117,7 @@ const loadCourses = async () => {
   try {
     const token = getAuthToken();
     if (token) {
-      const response = await axios.get(`${API_BASE_URL}/api/courses`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await api.get('/api/courses');
       // Merge API data with local data if needed
       courses.value = response.data.map((apiCourse, index) => ({
         ...apiCourse,
@@ -162,11 +159,8 @@ const checkEnrollment = async (courseId) => {
       return;
     }
 
-    const response = await axios.get(
-      `${API_BASE_URL}/api/check-enrollment/${courseId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` }
-      }
+    const response = await api.get(
+      `/api/check-enrollment/${courseId}`
     );
     
     isEnrolled.value = response.data.enrolled;
