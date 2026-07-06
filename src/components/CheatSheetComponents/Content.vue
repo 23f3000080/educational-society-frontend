@@ -39,12 +39,18 @@
           >
             You are not enrolled in this course. Enroll now to access all the cheatsheets and learning materials.
           </p>
-          <button
-            @click="$emit('enroll')"
-            class="mt-8 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-6 sm:px-8 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95"
-          >
-            Enroll Now
-          </button>
+          
+          <!-- Enrollment Options -->
+          <div class="mt-6 space-y-3">
+            <button
+              @click="handleEnroll"
+              class="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-6 sm:px-8 py-3 font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-200 hover:scale-105 hover:shadow-xl active:scale-95"
+            >
+              Enroll Now
+            </button>
+            
+            
+          </div>
         </div>
       </div>
 
@@ -86,6 +92,7 @@ import {
   watch,
   nextTick,
 } from "vue";
+import { getAuth, getEnrollmentRoute } from '@/utils/auth';
 
 const props = defineProps({
   course: Object,
@@ -101,6 +108,22 @@ const emit = defineEmits(['topics-updated', 'enroll']);
 // Store topics from the loaded component
 const currentTopics = ref([]);
 const componentKey = ref(0);
+
+// Handle enrollment - redirect to enrollment page
+const handleEnroll = () => {
+  if (!props.course) return;
+  
+  // Get the enrollment route with authentication check
+  const route = getEnrollmentRoute(props.course.id);
+  
+  // Navigate to the route
+  if (route) {
+    window.location.href = route;
+  } else {
+    // Fallback: emit event to parent
+    emit('enroll');
+  }
+};
 
 // Update topics when component loads
 const updateTopics = (topics) => {

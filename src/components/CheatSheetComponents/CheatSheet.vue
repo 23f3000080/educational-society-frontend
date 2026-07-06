@@ -80,7 +80,6 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import axios from 'axios';
 import courseData from './courses.js';
 import api from '../../services/axios.js';
 
@@ -104,7 +103,6 @@ const isDarkMode = ref(false);
 // Topics
 const currentTopics = ref([]);
 const topicsVisible = ref(false);
-
 
 // Get auth token
 const getAuthToken = () => {
@@ -159,9 +157,7 @@ const checkEnrollment = async (courseId) => {
       return;
     }
 
-    const response = await api.get(
-      `/api/check-enrollment/${courseId}`
-    );
+    const response = await api.get(`/api/check-enrollment/${courseId}`);
     
     isEnrolled.value = response.data.enrolled;
   } catch (error) {
@@ -184,9 +180,10 @@ const changeCourse = async (course) => {
 
 // Handle enroll
 const handleEnroll = () => {
-  // You can redirect to enrollment page or open a modal
-  // Example: window.location.href = `/courses/${selectedCourse.value.id}/enroll`;
-  console.log('Enroll clicked for course:', selectedCourse.value.id);
+  // Redirect to enrollment page or open a modal
+  if (selectedCourse.value) {
+    window.location.href = `/courses/${selectedCourse.value.id}/enroll`;
+  }
 };
 
 // Handle topics updated from content
@@ -242,6 +239,13 @@ watch(isDarkMode, (darkMode) => {
 watch(selectedWeek, () => {
   currentTopics.value = [];
   topicsVisible.value = false;
+});
+
+// Watch selected course changes
+watch(selectedCourse, (newCourse, oldCourse) => {
+  if (newCourse && newCourse.id !== oldCourse?.id) {
+    selectedWeek.value = newCourse.weeks?.[0]?.number || 1;
+  }
 });
 
 onMounted(() => {
