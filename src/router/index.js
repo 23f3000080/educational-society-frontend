@@ -51,6 +51,7 @@ import liveClassRoutes from './liveClassRoutes'
 import python_course from '../pages/courses_details_pages/python_course.vue'
 import sql_course from '../pages/courses_details_pages/sql_course.vue'
 import web_dev_bootcamp_course from '../pages/courses_details_pages/web-dev_bootcamp_course.vue'
+import CheatSheet from '../components/CheatSheetComponents/CheatSheet.vue'
 
 const routes = [
   {
@@ -446,7 +447,24 @@ const routes = [
       description: 'Build modern responsive websites with HTML, CSS, JavaScript, and practical projects.'
     }
   },
+
+  
 ]
+
+const CheatSheetRoutes = [
+  {
+    path: '/cheatsheet',
+    name: 'CheatSheet',
+    component: CheatSheet,
+    meta: {
+      title: 'Cheat Sheet',
+      description: 'Quick reference guides and cheat sheets for programming languages and tools.',
+      hideChatbot: true
+    }
+  }
+]
+
+routes.push(...CheatSheetRoutes)
 
 const router = createRouter({
   history: createWebHistory(),

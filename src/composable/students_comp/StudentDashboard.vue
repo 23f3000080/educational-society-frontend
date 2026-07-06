@@ -33,71 +33,84 @@
                     <span>Home</span>
                   </router-link>
 
-                  <!-- Resources Link with Dropdown - FULLY WORKING -->
-<div class="relative resources-container">
-  <div
-    class="resources-trigger flex items-center justify-between rounded-xl px-3 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-gray-700 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 cursor-pointer"
-    @mouseenter="showResourcesDropdown = true" 
-    @mouseleave="showResourcesDropdown = false"
-  >
-    <div class="flex items-center gap-2 sm:gap-3">
-      <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M4 6h16M4 12h16M4 18h16" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6v12M16 6v12" />
-      </svg>
-      <span>Resources</span>
-    </div>
-    <svg class="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200"
-      :class="{ 'rotate-180': showResourcesDropdown }" fill="none" stroke="currentColor"
-      viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-    </svg>
-  </div>
+                  <!-- Resources Link with Dropdown - FIXED: Click to toggle -->
+                  <div class="relative resources-container">
+                    <div
+                      class="resources-trigger flex items-center justify-between rounded-xl px-3 py-2 sm:py-2.5 text-sm sm:text-base font-medium text-gray-700 transition-all duration-200 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 cursor-pointer"
+                      @click="toggleResourcesDropdown"
+                    >
+                      <div class="flex items-center gap-2 sm:gap-3">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6v12M16 6v12" />
+                        </svg>
+                        <span>Resources</span>
+                      </div>
+                      <svg class="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-200"
+                        :class="{ 'rotate-180': showResourcesDropdown }" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
 
-  <!-- Dropdown Menu - Teleport to body to avoid overflow issues -->
-  <Teleport to="body">
-    <div 
-      v-show="showResourcesDropdown"
-      class="fixed z-9999"
-      :style="dropdownStyle"
-      @mouseenter="showResourcesDropdown = true" 
-      @mouseleave="showResourcesDropdown = false"
-    >
-      <div class="min-w-35 sm:min-w-40 rounded-xl bg-white shadow-lg border border-gray-100 dark:bg-gray-900 dark:border-gray-800 py-1">
-        <router-link to="/resource/notes"
-          class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
-          @click="showResourcesDropdown = false; isSideNavOpen = false">
-          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-          <span>Notes</span>
-        </router-link>
+                    <!-- Dropdown Menu - Teleport to body -->
+                    <Teleport to="body">
+                      <div 
+                        v-if="showResourcesDropdown"
+                        class="fixed z-[9999]"
+                        :style="dropdownStyle"
+                        @click.stop
+                      >
+                        <div class="min-w-35 sm:min-w-40 rounded-xl bg-white shadow-lg border border-gray-100 dark:bg-gray-900 dark:border-gray-800 py-1">
+                          <router-link to="/resource/notes"
+                            class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
+                            @click="closeDropdownAndNavigate">
+                            <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            <span>Notes</span>
+                          </router-link>
 
-        <router-link to="/resource/youtube"
-          class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
-          @click="showResourcesDropdown = false; isSideNavOpen = false">
-          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-          </svg>
-          <span>Youtube</span>
-        </router-link>
+                          <router-link to="/resource/youtube"
+                            class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
+                            @click="closeDropdownAndNavigate">
+                            <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            <span>Youtube</span>
+                          </router-link>
 
-        <router-link to="/resource/books"
-          class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
-          @click="showResourcesDropdown = false; isSideNavOpen = false">
-          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-          </svg>
-          <span>Books</span>
-        </router-link>
-      </div>
-    </div>
-  </Teleport>
-</div>
+                          <router-link to="/resource/books"
+                            class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
+                            @click="closeDropdownAndNavigate">
+                            <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                            <span>Books</span>
+                          </router-link>
+
+                          <router-link to="/cheatsheet"
+                          class="flex items-center gap-2 px-3 py-2 sm:py-2.5 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 dark:text-gray-300 dark:hover:bg-indigo-950 dark:hover:text-indigo-300 transition-colors duration-200 whitespace-nowrap"
+                          @click="closeDropdownAndNavigate">
+                          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                          <span>CheatSheet</span>
+                          
+                          <!-- Badge -->
+                          <span class="ml-1 px-2 py-0.5 text-[10px] font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full">
+                            New
+                          </span>
+                        </router-link>
+                        </div>
+                      </div>
+                    </Teleport>
+                  </div>
 
                   <!-- Courses Link -->
                   <router-link to="/courses"
@@ -461,7 +474,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch, nextTick, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '../../services/axios.js'
 import { getAuth } from '../../utils/auth.js'
@@ -476,7 +489,6 @@ const notifications = ref([])
 const assignments = ref([])
 
 const isSideNavOpen = ref(false)
-// Add these refs
 const showResourcesDropdown = ref(false)
 const dropdownStyle = ref({
   top: '0px',
@@ -484,7 +496,23 @@ const dropdownStyle = ref({
 })
 const silentRequestMeta = { meta: { skipGlobalLoader: true } }
 
-// Add this function to update dropdown position
+// Toggle resources dropdown
+const toggleResourcesDropdown = () => {
+  showResourcesDropdown.value = !showResourcesDropdown.value
+  if (showResourcesDropdown.value) {
+    nextTick(() => {
+      updateDropdownPosition()
+    })
+  }
+}
+
+// Close dropdown and navigate
+const closeDropdownAndNavigate = () => {
+  showResourcesDropdown.value = false
+  isSideNavOpen.value = false
+}
+
+// Update dropdown position
 const updateDropdownPosition = () => {
   const trigger = document.querySelector('.resources-trigger')
   if (trigger && showResourcesDropdown.value) {
@@ -496,9 +524,7 @@ const updateDropdownPosition = () => {
   }
 }
 
-import { watch, nextTick } from 'vue'
-
-// Add this watch
+// Watch for dropdown state changes
 watch(showResourcesDropdown, (newVal) => {
   if (newVal) {
     nextTick(() => {
@@ -507,26 +533,36 @@ watch(showResourcesDropdown, (newVal) => {
   }
 })
 
-// Also update on window resize and scroll
+// Handle resize and scroll
 const handleResize = () => {
   if (showResourcesDropdown.value) {
     updateDropdownPosition()
   }
 }
 
-// Add event listeners in onMounted
+// Close dropdown when clicking outside
+const handleClickOutside = (event) => {
+  if (showResourcesDropdown.value) {
+    const trigger = document.querySelector('.resources-trigger')
+    const dropdown = document.querySelector('.resources-container')
+    if (trigger && !trigger.contains(event.target) && dropdown && !dropdown.contains(event.target)) {
+      showResourcesDropdown.value = false
+    }
+  }
+}
+
+// Lifecycle hooks
 onMounted(() => {
   loadDashboard()
   window.addEventListener('resize', handleResize)
   window.addEventListener('scroll', handleResize)
+  document.addEventListener('click', handleClickOutside)
 })
-
-// Clean up in onUnmounted
-import { onUnmounted } from 'vue'
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
   window.removeEventListener('scroll', handleResize)
+  document.removeEventListener('click', handleClickOutside)
 })
 
 const studentName = computed(() => {
