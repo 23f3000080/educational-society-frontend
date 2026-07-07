@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="min-h-screen bg-linear-to-br from-[#fff7ed] via-[#eff6ff] to-[#e0f2fe] py-10 px-4 dark:from-[#081422] dark:via-[#0f1b2e] dark:to-[#15213a]">
     <div class="mx-auto max-w-7xl">
       <div class="rounded-3xl border border-indigo-200/60 bg-white/80 p-6 shadow-xl backdrop-blur-md sm:p-8 dark:border-indigo-300/20 dark:bg-slate-900/70">
@@ -7,7 +7,6 @@
           <p class="mt-2 text-sm text-slate-600 sm:text-base dark:text-slate-300">Download PDFs, discover recommendations, and filter by type.</p>
         </div>
 
-        <!-- Search + Filters -->
         <div class="mt-6 grid gap-3 md:grid-cols-12">
           <div class="relative md:col-span-5">
             <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -64,15 +63,12 @@
       </div>
     </div>
 
-    <!-- Books Grid -->
     <div v-if="filteredBooks.length" class="mx-auto mt-8 grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-3">
-      <!-- Example Book Card -->
       <div
         v-for="(book, index) in filteredBooks"
         :key="index"
         class="group relative flex flex-col rounded-2xl border border-indigo-100 bg-white p-5 shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
       >
-        <!-- Book Image with Recommended Badge -->
         <div class="relative">
           <img
             :src="book.image"
@@ -87,16 +83,13 @@
           </div>
         </div>
 
-        <!-- Book Info -->
         <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{{ book.title }}</h2>
         <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">{{ book.description }}</p>
         <span class="mb-4 inline-flex w-fit rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
           {{ detectCategory(book) }}
         </span>
 
-        <!-- Buttons -->
         <div class="mt-auto flex justify-between gap-3">
-          <!-- Show PDF button only if available -->
           <a
             v-if="book.pdf"
             :href="book.pdf"
@@ -106,7 +99,6 @@
             📘 Download PDF
           </a>
 
-          <!-- Buy Button -->
           <a
             v-if="book.buy"
             :href="book.buy"
@@ -123,7 +115,6 @@
       <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Try a different keyword or clear filters.</p>
     </div>
 
-    <!-- Footer quote -->
     <div class="text-center mt-10">
       <p class="text-gray-600 dark:text-slate-300">
         "A room without books is like a body without a soul." - Marcus Tullius Cicero
@@ -131,7 +122,139 @@
     </div>
   </div>
   <Footer />
+</template> -->
+
+<template>
+  <div class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-amber-50 via-sky-50 to-emerald-50 px-4 py-12 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <!-- Animated decorative blobs -->
+    <div class="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl dark:bg-amber-500/10"></div>
+    <div class="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-sky-200/30 blur-3xl dark:bg-sky-500/10"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-emerald-200/20 blur-3xl dark:bg-emerald-500/10"></div>
+
+    <!-- Main content card -->
+    <div class="relative z-10 flex max-w-2xl flex-col items-center justify-center gap-8 rounded-3xl bg-white/60 p-10 text-center shadow-2xl backdrop-blur-md dark:bg-slate-800/60 dark:shadow-slate-900/50 sm:p-12">
+      <!-- Icon / illustration -->
+      <div class="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-tr from-amber-400 to-amber-300 shadow-lg dark:from-amber-300 dark:to-amber-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      </div>
+
+      <h1 class="text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white sm:text-6xl">
+        <span class="bg-gradient-to-r from-amber-600 to-sky-600 bg-clip-text text-transparent dark:from-amber-300 dark:to-sky-300">
+          Coming Soon!
+        </span>
+      </h1>
+
+      <p class="text-lg text-slate-600 dark:text-slate-300 sm:text-xl">
+        We’re crafting something amazing. 
+        <span class="block sm:inline">Stay tuned for the launch.</span>
+      </p>
+
+      <!-- Animated pulse / countdown placeholder -->
+      <div class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
+        <span class="relative flex h-3 w-3">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+          <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
+        </span>
+        Launching soon
+      </div>
+
+      <!-- Action buttons -->
+      <div class="mt-2 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+        <router-link
+          to="/"
+          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-amber-300/50 dark:from-amber-400 dark:to-amber-500 dark:hover:shadow-amber-400/30"
+        >
+          <span class="relative z-10 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Go Back Home
+          </span>
+          <span class="absolute inset-0 z-0 bg-gradient-to-r from-amber-400 to-amber-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+        </router-link>
+
+        <button 
+          @click="notifyMe" 
+          class="inline-flex items-center gap-2 rounded-xl border-2 border-slate-300 px-8 py-4 text-lg font-semibold text-slate-700 transition-all duration-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700 dark:border-slate-600 dark:text-slate-200 dark:hover:border-sky-500 dark:hover:bg-slate-700/50 dark:hover:text-sky-300"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          Notify Me
+        </button>
+      </div>
+
+      <!-- Social proof / decorative -->
+      <div class="mt-4 flex items-center gap-6 text-xs text-slate-400 dark:text-slate-500">
+        <span class="flex items-center gap-1">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+          In progress
+        </span>
+        <span class="flex items-center gap-1">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+          Almost there
+        </span>
+        <span class="flex items-center gap-1">
+          <span class="inline-block h-1.5 w-1.5 rounded-full bg-sky-400"></span>
+          Exciting
+        </span>
+      </div>
+    </div>
+
+    <!-- Subtle footer note -->
+    <div class="relative z-10 mt-8 text-center text-xs text-slate-400 dark:text-slate-500">
+      <span class="inline-block bg-white/30 px-3 py-1 backdrop-blur-sm dark:bg-slate-800/30">
+        ✦ We can't wait to share it with you ✦
+      </span>
+    </div>
+  </div>
 </template>
+
+<script>
+export default {
+  name: 'ComingSoon',
+  methods: {
+    notifyMe() {
+      alert('🔔 We\'ll notify you when this feature launches! (Demo)');
+    }
+  }
+}
+</script>
+
+<style scoped>
+/* Smooth fade-in animation for the card */
+.relative.z-10 {
+  animation: fadeInUp 0.8s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom subtle pulse for the status dot */
+.animate-ping {
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Hover glow for buttons */
+.group:hover .group-hover\:shadow-amber-300\/50 {
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px) {
+  .relative.z-10 {
+    padding: 1.5rem;
+  }
+}
+</style>
 
 <script setup>
 import { computed, ref } from "vue";

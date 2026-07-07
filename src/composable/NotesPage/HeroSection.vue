@@ -24,7 +24,7 @@
             class="w-full rounded-xl border border-blue-200 bg-white/90 px-4 py-3 text-gray-800 shadow-sm outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
           >
             <option value="all">All Categories</option>
-            <option value="school">School</option>
+            <option value="Coding">Coding</option>
             <option value="tech">Tech</option>
             <option value="language">Language</option>
           </select>
@@ -66,25 +66,28 @@
           {{ subject.category }}
         </span>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
-          Access high-quality notes and chapter resources.
+          Access high-quality notes and weeks resources.
         </p>
 
         <!-- Buttons -->
         <div class="flex gap-3">
-          <a
+          <div v-if="subject.pdfLink === '#' && subject.chapterwiseLink === '#'" class="text-gray-500 text-sm italic px-4 py-2 bg-gray-300 rounded-lg">
+            Coming Soon
+          </div>
+          <a v-else-if="subject.pdfLink !== '#'"
             :href="subject.pdfLink"
             target="_blank"
             class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             📄 PDF Notes
           </a>
-          <a
+          <!-- <a
             :href="subject.chapterwiseLink"
             target="_blank"
             class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
           >
             📑 Chapterwise
-          </a>
+          </a> -->
         </div>
       </div>
     </div>
@@ -109,30 +112,30 @@ const searchQuery = ref("");
 const selectedCategory = ref("all");
 
 const subjects = [
-  {
-    name: "Mathematics",
-    category: "school",
-    logo: "https://img.icons8.com/color/96/000000/math.png",
-    pdfLink: "#",
-    chapterwiseLink: "#",
-  },
-  {
-    name: "Science",
-    category: "school",
-    logo: "https://img.icons8.com/color/96/000000/microscope.png",
-    pdfLink: "#",
-    chapterwiseLink: "#",
-  },
-  {
-    name: "English",
-    category: "language",
-    logo: "https://img.icons8.com/color/96/000000/book.png",
-    pdfLink: "#",
-    chapterwiseLink: "#",
-  },
+  // {
+  //   name: "Mathematics",
+  //   category: "school",
+  //   logo: "https://img.icons8.com/color/96/000000/math.png",
+  //   pdfLink: "#",
+  //   chapterwiseLink: "#",
+  // },
+  // {
+  //   name: "Science",
+  //   category: "school",
+  //   logo: "https://img.icons8.com/color/96/000000/microscope.png",
+  //   pdfLink: "#",
+  //   chapterwiseLink: "#",
+  // },
+  // {
+  //   name: "English",
+  //   category: "language",
+  //   logo: "https://img.icons8.com/color/96/000000/book.png",
+  //   pdfLink: "#",
+  //   chapterwiseLink: "#",
+  // },
   {
     name: "Python",
-    category: "tech",
+    category: "Coding",
     logo: "https://img.icons8.com/color/96/000000/python.png",
     pdfLink: "#",
     chapterwiseLink: "#",
@@ -141,16 +144,24 @@ const subjects = [
     name: "Web Development",
     category: "tech",
     logo: "https://img.icons8.com/color/96/000000/source-code.png",
-    pdfLink: "#",
+    pdfLink: "https://drive.google.com/file/d/1juBb44-7GsaZF-HNOddQ07jfeOqlwrjA/view",
     chapterwiseLink: "#",
   },
+
   {
-    name: "Social Science",
-    category: "school",
-    logo: "https://img.icons8.com/color/96/000000/globe.png",
+    name: "Vue.js",
+    category: "tech",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9YMu22aYy_MsyIalNlqW8dQL-L7nXuoRw9vShN2l5_w&s=10",
     pdfLink: "#",
-    chapterwiseLink: "#",
+    chapterwiseLink: "#"
   },
+  // {
+  //   name: "Social Science",
+  //   category: "school",
+  //   logo: "https://img.icons8.com/color/96/000000/globe.png",
+  //   pdfLink: "#",
+  //   chapterwiseLink: "#",
+  // },
 ];
 
 const filteredSubjects = computed(() => {
