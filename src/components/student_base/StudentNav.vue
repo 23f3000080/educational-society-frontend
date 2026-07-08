@@ -162,6 +162,11 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.293 1.293A1 1 0 006.414 16H19m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
 
+                    <!-- Certificate Icon -->
+                    <svg v-else-if="item.name === 'Certificates'" class="w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-indigo-500 dark:group-hover:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2z" />
+                    </svg>
+
                     <span>{{ item.name }}</span>
 
                     <!-- Arrow Right Icon -->
@@ -516,6 +521,7 @@ const navItems = [
 const profileMenu = [
   { name: "Profile", path: "/student/profile", icon: "profile" },
   { name: "My Purchase", path: "/student/my-purchase", icon: "purchase" },
+  { name: "Certificates", path: "/my-certificates", icon: "certificates" },
   { name: "Settings", path: "/student/settings", icon: "settings" },
   { name: "Help Center", path: "/student/help", icon: "help" }
 ];

@@ -53,6 +53,11 @@ import sql_course from '../pages/courses_details_pages/sql_course.vue'
 import web_dev_bootcamp_course from '../pages/courses_details_pages/web-dev_bootcamp_course.vue'
 import CheatSheet from '../components/CheatSheetComponents/CheatSheet.vue'
 
+import CertificateGeneratorPage from '../pages/admin_temp/CertificateGeneratorPage.vue'
+
+import MyCertificates from '../pages/student_temp/MyCertificates.vue'
+import CertificateVerify from '../pages/CertificateVerify.vue'
+
 const routes = [
   {
     path: '/',
@@ -169,6 +174,14 @@ const routes = [
         component: RefundPolicy,
         meta: { title: 'Refund Policy', description: 'Information about refunds and cancellations.' }
       },
+      
+      // verify certificate route
+      {
+        path: '/verify-certificate/:token?',
+        name: 'CertificateVerify',
+        component: CertificateVerify,
+        meta: { title: 'Verify Certificate', description: 'Verify the authenticity of a certificate issued by Educational Society.' }
+      }
     ]
   },
 
@@ -266,6 +279,14 @@ const routes = [
         name: 'StudentLiveClass',
         component: StudentLiveClassPage,
         meta: { requiresAuth: true, role: 'student' }
+      },
+
+      // student certificates page
+      {
+        path: '/my-certificates',
+        name: 'StudentMyCertificates',
+        component: MyCertificates,
+        meta: { requiresAuth: true, role: 'student' }
       }
     ]
   },
@@ -273,11 +294,6 @@ const routes = [
   {
     path: '/course/:id',
     name: 'CourseDetail',
-    beforeEnter: (to) => {
-      if (String(to.params.id) === '6') {
-        return { path: '/courses/python-course' }
-      }
-    },
     component: () => import('../pages/courses_temp/CourseDetailPage.vue'),
   },
 
@@ -391,6 +407,14 @@ const routes = [
         path: '/admin/live-classes',
         name: 'AdminLiveClasses',
         component: AdminLiveClassPage,
+        meta: { requiresAuth: true, role: 'admin' }
+      },
+
+      // certificate management routes
+      {
+        path: '/admin/certificates',
+        name: 'AdminCertificates',
+        component: CertificateGeneratorPage,
         meta: { requiresAuth: true, role: 'admin' }
       }
 
