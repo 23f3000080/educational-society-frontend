@@ -11,17 +11,35 @@
               Review newsletter subscribers, choose student recipients, and send email updates to targeted audiences.
             </p>
           </div>
-          <button
-            type="button"
-            @click="refreshAll"
-            :disabled="loadingRecipients || loadingSubscribers"
-            class="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-600 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-cyan-700 hover:shadow-lg hover:shadow-cyan-500/25 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-cyan-500 dark:hover:bg-cyan-400"
-          >
-            <svg class="h-4 w-4" :class="{ 'animate-spin': loadingRecipients || loadingSubscribers }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-            </svg>
-            <span>Refresh</span>
-          </button>
+          
+          <!-- Action Buttons -->
+          <div class="flex flex-wrap items-center gap-2 sm:flex-nowrap">
+            <!-- Generate Certificate Button -->
+            <button
+              type="button"
+              @click="openCertificateGenerator"
+              class="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 px-3 py-2 text-sm font-semibold text-white transition-all hover:from-cyan-700 hover:to-blue-700 hover:shadow-lg hover:shadow-cyan-500/25 active:scale-95 dark:from-cyan-500 dark:to-blue-500 dark:hover:from-cyan-400 dark:hover:to-blue-400 sm:px-4 sm:py-2.5"
+            >
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v14a2 2 0 01-2 2z" />
+              </svg>
+              <span class="hidden xs:inline">Generate Certificate</span>
+              <span class="xs:hidden">Certificate</span>
+            </button>
+            
+            <!-- Refresh Button -->
+            <button
+              type="button"
+              @click="refreshAll"
+              :disabled="loadingRecipients || loadingSubscribers"
+              class="inline-flex items-center justify-center gap-2 rounded-xl bg-cyan-600 px-3 py-2 text-sm font-semibold text-white transition-all hover:bg-cyan-700 hover:shadow-lg hover:shadow-cyan-500/25 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-cyan-500 dark:hover:bg-cyan-400 sm:px-4 sm:py-2.5"
+            >
+              <svg class="h-4 w-4" :class="{ 'animate-spin': loadingRecipients || loadingSubscribers }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span class="hidden xs:inline">Refresh</span>
+            </button>
+          </div>
         </div>
 
         <!-- Stats Grid -->
@@ -80,7 +98,7 @@
             </div>
           </div>
 
-          <div class="mt-4 flex gap-2">
+          <div class="mt-4 flex flex-col gap-2 sm:flex-row">
             <div class="relative min-w-0 flex-1">
               <input
                 v-model="subscriberSearch"
@@ -113,7 +131,7 @@
             >
               <div class="flex items-start justify-between gap-3">
                 <div class="min-w-0 flex-1">
-                  <p class="font-semibold text-gray-900 dark:text-white truncate">{{ subscriber.email }}</p>
+                  <p class="truncate font-semibold text-gray-900 dark:text-white">{{ subscriber.email }}</p>
                   <p class="text-sm text-gray-600 dark:text-gray-300">{{ subscriber.name || 'Subscriber' }}</p>
                   <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ formatDate(subscriber.subscribed_at) }}</p>
                 </div>
@@ -313,7 +331,7 @@
                   </div>
                 </div>
 
-                <div class="mt-3 flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
+                <div class="mt-3 flex flex-wrap items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                   <span class="font-semibold">{{ emailForm.user_ids.length }}</span>
                   <span>users selected</span>
                   <button type="button" @click="emailForm.user_ids = []" class="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 dark:hover:text-cyan-300">Clear all</button>
@@ -457,7 +475,11 @@
 
 <script setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '../../../services/axios'
+
+// Router
+const router = useRouter()
 
 // State
 const loadingRecipients = ref(false)
@@ -551,6 +573,11 @@ watch(() => subscriberSearch.value, () => {
     }
   }, 500)
 })
+
+// Certificate Generator Navigation
+const openCertificateGenerator = () => {
+  router.push('/admin/certificates')
+}
 
 // API Functions
 const fetchSubscribers = async () => {
@@ -683,7 +710,6 @@ const deleteSubscriber = async (subscriber) => {
     
     // Show success message
     subscriberError.value = ''
-    // You could add a toast notification here
   } catch (error) {
     subscriberError.value = error.response?.data?.error || 'Could not delete subscriber.'
   }
@@ -764,6 +790,16 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+/* Extra small screens */
+@media (max-width: 480px) {
+  .xs\:inline {
+    display: inline;
+  }
+  .xs\:hidden {
+    display: none;
+  }
+}
+
 /* Transitions */
 .fade-enter-active,
 .fade-leave-active {
