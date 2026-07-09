@@ -57,7 +57,17 @@
       </div>
 
       <!-- ✅ Main Layout -->
+       
       <div v-else-if="courseData" class="space-y-6 lg:space-y-8">
+        <!-- Go to Dashboard Button -->
+        <div class="flex justify-start">
+          <router-link
+            to="/student/dashboard"
+            class="inline-flex items-center justify-center rounded-2xl bg-linear-to-r from-cyan-600 to-sky-600 px-5 py-3 text-sm font-black uppercase tracking-[0.16em] text-white shadow-lg transition hover:scale-[1.01] hover:shadow-xl"
+          >
+            ← Back to Dashboard
+          </router-link>
+        </div>
         <!-- Hero -->
         <div class="overflow-hidden rounded-4xl border border-white/70 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.12)] dark:border-gray-800 dark:bg-gray-900">
           <div class="grid lg:grid-cols-[1.08fr_0.92fr]">
@@ -319,6 +329,16 @@ const {
   initProgress
 } = useCourseProgress(courseId)
 
+// apply dark mode from localStorage or sessionStorage
+const isDarkMode = ref(false)
+if (localStorage.getItem("darkMode") === "true" || sessionStorage.getItem("darkMode") === "true") {
+  isDarkMode.value = true
+  document.documentElement.classList.add("dark")
+} else {
+  isDarkMode.value = false
+  document.documentElement.classList.remove("dark")
+}
+
 /* ---------------------------
    Enrollment + Load Data
 ---------------------------- */
@@ -326,7 +346,7 @@ const checkEnrollment = async () => {
   loading.value = true
   error.value = null
 
-  const token = sessionStorage.getItem("token")
+  const token = sessionStorage.getItem("token") || localStorage.getItem("token")
 
   if (!token) {
     loading.value = false

@@ -134,7 +134,7 @@
                 </p>
               </div>
               <div class="py-1">
-                <button @click="goToProfile" class="flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors duration-200" :class="[
+                <button @click="goToDashboard" class="flex w-full items-center gap-3 px-4 py-2 text-sm transition-colors duration-200" :class="[
                   isDarkMode
                     ? 'text-slate-300 hover:bg-slate-700 hover:text-white'
                     : 'text-slate-700 hover:bg-slate-100'
@@ -142,7 +142,7 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  Profile
+                  Dashboard
                 </button>
                 
                 <hr :class="isDarkMode ? 'border-slate-700' : 'border-slate-200'">
@@ -327,8 +327,8 @@ const goToLogin = () => {
   window.location.href = '/login';
 };
 
-const goToProfile = () => {
-  window.location.href = '/student/profile';
+const goToDashboard = () => {
+  window.location.href = '/student/dashboard';
   showUserMenu.value = false;
 };
 

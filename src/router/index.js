@@ -58,6 +58,8 @@ import CertificateGeneratorPage from '../pages/admin_temp/CertificateGeneratorPa
 import MyCertificates from '../pages/student_temp/MyCertificates.vue'
 import CertificateVerify from '../pages/CertificateVerify.vue'
 
+import AssignmentSubmissions from '../pages/admin_temp/AssignmentSubmissionsPage.vue'
+
 const routes = [
   {
     path: '/',
@@ -416,7 +418,14 @@ const routes = [
         name: 'AdminCertificates',
         component: CertificateGeneratorPage,
         meta: { requiresAuth: true, role: 'admin' }
-      }
+      },
+      // assignment submissions management route
+      {
+        path: '/admin/assignments/submissions',
+        name: 'AdminAssignmentSubmissions',
+        component: AssignmentSubmissions,
+        meta: { requiresAuth: true, role: 'admin' }
+      },
 
     ]
   },
