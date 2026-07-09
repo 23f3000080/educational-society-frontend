@@ -104,6 +104,7 @@ const form = ref({
   title: '',
   description: '',
   due_date: '',
+  order_index: 0,
   total_points: null
 })
 
