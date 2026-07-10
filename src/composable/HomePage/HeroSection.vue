@@ -916,7 +916,7 @@ const notices = ref([
     type: "Course",
     title: "New Full Stack Web Development Bootcamp",
     description: "Enroll in our new Full Stack Web Development course. Learn HTML, CSS, JavaScript, Flask, and database design.",
-    date: "1 July 2026",
+    date: "4 July 2026",
     cta: "Enroll Now",
     link: "/Signup"
   },
@@ -924,7 +924,15 @@ const notices = ref([
     type: "Course",
     title: "Python Programming for Beginners",
     description: "Learn the fundamentals of Python programming. Perfect for students new to coding. Enroll now!",
-    date: "5 July 2026",
+    date: "20 July 2026",
+    cta: "Enroll Now",
+    link: "/signup"
+  },
+  {
+    type: "Course",
+    title: "SQL and Database Management",
+    description: "Learn the fundamentals of SQL and database management. Perfect for students new to backend development. Enroll now!",
+    date: "23 July 2026",
     cta: "Enroll Now",
     link: "/signup"
   },
