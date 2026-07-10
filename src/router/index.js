@@ -34,7 +34,7 @@ import AdminCourseDetail from '../composable/admin_comp/CourseDetail.vue'
 import AdminAssignmentQuestions from '../composable/admin_comp/AssignmentQuestions.vue'
 import AdminUsersPage from '../pages/admin_temp/AdminUsersPage.vue'
 import AdminUserInsightsPage from '../pages/admin_temp/AdminUserInsightsPage.vue'
-import AdminAssignmentsPage from '../pages/admin_temp/AssignmentsPage.vue'
+// import AdminAssignmentsPage from '../pages/admin_temp/AssignmentPage.vue/index.js'
 import AdminNotificationsPage from '../pages/admin_temp/AdminNotificationsPage.vue'
 import AdminTestsPage from '../pages/admin_temp/TestsPage.vue'
 import AdminTestResultsPage from '../pages/admin_temp/TestResultsPage.vue'
@@ -58,7 +58,10 @@ import CertificateGeneratorPage from '../pages/admin_temp/CertificateGeneratorPa
 import MyCertificates from '../pages/student_temp/MyCertificates.vue'
 import CertificateVerify from '../pages/CertificateVerify.vue'
 
-import AssignmentSubmissions from '../pages/admin_temp/AssignmentSubmissionsPage.vue'
+import AssignmentSubmissions from '../pages/admin_temp/AssignmentSubmissions.vue'
+import Assignment from '../pages/admin_temp/Assignment.vue'
+import AssignmentPage from '../pages/admin_temp/AssignmentPage.vue'
+import AssignmentEachStudentSubmission from '../pages/admin_temp/AssignmentEachStudentSubmission.vue'
 
 const routes = [
   {
@@ -324,12 +327,12 @@ const routes = [
         component: AdminCourseDetail,
         meta: { requiresAuth: true, role: 'admin' }
       },
-      {
-        path: '/admin/assignments',
-        name: 'AdminAssignments',
-        component: AdminAssignmentsPage,
-        meta: { requiresAuth: true, role: 'admin' }
-      },
+      // {
+      //   path: '/admin/assignments',
+      //   name: 'AdminAssignments',
+      //   component: AdminAssignmentsPage,
+      //   meta: { requiresAuth: true, role: 'admin' }
+      // },
       {
         path: '/admin/tests',
         name: 'AdminTests',
@@ -419,13 +422,33 @@ const routes = [
         component: CertificateGeneratorPage,
         meta: { requiresAuth: true, role: 'admin' }
       },
-      // assignment submissions management route
+      // assignment management routes
+      {
+        path: '/admin/assignments',
+        name: 'Assignments',
+        component: Assignment,
+        meta: { requiresAuth: true, role: 'admin' }
+      },
+      {
+        path: '/admin/assignments/:assignmentId',
+        name: 'AdminAssignment',
+        component: AssignmentPage,
+        meta: { requiresAuth: true, role: 'admin' }
+      },
+
       {
         path: '/admin/assignments/submissions',
-        name: 'AdminAssignmentSubmissions',
+        name: 'AssignmentSubmissions',
         component: AssignmentSubmissions,
         meta: { requiresAuth: true, role: 'admin' }
       },
+
+      {
+        path: '/admin/assignments/student-submission',
+        name: 'AssignmentEachStudentSubmission',
+        component: AssignmentEachStudentSubmission,
+        meta: { requiresAuth: true, role: 'admin' }
+      }
 
     ]
   },
