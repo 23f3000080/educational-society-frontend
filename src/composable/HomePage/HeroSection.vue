@@ -1,97 +1,250 @@
 <template>
   <div class="overflow-x-hidden">
     <!-- Hero Section (3D style) -->
-    <section class="relative overflow-hidden hero-3d-bg">
-      <div class="absolute inset-0 opacity-35" :style="textureStyle"></div>
-      <div class="hero-grid absolute inset-0"></div>
+    <section class="relative min-h-screen flex items-center cred-hero-bg overflow-hidden">
+      <!-- Premium Background Pattern -->
+      <div class="absolute inset-0 cred-grid-pattern"></div>
+      
+      <!-- Gradient Orbs -->
+      <div class="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-purple-600/20 blur-3xl animate-pulse-slow"></div>
+      <div class="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full bg-blue-600/20 blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-150 rounded-full bg-indigo-500/5 blur-3xl"></div>
 
-      <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-orange-300/40 blur-3xl hero-float-slow"></div>
-      <div class="absolute top-20 right-0 h-80 w-80 rounded-full bg-cyan-300/40 blur-3xl hero-float-fast"></div>
-      <div class="absolute bottom-0 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-emerald-300/35 blur-3xl hero-float-slow"></div>
+      <!-- CRED-style Animated Pillars (Background) -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div class="pillars-wrapper">
+          <div 
+            v-for="i in 20" 
+            :key="`pillar-${i}`"
+            class="cred-pillar"
+            :style="{
+              left: `${(i - 1) * 5}%`,
+              height: `${30 + Math.random() * 70}%`,
+              animationDelay: `${i * 0.1}s`,
+              opacity: 0.03 + Math.random() * 0.07,
+              width: `${1 + Math.random() * 3}px`
+            }"
+          ></div>
+        </div>
+      </div>
 
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-18">
-        <div class="grid items-center gap-8 lg:grid-cols-12">
+      <!-- Floating Particles -->
+      <div class="absolute inset-0 pointer-events-none">
+        <div 
+          v-for="i in 30" 
+          :key="`particle-${i}`"
+          class="cred-particle"
+          :style="{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: `${2 + Math.random() * 4}px`,
+            height: `${2 + Math.random() * 4}px`,
+            animationDuration: `${15 + Math.random() * 20}s`,
+            animationDelay: `${Math.random() * 10}s`,
+            opacity: 0.1 + Math.random() * 0.2
+          }"
+        ></div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 z-10 w-full">
+        <div class="grid items-center gap-12 lg:grid-cols-12">
+          <!-- Left Content -->
           <div class="lg:col-span-7">
+            <!-- Premium Badge -->
             <transition name="fade-slide" appear>
-              <div class="inline-flex items-center gap-2 rounded-full border border-[#07363f]/15 bg-white/75 px-4 py-1.5 text-sm font-semibold text-[#0f4f5e] shadow-md backdrop-blur-md">
-                <span class="h-2.5 w-2.5 rounded-full bg-emerald-500"></span>
-                New session admissions open - 2026
+              <div class="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-xl premium-badge">
+                <span class="relative flex h-2.5 w-2.5">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                </span>
+                <span class="text-xs font-medium tracking-wider text-white/80 uppercase">New session admissions open - 2026</span>
+                <span class="ml-1 text-xs text-white/40">✨</span>
               </div>
             </transition>
 
-            <h1 class="mt-5 text-4xl sm:text-5xl lg:text-6xl font-black leading-tight text-[#052b35]">
-              Build Your Future
-              <span class="text-transparent bg-clip-text bg-linear-to-r from-[#0f766e] via-[#0ea5a6] to-[#fb923c]">with the Right Education</span>
+            <!-- Main Heading -->
+            <h1 class="mt-8 text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.1]">
+              <span class="text-white">Build Your</span>
+              <br />
+              <span class="text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-pink-400 to-blue-400 animate-gradient">
+                Future
+              </span>
+              <br />
+              <span class="text-white">with the Right</span>
+              <br />
+              <span class="text-transparent bg-clip-text bg-linear-to-r from-purple-400 via-pink-400 to-blue-400 animate-gradient">
+                Education
+              </span>
             </h1>
 
-            <p class="mt-5 max-w-2xl text-base sm:text-lg text-[#18414b] leading-relaxed">
-              “Your journey to coding excellence starts here. Unlock your potential with code. Transform ideas into digital solutions where curiosity meets coding magic.”
-
+            <!-- Description -->
+            <p class="mt-6 max-w-2xl text-base sm:text-lg text-white/60 leading-relaxed font-light">
+              Your journey to coding excellence starts here. Unlock your potential with code. 
+              Transform ideas into digital solutions where curiosity meets coding magic.
             </p>
 
-            <div class="mt-7 flex flex-col sm:flex-row gap-3">
+            <!-- CTA Buttons -->
+            <div class="mt-10 flex flex-col sm:flex-row gap-4">
               <transition name="fade-slide-delayed" appear>
                 <router-link
                   to="/courses"
-                  class="hero-cta-float inline-flex items-center justify-center gap-2 rounded-xl bg-[#073b4c] px-6 py-3 font-bold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  class="group relative inline-flex items-center justify-center gap-3 rounded-full bg-linear-to-r from-purple-500 to-pink-500 px-8 py-4 font-semibold text-white transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/25 hover:-translate-y-0.5 overflow-hidden"
                 >
-                  Start Exploring
-                  <i class="fa-solid fa-arrow-right"></i>
+                  <span class="absolute inset-0 bg-linear-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span class="relative z-10 flex items-center gap-2">
+                    Start Exploring
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
                 </router-link>
               </transition>
+              
               <router-link
                 to="/signup"
-                class="inline-flex items-center justify-center gap-2 rounded-xl border border-[#0f766e]/35 bg-white/75 px-6 py-3 font-semibold text-[#0c4a58] transition-all duration-300 hover:bg-white"
+                class="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/5 px-8 py-4 font-semibold text-white transition-all duration-300 hover:bg-white/10 hover:border-white/30 backdrop-blur-sm hover:-translate-y-0.5"
               >
                 Join Now
-                <i class="fa-solid fa-play"></i>
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </router-link>
             </div>
 
-            <!-- <div class="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div class="rounded-2xl bg-white/80 border border-[#0f766e]/15 p-3 text-center shadow-md backdrop-blur-sm">
-                <p class="text-xl font-black text-[#073b4c]">1000+</p>
-                <p class="text-xs text-[#1f5a67]">Students</p>
+            <!-- Stats -->
+            <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div 
+                v-for="(stat, index) in stats" 
+                :key="index"
+                class="group relative rounded-2xl border border-white/5 bg-white/5 p-4 text-center backdrop-blur-sm hover:bg-white/10 transition-all duration-300 hover:-translate-y-1"
+              >
+                <div class="absolute inset-0 rounded-2xl bg-linear-to-r from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <p class="relative text-2xl font-bold text-white">
+                  {{ stat.value }}<span class="text-purple-400">+</span>
+                </p>
+                <p class="relative text-xs text-white/50 uppercase tracking-wider">{{ stat.label }}</p>
               </div>
-              <div class="rounded-2xl bg-white/80 border border-[#0f766e]/15 p-3 text-center shadow-md backdrop-blur-sm">
-                <p class="text-xl font-black text-[#073b4c]">98%</p>
-                <p class="text-xs text-[#1f5a67]">Satisfaction</p>
-              </div>
-              <div class="rounded-2xl bg-white/80 border border-[#0f766e]/15 p-3 text-center shadow-md backdrop-blur-sm">
-                <p class="text-xl font-black text-[#073b4c]">60+</p>
-                <p class="text-xs text-[#1f5a67]">Live Batches</p>
-              </div>
-              <div class="rounded-2xl bg-white/80 border border-[#0f766e]/15 p-3 text-center shadow-md backdrop-blur-sm">
-                <p class="text-xl font-black text-[#073b4c]">24/7</p>
-                <p class="text-xs text-[#1f5a67]">Mentor Help</p>
-              </div>
-            </div> -->
+            </div>
           </div>
 
-          <div class="lg:col-span-5 hero-stage px-2 sm:px-4">
-            <div class="hero-card-3d rounded-4xl border border-white/70 bg-white/70 p-4 sm:p-5 shadow-[0_25px_60px_rgba(6,78,96,0.25)] backdrop-blur-md">
-              <div class="relative overflow-hidden rounded-3xl">
-                <img
-                  :src="corsImg5"
-                  alt="Students learning with mentor"
-                  class="h-90 w-full object-cover sm:h-105"
-                  loading="lazy"
-                />
-                <div class="absolute inset-0 bg-linear-to-t from-[#001b24]/65 via-[#001b24]/20 to-transparent"></div>
+          <!-- Right Content - Code Editor -->
+          <div class="lg:col-span-5">
+            <div class="relative">
+              <!-- Glow Effect -->
+              <div class="absolute -inset-4 bg-linear-to-r from-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl"></div>
+              
+              <!-- Main Code Editor Card -->
+              <div class="relative rounded-3xl overflow-hidden shadow-2xl border border-white/10 bg-linear-to-br from-white/5 to-transparent backdrop-blur-xl p-6">
+                
+                <!-- Code Editor -->
+                <div class="code-editor">
+                  <!-- Editor Header -->
+                  <div class="flex items-center gap-2 mb-4">
+                    <div class="flex gap-1.5">
+                      <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                      <span class="w-3 h-3 rounded-full bg-yellow-400"></span>
+                      <span class="w-3 h-3 rounded-full bg-green-400"></span>
+                    </div>
+                    <span class="text-xs text-gray-400 ml-2">main.py</span>
+                    
+                    <!-- Live Indicator -->
+                    <div class="ml-auto flex items-center gap-2">
+                      <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                      <span class="text-xs font-medium text-white/60">Live</span>
+                    </div>
+                  </div>
 
-                <div class="absolute top-4 left-4 rounded-xl border border-white/40 bg-black/50 px-3 py-2 backdrop-blur-md">
-                  <p class="text-[11px] uppercase tracking-wide text-white/85">Learn With Us</p>
-                  <p class="text-sm font-bold text-white">Academics + Coding + Projects</p>
+                  <!-- Code Lines -->
+                  <div class="space-y-1.5 font-mono text-sm">
+                    <div class="code-line" style="animation-delay: 0s">
+                      <span class="text-purple-400">from</span> <span class="text-blue-400">education</span> <span class="text-purple-400">import</span> <span class="text-yellow-400">Skills</span>
+                    </div>
+                    <div class="code-line" style="animation-delay: 0.5s">
+                      <span class="text-purple-400">class</span> <span class="text-yellow-400">Student</span><span class="text-white/80">:</span>
+                    </div>
+                    <div class="code-line pl-4" style="animation-delay: 1s">
+                      <span class="text-purple-400">def</span> <span class="text-yellow-400">__init__</span><span class="text-white/80">(self, name):</span>
+                    </div>
+                    <div class="code-line pl-8" style="animation-delay: 1.5s">
+                      <span class="text-blue-400">self</span><span class="text-white/80">.</span><span class="text-blue-400">name</span> <span class="text-white/80">= name</span>
+                    </div>
+                    <div class="code-line pl-4" style="animation-delay: 2s">
+                      <span class="text-purple-400">def</span> <span class="text-yellow-400">learn</span><span class="text-white/80">(self):</span>
+                    </div>
+                    <div class="code-line pl-8" style="animation-delay: 2.5s">
+                      <span class="text-green-400">return</span> <span class="text-orange-400">"Success!"</span>
+                    </div>
+                    <div class="code-line" style="animation-delay: 3s">
+                      <span class="text-white/80">student = Student(</span><span class="text-green-400">"Alex"</span><span class="text-white/80">)</span>
+                    </div>
+                    <div class="code-line" style="animation-delay: 3.5s">
+                      <span class="text-blue-400">print</span><span class="text-white/80">(student.</span><span class="text-yellow-400">learn</span><span class="text-white/80">())</span>
+                    </div>
+                    <div class="code-line" style="animation-delay: 4s">
+                      <span class="text-green-400/60"># Output: Success!</span>
+                    </div>
+                  </div>
+
+                  <!-- Cursor Blink -->
+                  <div class="cursor-blink"></div>
                 </div>
 
-                <div class="absolute bottom-4 right-4 hero-card-tilt rounded-2xl border border-white/40 bg-green-500/20 p-3 backdrop-blur-md">
-                  <p class="text-xs text-stone-200">This Month</p>
-                  <p class="text-base font-bold text-white">Python, SQL, Web Development</p>
+                <!-- Floating Badges -->
+                <!-- <div class="absolute -top-3 -right-3 bg-white/10 backdrop-blur-xl rounded-2xl px-4 py-2 shadow-xl border border-white/10">
+                  <div class="flex items-center gap-2">
+                    <span class="text-yellow-400 text-lg">⭐</span>
+                    <div>
+                      <p class="text-sm font-bold text-white">4.9/5</p>
+                      <p class="text-xs text-white/50">Rating</p>
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- <div class="absolute -bottom-3 -left-3 bg-white/10 backdrop-blur-xl rounded-2xl px-4 py-2 shadow-xl border border-white/10">
+                  <div class="flex items-center gap-2">
+                    <span class="text-2xl">🚀</span>
+                    <div>
+                      <p class="text-sm font-bold text-white">1000+</p>
+                      <p class="text-xs text-white/50">Students</p>
+                    </div>
+                  </div>
+                </div> -->
+
+                <!-- Bottom Tech Stack -->
+                <div class="mt-6 flex flex-wrap gap-2 pt-4 border-t border-white/10">
+                  <span class="px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full text-xs font-medium text-white/70 border border-white/10">
+                    🐍 Python
+                  </span>
+                  <span class="px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full text-xs font-medium text-white/70 border border-white/10">
+                    ⚛️ Web Dev
+                  </span>
+                  <span class="px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full text-xs font-medium text-white/70 border border-white/10">
+                    🤖 AI
+                  </span>
+                  <span class="px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full text-xs font-medium text-white/70 border border-white/10">
+                    ☁️ Cloud
+                  </span>
+                  <span class="px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-full text-xs font-medium text-white/70 border border-white/10">
+                    🗄️ SQL
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 animate-bounce-slow">
+        <span class="text-xs uppercase tracking-widest">Scroll</span>
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        </svg>
       </div>
     </section>
 
@@ -1582,4 +1735,262 @@ html {
   }
 }
 
+/* ====== CRED-STYLE HERO BACKGROUND ====== */
+.cred-hero-bg {
+  background: #0a0a0f;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(120, 80, 255, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(255, 80, 200, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(80, 180, 255, 0.05) 0%, transparent 50%);
+}
+
+/* Premium Grid Pattern */
+.cred-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+/* ====== CRED-STYLE PILLARS ====== */
+.pillars-wrapper {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.cred-pillar {
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(to top, 
+    rgba(120, 80, 255, 0.3) 0%,
+    rgba(255, 80, 200, 0.15) 50%,
+    transparent 100%
+  );
+  border-radius: 1px 1px 0 0;
+  transform-origin: bottom;
+  animation: pillarRise 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pillarRise {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* ====== FLOATING PARTICLES ====== */
+.cred-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(120, 80, 255, 0.3), transparent);
+  animation: floatUp linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(50px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ====== CODE EDITOR ====== */
+.code-editor {
+  background: rgba(30, 30, 46, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  position: relative;
+  min-height: 320px;
+  font-family: 'Courier New', monospace;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.code-line {
+  opacity: 0;
+  animation: codeAppear 0.5s ease-out forwards;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@keyframes codeAppear {
+  0% {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Cursor Blink */
+.cursor-blink {
+  position: absolute;
+  bottom: 30px;
+  left: 12px;
+  width: 8px;
+  height: 16px;
+  background: #a78bfa;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ====== ANIMATIONS ====== */
+@keyframes pulse-slow {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+}
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s ease-in-out infinite;
+}
+
+/* ====== GRADIENT ANIMATION ====== */
+.animate-gradient {
+  background-size: 300% 300%;
+  animation: gradientShift 6s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ====== PREMIUM BADGE ====== */
+.premium-badge {
+  animation: badgeGlow 2s ease-in-out infinite;
+}
+
+@keyframes badgeGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(120, 80, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(120, 80, 255, 0.1);
+  }
+}
+
+/* ====== TRANSITIONS ====== */
+.fade-slide-enter-active {
+  transition: opacity 600ms cubic-bezier(0.2, 0.9, 0.2, 1), transform 600ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.98);
+}
+.fade-slide-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.fade-slide-delayed-enter-active {
+  transition: opacity 700ms cubic-bezier(0.2, 0.9, 0.2, 1), transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1);
+  transition-delay: 200ms;
+}
+.fade-slide-delayed-enter-from {
+  opacity: 0;
+  transform: translateY(10px) scale(0.98);
+}
+.fade-slide-delayed-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 1024px) {
+  .cred-pillar {
+    width: 1px !important;
+  }
+  .pillars-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .cred-hero-bg {
+    min-height: auto;
+    padding: 80px 0;
+  }
+  
+  .code-editor {
+    min-height: 200px;
+    padding: 1rem;
+  }
+  
+  .code-line {
+    font-size: 10px;
+  }
+  
+  .cursor-blink {
+    height: 12px;
+    bottom: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .cred-hero-bg {
+    padding: 60px 0;
+  }
+  
+  .cred-grid-pattern {
+    background-size: 30px 30px;
+  }
+  
+  .code-editor {
+    min-height: 160px;
+    padding: 0.75rem;
+  }
+  
+  .code-line {
+    font-size: 8px;
+  }
+  
+  .cursor-blink {
+    height: 10px;
+    bottom: 14px;
+  }
+}
 </style>
