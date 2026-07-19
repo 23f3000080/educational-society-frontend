@@ -187,8 +187,16 @@ const loadAllAssignments = async () => {
 
         weekResponses.forEach(({ course, weeks }) => {
             weeks.forEach((week) => {
+                if (week?.active_status === false) {
+                    return
+                }
+
                 const weekAssignments = Array.isArray(week.assignments) ? week.assignments : []
                 weekAssignments.forEach((assignment) => {
+                    if (assignment?.active_status === false) {
+                        return
+                    }
+
                     flattened.push({
                         assignmentId: assignment.id,
                         title: assignment.title,
