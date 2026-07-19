@@ -1,6 +1,31 @@
 import { ref } from "vue"
 import api from "../../services/axios.js"
 
+const isActiveItem = (item) => item?.active_status !== false
+
+const filterActiveContent = (items = []) => {
+  if (!Array.isArray(items)) {
+    return []
+  }
+
+  return items.filter(isActiveItem)
+}
+
+const normalizeWeeks = (weeks = []) => {
+  if (!Array.isArray(weeks)) {
+    return []
+  }
+
+  return weeks
+    .filter(isActiveItem)
+    .map((week) => ({
+      ...week,
+      videos: filterActiveContent(week.videos),
+      assignments: filterActiveContent(week.assignments),
+      notes: filterActiveContent(week.notes)
+    }))
+}
+
 export function useCourseData() {
   // ---------------------------
   // 📦 STATE
@@ -33,7 +58,7 @@ export function useCourseData() {
       course.value = data.course || null
 
       // ✅ Weeks + Content
-      weeks.value = data.weeks || []
+      weeks.value = normalizeWeeks(data.weeks)
 
       // ✅ Progress
       progress.value = data.progress || {

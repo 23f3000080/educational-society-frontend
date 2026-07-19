@@ -68,19 +68,54 @@ export function useCourseProgress(courseId) {
   // ---------------------------
   const calculateProgress = (weeks) => {
     let total = 0
+    let completed = 0
 
     if (Array.isArray(weeks)) {
       weeks.forEach(week => {
-        total += week.videos?.length || 0
-        total += week.notes?.length || 0
-        total += week.assignments?.length || 0
+        const videos = Array.isArray(week.videos) ? week.videos : []
+        const notes = Array.isArray(week.notes) ? week.notes : []
+        const assignments = Array.isArray(week.assignments) ? week.assignments : []
+
+        videos.forEach((video) => {
+          total += 1
+
+          const keys = new Set([
+            `video_${video.id}`,
+            week?.week_number ? `week${week.week_number}_video_${video.id}` : null
+          ].filter(Boolean))
+
+          if ([...keys].some((key) => completedVideos.value.has(key))) {
+            completed += 1
+          }
+        })
+
+        notes.forEach((note) => {
+          total += 1
+
+          const keys = new Set([
+            `note_${note.id}`,
+            week?.week_number ? `week${week.week_number}_note_${note.id}` : null
+          ].filter(Boolean))
+
+          if ([...keys].some((key) => completedNotes.value.has(key))) {
+            completed += 1
+          }
+        })
+
+        assignments.forEach((assignment) => {
+          total += 1
+
+          const keys = new Set([
+            `assignment_${assignment.id}`,
+            week?.week_number ? `week${week.week_number}_assignment_${assignment.id}` : null
+          ].filter(Boolean))
+
+          if ([...keys].some((key) => completedAssignments.value.has(key))) {
+            completed += 1
+          }
+        })
       })
     }
-
-    const completed =
-      completedVideos.value.size +
-      completedAssignments.value.size +
-      completedNotes.value.size
 
     const progress =
       total > 0 ? Math.round((completed / total) * 100) : 0
