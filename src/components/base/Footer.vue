@@ -25,6 +25,7 @@
             <li><router-link class="hover:text-yellow-500 transition" to="/courses">Courses</router-link></li>
             <li><router-link class="hover:text-yellow-500 transition" to="/contact">Contact</router-link></li>
             <li><router-link class="hover:text-yellow-500 transition" to="/website-map">Website Map</router-link></li>
+            <li><router-link class="hover:text-yellow-500 transition" to="/grade-calculator">Grade Calculator</router-link></li>
           </ul>
         </div>
 

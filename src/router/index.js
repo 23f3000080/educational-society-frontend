@@ -63,6 +63,8 @@ import Assignment from '../pages/admin_temp/Assignment.vue'
 import AssignmentPage from '../pages/admin_temp/AssignmentPage.vue'
 import AssignmentEachStudentSubmission from '../pages/admin_temp/AssignmentEachStudentSubmission.vue'
 
+import GradeCalculator from '../pages/GradeCalculator.vue'
+
 const routes = [
   {
     path: '/',
@@ -186,6 +188,13 @@ const routes = [
         name: 'CertificateVerify',
         component: CertificateVerify,
         meta: { title: 'Verify Certificate', description: 'Verify the authenticity of a certificate issued by Educational Society.' }
+      },
+
+      {
+        path: '/grade-calculator',
+        name: 'GradeCalculator',
+        component: GradeCalculator,
+        meta: { title: 'Grade Calculator', description: 'Calculate your grades and Marks easily.' }
       }
     ]
   },
