@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Detailed Reusable Ornamental Motif -->
+    <g id="ornament-petal">
+      <!-- Outer Gold Outline / Base Accent -->
+      <path d="M 400,190 
+               C 365,155 330,140 310,110 
+               C 290,75 305,40 330,30 
+               C 355,20 375,45 365,70 
+               C 355,95 380,120 400,135 
+               C 420,120 445,95 435,70 
+               C 425,45 445,20 470,30 
+               C 495,40 510,75 490,110 
+               C 470,140 435,155 400,190 Z" 
+            fill="#e5c07b" stroke="#e5c07b" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" />
+
+      <!-- Inner Deep Brown Flourish Layer -->
+      <path d="M 400,182 
+               C 368,150 336,136 318,108 
+               C 300,78 312,48 333,39 
+               C 353,30 369,51 361,72 
+               C 352,93 376,116 396,130 
+               C 400,130 404,130 404,130 
+               C 424,116 448,93 439,72 
+               C 431,51 447,30 467,39 
+               C 488,48 500,78 482,108 
+               C 464,136 432,150 400,182 Z" 
+            fill="#4a1c12" />
+
+      <!-- Center Diamond Finial -->
+      <polygon points="400,20 410,40 400,60 390,40" fill="#e5c07b" />
+      <polygon points="400,26 406,40 400,54 394,40" fill="#4a1c12" />
+    </g>
+  </defs>
+
+  <!-- Background Layer -->
+  <rect width="100%" height="100%" fill="transparent" />
+
+  <!-- 5-Point Radial Arrangement around center (400, 400) -->
+  <g>
+    <!-- Top -->
+    <use href="#ornament-petal" />
+    
+    <!-- Top Right -->
+    <use href="#ornament-petal" transform="rotate(72, 400, 400)" />
+    
+    <!-- Bottom Right -->
+    <use href="#ornament-petal" transform="rotate(144, 400, 400)" />
+    
+    <!-- Bottom Left -->
+    <use href="#ornament-petal" transform="rotate(216, 400, 400)" />
+    
+    <!-- Top Left -->
+    <use href="#ornament-petal" transform="rotate(288, 400, 400)" />
+  </g>
+
+  <!-- Larger Central Monogram -->
+  <text x="400" y="420" 
+        font-family="'Playfair Display', 'Cinzel', 'Georgia', serif" 
+        font-size="72" 
+        font-weight="700" 
+        letter-spacing="4" 
+        fill="#fcd88a" 
+        text-anchor="middle">ES</text>
+</svg>
