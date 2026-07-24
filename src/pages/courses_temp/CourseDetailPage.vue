@@ -82,9 +82,9 @@
                 <h1 class="mt-3 text-3xl font-black leading-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
                   {{ courseData?.title || 'Course workspace' }}
                 </h1>
-                <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base dark:text-slate-300">
+                <!-- <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base dark:text-slate-300">
                   {{ courseData?.description || 'Watch lectures, complete assignments, read notes, and track progress in one place.' }}
-                </p>
+                </p> -->
 
                 <div class="mt-5 flex flex-wrap gap-2">
                   <span v-if="courseData?.subject" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-gray-800 dark:text-slate-200">
@@ -154,30 +154,73 @@
                 </div>
 
                 <p class="mt-4 text-sm leading-6 text-cyan-50/85">
-                  Pick a lesson from the roadmap and continue where you left off. Completion updates are saved as you move through lectures, assignments, and notes.
+                  Pick a lesson from the roadmap and continue where you left off.
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        <div id="course-studio" class="grid gap-6 lg:grid-cols-[360px_minmax(0,1fr)] lg:items-start">
-          <!-- Desktop sidebar -->
-          <aside class="hidden lg:block lg:sticky lg:top-6 lg:self-start">
-            <CourseSideNav
-              class="max-h-[calc(100vh-16rem)] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900"
-              :course="courseData"
-              :weeks="weeks"
-              :completed-videos="completedVideos"
-              :completed-assignments="completedAssignments"
-              :completed-notes="completedNotes"
-              :progress-data="progressData"
-              @content-selected="handleContentSelected"
-            />
+        <div id="course-studio" class="flex flex-col lg:flex-row gap-6">
+          <!-- Desktop sidebar with toggle -->
+          <aside 
+            class="hidden lg:block lg:sticky lg:top-6 lg:self-start transition-all duration-300 ease-in-out flex-shrink-0"
+            :class="isSidebarCollapsed ? 'lg:w-0 lg:overflow-hidden lg:p-0 lg:opacity-0 lg:ml-0' : 'lg:w-[360px] lg:opacity-100 lg:mr-0'"
+          >
+            <div class="relative w-[360px]">
+              <!-- Sidebar collapse toggle button -->
+              <button
+                type="button"
+                @click="toggleSidebar"
+                class="absolute -right-3 top-4 z-10 hidden lg:flex h-7 w-7 items-center justify-center rounded-full bg-cyan-600 text-white shadow-lg hover:bg-cyan-700 transition-colors"
+                :title="isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+              >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  class="h-4 w-4 transition-transform duration-300" 
+                  :class="isSidebarCollapsed ? 'rotate-180' : ''"
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              <CourseSideNav
+                class="max-h-[calc(100vh-16rem)] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900"
+                :course="courseData"
+                :weeks="weeks"
+                :completed-videos="completedVideos"
+                :completed-assignments="completedAssignments"
+                :completed-notes="completedNotes"
+                :progress-data="progressData"
+                @content-selected="handleContentSelected"
+              />
+            </div>
           </aside>
 
-          <!-- Content -->
-          <main class="min-w-0">
+          <!-- Expand sidebar button when collapsed -->
+          <button
+            v-if="isSidebarCollapsed"
+            type="button"
+            @click="toggleSidebar"
+            class="hidden lg:flex fixed left-4 top-1/2 -translate-y-1/2 z-30 items-center justify-center rounded-r-2xl bg-cyan-600 px-2.5 py-6 text-white shadow-2xl hover:bg-cyan-700 transition-colors"
+            title="Expand sidebar"
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              class="h-5 w-5" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <!-- Content - expands when sidebar is collapsed -->
+          <main class="min-w-0 flex-1 transition-all duration-300 ease-in-out">
             <div class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] dark:border-gray-800 dark:bg-gray-900">
               <CourseContentPage
                 :course-id="courseId"
@@ -304,6 +347,7 @@ const progressPercentage = computed(() => progressData.value?.progress || 0)
 ---------------------------- */
 const loading = ref(true)
 const error = ref(null)
+const isSidebarCollapsed = ref(false)
 
 const selectedContent = ref({
   type: null,
@@ -442,6 +486,10 @@ const closeRoadmap = () => {
   isRoadmapOpen.value = false
 }
 
+const toggleSidebar = () => {
+  isSidebarCollapsed.value = !isSidebarCollapsed.value
+}
+
 /* ---------------------------
    Lifecycle
 ---------------------------- */
@@ -454,3 +502,40 @@ onMounted(() => {
   checkEnrollment()
 })
 </script>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* Smooth transition for sidebar collapse */
+.lg\:w-\[360px\] {
+  width: 360px;
+}
+.lg\:w-0 {
+  width: 0;
+}
+.lg\:overflow-hidden {
+  overflow: hidden;
+}
+.lg\:p-0 {
+  padding: 0;
+}
+.lg\:opacity-0 {
+  opacity: 0;
+}
+.lg\:opacity-100 {
+  opacity: 1;
+}
+.lg\:ml-0 {
+  margin-left: 0;
+}
+.lg\:mr-0 {
+  margin-right: 0;
+}
+</style>
