@@ -124,41 +124,51 @@ const routes = [
         path: '/resource/notes',
         name: 'Notes',
         component: NotesPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Notes',
+          description: 'Access study notes and materials for your courses.'
+         }
       },
 
       {
         path: '/resource/youtube',
         name: 'Youtube',
         component: YoutubePage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Youtube',
+          description: 'Access educational videos and tutorials.'
+        }
       },
 
       {
         path: '/resource/books',
         name: 'Books',
         component: BooksPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Books',
+          description: 'Access educational books and resources.'
+        }
       },
 
       {
         path: '/signup',
         name: 'Signup',
         component: SignUpPage,
-        meta: { title: 'Sign Up', description: 'Create an account to access courses and resources.' }
+        meta: { title: 'Student-Sign Up', description: 'Create an account to access courses and resources.' }
       },
       
       {
         path: '/login',
         name: 'Login',
         component: LoginPage,
-        meta: { title: 'Login', description: 'Sign in to your Educational Society account.' }
+        meta: { title: 'Student-Login', description: 'Sign in to your Educational Society account.' }
       },
 
       {
         path: '/forgot/password',
         name: 'Forgot',
-        component: ForgotPage
+        component: ForgotPage,
+        meta: { title: 'Forgot Password', description: 'Reset your password if you have forgotten it.' }
       },
 
       {
@@ -214,69 +224,99 @@ const routes = [
         path: '/student/dashboard',
         name: 'StudentDashboard',
         component: StudentDashboardPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Dashboard',
+          description: 'Access your courses, tests, assignments, and notifications from the student dashboard.'
+         }
       },
 
       {
         path: '/student/courses',
         name: 'StudentCourses',
         component: StudentCoursesPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Courses',
+          description: 'Browse and access your enrolled courses.'
+         }
       },
 
       {
         path: '/student/tests',
         name: 'StudentTests',
         component: StudentTestsPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Tests',
+          description: 'Take and manage your tests.'
+         }
       },
       {
         path: '/student/tests/:id/results',
         name: 'StudentTestResults',
         component: StudentTestResultsPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Test Results',
+          description: 'View the results of your tests.'
+         }
       },
 
       {
         path: '/student/assignments',
         name: 'StudentAssignments',
         component: StudentAssignmentsPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Assignments',
+          description: 'View and submit your assignments.'
+         }
       },
 
       {
         path: '/student/notifications',
         name: 'StudentNotifications',
         component: () => import('../pages/student_temp/StudentNotificationsPage.vue'),
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Notifications',
+          description: 'Stay updated with the latest news and announcements.'
+         }
       },
 
       {
         path: '/student/profile',
         name: 'StudentProfile',
         component: () => import('../pages/student_temp/student_profile_dropdown/StudentProfilePage.vue'),
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Profile',
+          description: 'Manage your profile information and preferences.'
+         }
       }, 
 
       {
         path: '/student/settings',
         name: 'StudentSettings',
         component: () => import('../pages/student_temp/student_profile_dropdown/StudentSettingsPage.vue'),
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Settings',
+          description: 'Manage your account settings and preferences.'
+         }
       },
 
       {
         path: '/student/help',
         name: 'StudentHelp',
         component: () => import('../pages/student_temp/student_profile_dropdown/StudentHelpPage.vue'),
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Help',
+          description: 'Get assistance and support for your student account.'
+         }
       },
 
       {
         path: '/student/my-purchase',
         name: 'StudentMyPurchase',
         component: () => import('../pages/student_temp/student_profile_dropdown/MyPurchase.vue'),
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student My Purchase',
+          description: 'View your purchase history and manage your orders.'
+         }
       },
 
       // path to enroll in a course
@@ -284,7 +324,10 @@ const routes = [
         path: '/courses/:id/enroll',
         name: 'CourseEnrollment',
         component: () => import('../pages/enrollments_temp/CourseEnrollmentPage.vue'),
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Course Enrollment',
+          description: 'Enroll in a course and start learning.'
+         }
       },
 
       // path for live class page
@@ -292,7 +335,10 @@ const routes = [
         path: '/student/live-class',
         name: 'StudentLiveClass',
         component: StudentLiveClassPage,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student Live Class',
+          description: 'Join live classes and interact with instructors.'
+         }
       },
 
       // student certificates page
@@ -300,7 +346,10 @@ const routes = [
         path: '/my-certificates',
         name: 'StudentMyCertificates',
         component: MyCertificates,
-        meta: { requiresAuth: true, role: 'student' }
+        meta: { requiresAuth: true, role: 'student',
+          title: 'Student My Certificates',
+          description: 'View your earned certificates.'
+         }
       }
     ]
   },
@@ -321,20 +370,29 @@ const routes = [
         path: '/admin/dashboard',
         name: 'AdminDashboardHome',
         component: AdminDashboardPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Dashboard',
+          description: 'Access the admin dashboard to manage courses, users, and system settings.'
+         }
       },
 
       {
         path: '/admin/courses',
         name: 'AdminCourses',
         component: AdminCourses,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Courses',
+          description: 'Manage courses and their details.'
+         }
       },
       {
         path: '/admin/courses/:id',
         name: 'AdminCourseDetail',
         component: AdminCourseDetail,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Course Detail',
+          description: 'View and manage course details.'
+         }
       },
       // {
       //   path: '/admin/assignments',
@@ -346,74 +404,110 @@ const routes = [
         path: '/admin/tests',
         name: 'AdminTests',
         component: AdminTestsPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Tests',
+          description: 'Manage tests and their details.'
+         }
       },
       {
         path: '/admin/notifications',
         name: 'AdminNotifications',
         component: AdminNotificationsPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Notifications',
+          description: 'Manage system notifications.'
+         }
       },
       {
         path: '/admin/assignments/:id',
         name: 'AdminAssignmentQuestions',
         component: AdminAssignmentQuestions,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Assignment Questions',
+          description: 'Manage assignment questions and their details.'
+         }
       },
       {
         path: '/admin/tests/:id',
         name: 'AdminTestQuestions',
         component: AdminTestQuestions,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Test Questions',
+          description: 'Manage test questions and their details.'
+         }
       },
       {
         path: '/admin/tests/:id/results',
         name: 'AdminTestResults',
         component: AdminTestResultsPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Test Results',
+          description: 'View test results and performance analytics.'
+         }
       },
 
       {
         path: '/admin/users',
         name: 'AdminUsers',
         component: AdminUsersPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Users',
+          description: 'Manage user accounts and their details.'
+         }
       },
       {
         path: '/admin/users/:id/insights',
         name: 'AdminUserInsights',
         component: AdminUserInsightsPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin User Insights',
+          description: 'View insights and analytics for individual users.'
+         }
       },
       {
         path: '/admin/profile',
         name: 'AdminProfile',
         component: AdminProfilePage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Profile',
+          description: 'Manage your admin profile and settings.'
+         }
       },
       {
         path: '/admin/settings',
         name: 'AdminSettings',
         component: AdminSettingsPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Settings',
+          description: 'Manage system settings and configurations.'
+         }
       },
       {
         path: '/admin/management',
         name: 'AdminManagement',
         component: AdminManagementPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Management',
+          description: 'Manage administrative functions and features.'
+         }
       },
       {
         path: '/admin/audit',
         name: 'AdminAuditTrail',
         component: AdminAuditTrailPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Audit Trail',
+          description: 'View and manage audit trails for administrative actions.'
+         }
       },
       {
         path: '/admin/help',
         name: 'AdminHelp',
         component: AdminHelpPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Help',
+          description: 'Get assistance and support for administrative functions.'
+         }
       },
 
       // path to admin live class management page
@@ -421,7 +515,10 @@ const routes = [
         path: '/admin/live-classes',
         name: 'AdminLiveClasses',
         component: AdminLiveClassPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Live Classes',
+          description: 'Manage live classes and their details.'
+         }
       },
 
       // certificate management routes
@@ -429,34 +526,49 @@ const routes = [
         path: '/admin/certificates',
         name: 'AdminCertificates',
         component: CertificateGeneratorPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Certificates',
+          description: 'Manage certificates and their details.'
+         }
       },
       // assignment management routes
       {
         path: '/admin/assignments',
         name: 'Assignments',
         component: Assignment,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Assignments',
+          description: 'Manage assignments and their details.'
+         }
       },
       {
         path: '/admin/assignments/:assignmentId',
         name: 'AdminAssignment',
         component: AssignmentPage,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Admin Assignment',
+          description: 'View and manage a specific assignment.'
+         }
       },
 
       {
         path: '/admin/assignments/submissions',
         name: 'AssignmentSubmissions',
         component: AssignmentSubmissions,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Assignment Submissions',
+          description: 'View and manage assignment submissions.'
+         }
       },
 
       {
         path: '/admin/assignments/student-submission',
         name: 'AssignmentEachStudentSubmission',
         component: AssignmentEachStudentSubmission,
-        meta: { requiresAuth: true, role: 'admin' }
+        meta: { requiresAuth: true, role: 'admin',
+          title: 'Student Assignment Submission',
+          description: 'View and manage individual student assignment submissions.'
+         }
       }
 
     ]
@@ -466,12 +578,14 @@ const routes = [
     path: '/error',
     name: 'ErrorPage',
     component: ErrorPage,
+    meta: { title: 'Error', description: 'An error occurred while processing your request.' }
   },
 
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: ErrorPage,
+    meta: { title: 'Not Found', description: 'The page you are looking for does not exist.' }
   },
 
   // website map
@@ -479,7 +593,7 @@ const routes = [
     path: '/website-map',
     name: 'WebsiteMap',
     component: () => import('../pages/WebsiteMap.vue'),
-    meta: { requiresAuth: true }
+    meta: { requiresAuth: true, title: 'Website Map', description: 'View the structure and navigation of the website.' }
   },
 
   // courses details pages
