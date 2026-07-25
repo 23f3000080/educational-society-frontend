@@ -15,7 +15,14 @@
           <p v-if="assignment?.due_date" class="text-xs text-gray-500 sm:text-sm">
             Due: {{ formatDate ? formatDate(assignment.due_date) : assignment.due_date }}
           </p>
+
+          <!-- Total Points Badge -->
+
         </div>
+        <span v-if="assignment?.total_points"
+          class="inline-flex items-center px-3 py-1 text-xs font-semibold text-amber-800 bg-amber-100 border border-amber-300 rounded-full sm:text-sm">
+          Total Marks: {{ formatMarks(assignment.total_points) }}
+        </span>
 
         <div v-if="lastSubmittedAt" class="rounded-xl border border-emerald-200 bg-white/80 px-3 py-2 text-xs text-gray-600 shadow-sm md:text-right">
           <p class="font-semibold uppercase tracking-wide text-emerald-700">Last submitted on</p>

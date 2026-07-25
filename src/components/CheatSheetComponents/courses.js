@@ -14,15 +14,7 @@ export default [
         number: 1,
         title: "Introduction to Web Development & HTML Fundamentals",
         description:
-          "Understand how the web works and build the foundation of every website using HTML.",
-        topics: [
-          { id: "wd-w1-t1", title: "Introduction to Web Development" },
-          { id: "wd-w1-t2", title: "How the Internet Works" },
-          { id: "wd-w1-t3", title: "HTML Document Structure" },
-          { id: "wd-w1-t4", title: "HTML Elements & Semantic Tags" },
-          { id: "wd-w1-t5", title: "Lists, Links, Images & Text Formatting" },
-          { id: "wd-w1-t6", title: "Week 1 Cheat Sheet" }
-        ]
+          "Understand how the web works and build the foundation of every website using HTML."
       },
 
       {
@@ -142,74 +134,95 @@ export default [
     weeks: [
       {
         number: 1,
-        title: "Python Fundamentals",
-        description: "Master the basics of Python programming including syntax, data types, and control flow.",
-        topics: [
-          { id: "py-w1-t1", title: "Introduction to Python" },
-          { id: "py-w1-t2", title: "Data Types & Variables" },
-          { id: "py-w1-t3", title: "Control Flow & Loops" },
-          { id: "py-w1-t4", title: "Functions & Scope" },
-          { id: "py-w1-t5", title: "Practical Examples" }
-        ]
+        title: "Getting Started with Python",
+        description: "Learn the basics of Python programming including syntax, variables, data types, and control flow.",
       },
       {
         number: 2,
-        title: "Advanced Python Concepts",
-        description: "Dive into object-oriented programming, modules, and working with files and APIs.",
-        topics: [
-          { id: "py-w2-t1", title: "OOP in Python" },
-          { id: "py-w2-t2", title: "Modules & Packages" },
-          { id: "py-w2-t3", title: "File I/O Operations" },
-          { id: "py-w2-t4", title: "Working with APIs" },
-          { id: "py-w2-t5", title: "Final Project" }
-        ]
+        title: "Operators & Conditional Statements",
+        description: "Explore Python operators and conditional statements for controlling program flow.",
+      },
+      {
+        number: 3,
+        title: "Loops & Iteration",
+        description: "Master loops and iteration techniques in Python for efficient programming.",
+      },
+      {
+        number: 4,
+        title: "Functions & Code Reusability",
+        description: "Learn to create and use functions for writing reusable and maintainable code.",
+      },
+      {
+        number: 5,
+        title: "Strings & String Manipulation",
+        description: "Learn to work with strings and utilize Python's built-in string methods.",
+      },
+      {
+        number: 6,
+        title: "Lists, Tuples & Dictionaries",
+        description: "Understand lists and perform various operations on them in Python.",
+      },
+      {
+        number: 7,
+        title: "File Handling & Error Management",
+        description: "Learn to read from and write to files, and handle exceptions in Python.",
+      },
+      {
+        number: 8,
+        title: "Capstone Project & Advanced Topics",
+        description: "Apply your Python knowledge in a final project and explore advanced topics.",
       }
     ]
   },
 
   {
     id: 3,
-    title: "Vue.js",
-    slug: "Vue",
-    description: "Build modern, reactive web applications with Vue.js - the progressive JavaScript framework.",
-    icon: "🟢",
-    color: "from-green-600 to-teal-600",
+    title: "SQL",
+    slug: "Sql",
+    description: "Learn SQL programming from basics to advanced concepts with practical examples.",
+    icon: "🛢️",
+    color: "from-green-200 to-emerald-600",
     weeks: [
       {
         number: 1,
-        title: "Vue.js Basics",
-        description: "Get started with Vue.js, understand the Vue instance, and learn the fundamentals of reactive data.",
-        topics: [
-          { id: "vue-w1-t1", title: "Introduction to Vue.js" },
-          { id: "vue-w1-t2", title: "Vue Instance & Lifecycle" },
-          { id: "vue-w1-t3", title: "Template Syntax" },
-          { id: "vue-w1-t4", title: "Reactivity & Data Binding" },
-          { id: "vue-w1-t5", title: "Basic Examples" }
-        ]
+        title: "Introduction to Databases & SQL Fundamentals",
+        description: "Learn the basics of databases and SQL, including data types, tables, and basic queries.",
       },
       {
         number: 2,
-        title: "Components & State Management",
-        description: "Learn about Vue components, props, events, and state management with Pinia.",
-        topics: [
-          { id: "vue-w2-t1", title: "Component Fundamentals" },
-          { id: "vue-w2-t2", title: "Props & Events" },
-          { id: "vue-w2-t3", title: "Vue Router" },
-          { id: "vue-w2-t4", title: "State Management with Pinia" },
-          { id: "vue-w2-t5", title: "Building a Real App" }
-        ]
+        title: "Sorting, Filtering & Data Retrieval",
+        description: "Learn to sort and filter data using SQL queries, and retrieve specific information from databases.",
       },
+
       {
         number: 3,
-        title: "Advanced Vue.js Patterns",
-        description: "Explore advanced patterns like composables, slots, and optimization techniques.",
-        topics: [
-          { id: "vue-w3-t1", title: "Composables & Hooks" },
-          { id: "vue-w3-t2", title: "Slots & Content Distribution" },
-          { id: "vue-w3-t3", title: "Async & Performance" },
-          { id: "vue-w3-t4", title: "Testing Vue Apps" },
-          { id: "vue-w3-t5", title: "Deployment & Best Practices" }
-        ]
+        title: "Working with Database Tables",
+        description: "Learn to create, modify, and manage database tables using SQL commands.",
+      },
+      {
+        number: 4,
+        title: "CRUD Operations in SQL",
+        description: "Learn to perform Create, Read, Update, and Delete operations in SQL.",
+      },
+      {
+        number: 5,
+        title: "SQL Functions & Aggregations",
+        description: "Learn to use SQL functions and aggregate data for analysis.",
+      },
+      {
+        number: 6,
+        title: "Joins & Database Relationships",
+        description: "Learn to combine data from multiple tables using SQL joins and understand table relationships.",
+      },
+      {
+        number: 7,
+        title: "Advanced SQL Queries",
+        description: "Learn advanced SQL query techniques, including subqueries, nested queries, and complex filtering.",
+      },
+      {
+        number: 8,
+        title: "Capstone Project & SQL Optimization",
+        description: "Apply your SQL knowledge in a final project and learn techniques for optimizing SQL queries.",
       }
     ]
   }
