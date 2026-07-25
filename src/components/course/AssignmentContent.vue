@@ -70,6 +70,10 @@
           <div class="font-medium question-rich-text text-gray-900">
             Q{{ i + 1 }}. <span v-html="q.question_text"></span>
           </div>
+          <!-- when showAnswer then display marks obtained/total points -->
+          <span v-if="showAnswers" class="rounded-full bg-amber-700 px-2.5 py-1 text-xs font-semibold tracking-wide text-gray-100">
+            Score: {{ formatMarks(q.earned_marks || 0) }} / {{ formatMarks(q.marks || 0) }}
+          </span>
           <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-gray-600">
             {{ getQuestionTypeLabel(q.question_type) }}
           </span>
@@ -127,7 +131,8 @@
           Unsupported question type: {{ q.question_type }}
         </div>
 
-        <div v-if="showAnswers" class="mt-3 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">
+        <!-- if showAnswers and questions is fill in blank -->
+        <div v-if="showAnswers && q.question_type === 'fill_blank'" class="mt-3 rounded-lg border border-gray-200 bg-gray-50 p-3 text-sm text-gray-700">
           <div class="grid gap-2 sm:grid-cols-3">
             <div>
               <p class="font-semibold text-gray-700">Your answer</p>
@@ -135,7 +140,7 @@
                 <template v-if="q.question_type === 'fill_blank'">
                   <span class="text-gray-700">{{ getFillBlankAnswer(q.id) || 'Not answered' }}</span>
                 </template>
-                <template v-else>
+                <!-- <template v-else>
                   <div v-if="getSelectedOptionObjects(q).length" class="space-y-1">
                     <div
                       v-for="opt in getSelectedOptionObjects(q)"
@@ -145,7 +150,7 @@
                     ></div>
                   </div>
                   <span v-else class="text-gray-500">Not answered</span>
-                </template>
+                </template> -->
               </div>
             </div>
 
@@ -158,9 +163,9 @@
                   </span>
                   <span v-else class="text-gray-500">Not available</span>
                 </template>
-                <template v-else>
+                <!-- <template v-else>
                   <span class="text-green-700">{{ getCorrectOptionsText(q) }}</span>
-                </template>
+                </template> -->
               </div>
             </div>
 
