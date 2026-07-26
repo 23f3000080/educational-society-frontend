@@ -68,15 +68,16 @@
                 <button
                   v-for="(q, idx) in paginatedQuestions"
                   :key="idx"
+
                   @click="currentQuestionIndex = getActualIndex(idx)"
-                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all duration-200 whitespace-nowrap"
+                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs transition-all duration-200 whitespace-nowrap cursor-pointer"
                   :class="[
                     currentQuestionIndex === getActualIndex(idx) 
                       ? 'bg-white text-indigo-700 shadow-lg' 
                       : 'text-white/80 hover:text-white hover:bg-white/10',
                     !isQuestionValid(getActualIndex(idx)) && currentQuestionIndex !== getActualIndex(idx) 
                       ? 'border-l-2 border-yellow-400' 
-                      : ''
+                      : 'border-l-2 border-green-600'
                   ]"
                 >
                   <span class="flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-bold" :class="[
@@ -85,8 +86,8 @@
                     {{ getActualIndex(idx) + 1 }}
                   </span>
                   <!-- <span class="hidden md:inline">Q{{ getActualIndex(idx) + 1 }}</span> -->
-                  <span v-if="!isQuestionValid(getActualIndex(idx))" class="text-yellow-400 text-[10px]">⚠️</span>
-                  <span v-else class="text-green-400 text-[10px]">✓</span>
+                  <span v-if="!isQuestionValid(getActualIndex(idx))" class="text-yellow-400 text-[15px]">⚠️</span>
+                  <span v-else class="text-green-700 text-[15px]">✓</span>
                 </button>
               </div>
             </div>
