@@ -341,7 +341,7 @@ const activeOptionIndex = ref(null)
 const form = ref({
   question_text: '',
   question_type: 'mcq',
-  marks: 10,
+  marks: 1,
   order_index: 0,
   options: [
     { option_text: '', is_correct: true },
@@ -393,7 +393,7 @@ watch(() => props.question, async (newQuestion) => {
     form.value = {
       question_text: '',
       question_type: 'mcq',
-      marks: 10,
+      marks: 1,
       order_index: 0,
       options: [
         { option_text: '', is_correct: true },
@@ -676,7 +676,7 @@ const handleSaveAndAnother = async () => {
     form.value = {
       question_text: '',
       question_type: 'mcq',
-      marks: 10,
+      marks: 1,
       order_index: 0,
       options: [
         { option_text: '', is_correct: true },
