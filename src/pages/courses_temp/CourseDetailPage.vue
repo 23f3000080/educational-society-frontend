@@ -82,9 +82,6 @@
                 <h1 class="mt-3 text-3xl font-black leading-tight text-slate-900 sm:text-4xl lg:text-5xl dark:text-white">
                   {{ courseData?.title || 'Course workspace' }}
                 </h1>
-                <!-- <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-600 sm:text-base dark:text-slate-300">
-                  {{ courseData?.description || 'Watch lectures, complete assignments, read notes, and track progress in one place.' }}
-                </p> -->
 
                 <div class="mt-5 flex flex-wrap gap-2">
                   <span v-if="courseData?.subject" class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 dark:bg-gray-800 dark:text-slate-200">
@@ -188,6 +185,7 @@
               </button>
               
               <CourseSideNav
+                ref="courseSideNavRef"
                 class="max-h-[calc(100vh-16rem)] overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900"
                 :course="courseData"
                 :weeks="weeks"
@@ -223,6 +221,7 @@
           <main class="min-w-0 flex-1 transition-all duration-300 ease-in-out">
             <div class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-[0_18px_60px_rgba(15,23,42,0.08)] dark:border-gray-800 dark:bg-gray-900">
               <CourseContentPage
+                ref="courseContentPageRef"
                 :course-id="courseId"
                 :course="courseData"
                 :weeks="weeks"
@@ -322,7 +321,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from "vue"
+import { computed, onMounted, ref, watch, nextTick } from "vue"
 import { useRouter, useRoute } from "vue-router"
 
 import CourseSideNav from "../../components/course/CourseSideNav.vue"
@@ -360,6 +359,10 @@ const selectedContent = ref({
 
 const isRoadmapOpen = ref(false)
 
+// Refs for child components
+const courseSideNavRef = ref(null)
+const courseContentPageRef = ref(null)
+
 /* ---------------------------
    Composables
 ---------------------------- */
@@ -381,6 +384,94 @@ if (localStorage.getItem("darkMode") === "true" || sessionStorage.getItem("darkM
 } else {
   isDarkMode.value = false
   document.documentElement.classList.remove("dark")
+}
+
+/* ---------------------------
+   Find Assignment in Weeks
+---------------------------- */
+const findAssignmentInWeeks = (assignmentId) => {
+  if (!weeks.value || !weeks.value.length) return null
+  
+  for (const week of weeks.value) {
+    if (week.assignments && week.assignments.length) {
+      const found = week.assignments.find(a => a.id === assignmentId)
+      if (found) {
+        return {
+          week: week,
+          assignment: found
+        }
+      }
+    }
+  }
+  return null
+}
+
+// Enhanced openAssignment with better handling
+const openAssignment = async (assignmentId) => {
+    console.log('📝 Course page - Opening assignment:', assignmentId)
+    
+    // Wait for weeks to be loaded
+    await nextTick()
+    
+    // Find the assignment in weeks
+    const result = findAssignmentInWeeks(assignmentId)
+    
+    if (result) {
+        console.log('✅ Assignment found:', result.assignment.title)
+        
+        // Set selected content to open the assignment
+        selectedContent.value = {
+            type: 'assignment',
+            week: result.week.week_number,
+            weekObj: result.week,
+            video: null,
+            assignment: result.assignment,
+            note: null
+        }
+        
+        // IMPORTANT: Force a content update to trigger the watch in CourseContentPage
+        handleContentUpdate({
+            type: 'assignment',
+            week: result.week,
+            assignment: result.assignment
+        })
+        
+        // Also update the active item in sidebar if needed
+        if (courseSideNavRef.value) {
+            // You may need to expose a method in CourseSideNav to set active item
+            // or it will sync via props
+        }
+        
+        // Scroll to the content area
+        const contentElement = document.getElementById('course-studio')
+        if (contentElement) {
+            setTimeout(() => {
+                contentElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }, 300)
+        }
+    } else {
+        console.warn('❌ Assignment not found:', assignmentId)
+    }
+}
+
+// Enhanced check for assignment parameter
+const checkForAssignmentParam = () => {
+    const assignmentId = route.query.assignmentId || route.params.assignmentId
+    
+    console.log('🔍 Checking for assignment parameter:', assignmentId)
+    
+    if (assignmentId) {
+        const id = Number(assignmentId)
+        if (!isNaN(id) && id > 0) {
+            console.log('📌 Found assignment ID:', id)
+            // Open the assignment after course loads with a delay
+            setTimeout(() => {
+                openAssignment(id)
+            }, 800) // Increased delay to ensure everything is loaded
+        }
+    } else {
+        console.log('ℹ️ No assignment parameter found')
+    }
 }
 
 /* ---------------------------
@@ -426,6 +517,10 @@ const checkEnrollment = async () => {
     // ✅ Init progress (only once here)
     await initProgress(weeks.value)
 
+    // ✅ Check for assignment parameter after loading
+    await nextTick()
+    checkForAssignmentParam()
+
   } catch (err) {
     console.error(err)
 
@@ -447,6 +542,9 @@ watch(
   async (newWeeks, oldWeeks) => {
     if (!oldWeeks.length && newWeeks.length) {
       await initProgress(newWeeks)
+      // Check for assignment after weeks are loaded
+      await nextTick()
+      checkForAssignmentParam()
     }
   }
 )

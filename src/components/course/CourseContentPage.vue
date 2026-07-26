@@ -107,7 +107,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue"
+import { computed, ref, watch, nextTick } from "vue"
 import { useRouter } from "vue-router"
 
 import LoadingState from "./LoadingState.vue"
@@ -383,18 +383,36 @@ const submitAssignment = async () => {
 }
 
 /* -------------------------
-   ✅ Watch Assignment Change
+   ✅ Watch Assignment Change - FIXED
 -------------------------- */
 watch(
   () => props.selectedContent?.assignment,
-  async (val) => {
-    if (val) {
-      await loadQuestions(val.id)
-
-      showAnswers.value = isAssignmentPastDue.value && canViewAnswers.value
+  async (val, oldVal) => {
+    console.log('📝 Assignment changed:', { val, oldVal })
+    
+    if (val && val.id) {
+      // Only reload if assignment ID changed or it's the first load
+      if (!oldVal || oldVal.id !== val.id) {
+        console.log('🔄 Loading questions for assignment:', val.id)
+        await loadQuestions(val.id)
+        showAnswers.value = isAssignmentPastDue.value && canViewAnswers.value
+      }
     }
   },
   { immediate: true }
+)
+
+// Also watch the entire selectedContent object for changes
+watch(
+  () => props.selectedContent,
+  (newVal, oldVal) => {
+    console.log('📦 Selected content changed:', newVal)
+    // If the content type is assignment and we have an assignment, trigger load
+    if (newVal?.type === 'assignment' && newVal?.assignment) {
+      // The assignment watch above will handle the loading
+    }
+  },
+  { deep: true }
 )
 
 /* -------------------------

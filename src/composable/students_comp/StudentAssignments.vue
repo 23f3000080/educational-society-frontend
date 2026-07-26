@@ -124,12 +124,12 @@
                         <button
                             type="button"
                             :disabled="item.status === 'Missed'"
-                            @click="openCourse(item.courseId)"
+                            @click="openAssignment(item.courseId, item.assignmentId)"
                             class="mt-4 w-full rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition active:scale-95"
                             :class="item.status === 'Missed' ? 'cursor-not-allowed bg-gray-400 dark:bg-gray-700' : 'bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400'"
                         >
                             <i v-if="item.status === 'Submitted' && !item.isPastDue" class="fas fa-redo mr-1.5"></i>
-                            {{ item.status === 'Submitted' && !item.isPastDue ? 'Resubmit' : 'Open Course' }}
+                            {{ item.status === 'Submitted' && !item.isPastDue ? 'Resubmit' : 'Open Assignment' }}
                         </button>
                     </article>
                 </section>
@@ -178,7 +178,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '../../services/axios'
 
@@ -285,7 +285,6 @@ const loadAllAssignments = async () => {
                         submittedAt: null,
                         status: 'Pending',
                         isPastDue: false,
-                        // Add createdAt for sorting (use assignment id as fallback for newer items)
                         createdAt: assignment.created_at || assignment.id
                     })
                 })
@@ -318,18 +317,14 @@ const loadAllAssignments = async () => {
 
         // Sort by createdAt descending (newest first), then by assignmentId as fallback
         assignments.value = withSubmission.sort((a, b) => {
-            // If both have createdAt, compare them
             if (a.createdAt && b.createdAt) {
-                // If they are dates, compare as dates
                 const aDate = new Date(a.createdAt)
                 const bDate = new Date(b.createdAt)
                 if (!isNaN(aDate) && !isNaN(bDate)) {
                     return bDate - aDate
                 }
-                // If not valid dates, compare as strings
                 return String(b.createdAt).localeCompare(String(a.createdAt))
             }
-            // Fallback to assignmentId (assuming higher id = newer)
             return b.assignmentId - a.assignmentId
         })
     } catch (err) {
@@ -412,8 +407,20 @@ const stats = computed(() => {
     }
 })
 
-const openCourse = (courseId) => {
-    router.push(`/course/${courseId}`)
+const openAssignment = (courseId, assignmentId) => {
+    console.log('Opening assignment:', { courseId, assignmentId })
+    
+    // Navigate to course page with assignment ID to auto-open
+    router.push({
+        path: `/course/${courseId}`,
+        query: { 
+            assignmentId: assignmentId
+        }
+    }).then(() => {
+        console.log('Navigation successful')
+    }).catch((err) => {
+        console.error('Navigation error:', err)
+    })
 }
 
 const statusClass = (status) => {
@@ -425,6 +432,12 @@ const statusClass = (status) => {
 onMounted(() => {
     loadAllAssignments()
     updateItemsPerPage()
+})
+
+onBeforeUnmount(() => {
+    if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', updateItemsPerPage)
+    }
 })
 </script>
 
