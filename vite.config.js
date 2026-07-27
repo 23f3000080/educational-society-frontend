@@ -3,6 +3,8 @@ import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import tailwindcss from '@tailwindcss/vite'
+import { VitePWA } from 'vite-plugin-pwa'
+
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -13,6 +15,29 @@ export default defineConfig({
   plugins: [
     vue(),
     tailwindcss(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      manifest: {
+        name: 'Educational Society',
+        short_name: 'Edu Society',
+        theme_color: '#4f46e5',
+        background_color: '#ffffff',
+        display: 'standalone',
+        start_url: '/',
+        icons: [
+          {
+            src: 'ES_ICON.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'ES_ICON.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    })
   ],
   resolve: {
     alias: {
