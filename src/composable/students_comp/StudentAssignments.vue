@@ -102,7 +102,7 @@
                 <section class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                     <article
                         v-for="item in paginatedAssignments"
-                        :key="item.assignmentId"
+                        :key="item.id"
                         class="assignment-card overflow-hidden rounded-2xl border border-gray-200 bg-white/90 p-4 shadow-sm transition hover:shadow-md dark:border-gray-800 dark:bg-gray-900/80 sm:p-5"
                     >
                         <div class="mb-3 flex items-start justify-between gap-2">
@@ -115,21 +115,20 @@
                         <p class="line-clamp-2 text-sm text-gray-600 dark:text-gray-300">{{ item.description || 'No description provided.' }}</p>
 
                         <div class="mt-3 space-y-1 text-xs text-gray-500 dark:text-gray-400 sm:mt-4">
-                            <p><span class="font-semibold text-gray-700 dark:text-gray-200">Course:</span> {{ item.courseTitle }}</p>
-                            <p><span class="font-semibold text-gray-700 dark:text-gray-200">Week:</span> {{ item.weekNumber }}</p>
-                            <p><span class="font-semibold text-gray-700 dark:text-gray-200">Due:</span> {{ formatDateTime(item.dueDate) }}</p>
-                            <p v-if="item.submittedAt"><span class="font-semibold text-gray-700 dark:text-gray-200">Submitted:</span> {{ formatDateTime(item.submittedAt) }}</p>
+                            <p><span class="font-semibold text-gray-700 dark:text-gray-200">Course:</span> {{ item.course_title }}</p>
+                            <p><span class="font-semibold text-gray-700 dark:text-gray-200">Week:</span> {{ item.week_number || 'N/A' }}</p>
+                            <p><span class="font-semibold text-gray-700 dark:text-gray-200">Due:</span> {{ formatDateTime(item.due_date) }}</p>
                         </div>
 
                         <button
                             type="button"
                             :disabled="item.status === 'Missed'"
-                            @click="openAssignment(item.courseId, item.assignmentId)"
+                            @click="openAssignment(item.course_id, item.id)"
                             class="mt-4 w-full rounded-xl px-4 py-2.5 text-sm font-semibold text-white transition active:scale-95"
                             :class="item.status === 'Missed' ? 'cursor-not-allowed bg-gray-400 dark:bg-gray-700' : 'bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400'"
                         >
-                            <i v-if="item.status === 'Submitted' && !item.isPastDue" class="fas fa-redo mr-1.5"></i>
-                            {{ item.status === 'Submitted' && !item.isPastDue ? 'Resubmit' : 'Open Assignment' }}
+                            <i v-if="item.status === 'Submitted'" class="fas fa-redo mr-1.5"></i>
+                            {{ item.status === 'Submitted' ? 'Resubmit' : 'Open Assignment' }}
                         </button>
                     </article>
                 </section>
@@ -227,20 +226,20 @@ const formatDateTime = (value) => {
     })
 }
 
-const deriveStatus = (dueDate, submittedAt) => {
+const deriveStatus = (dueDate, submitted) => {
     const now = new Date()
     const due = dueDate ? new Date(dueDate) : null
     const isPastDue = due ? now > due : false
 
-    if (submittedAt) {
-        return { label: 'Submitted', isPastDue }
+    if (submitted) {
+        return 'Submitted'
     }
 
     if (isPastDue) {
-        return { label: 'Missed', isPastDue }
+        return 'Missed'
     }
 
-    return { label: 'Pending', isPastDue }
+    return 'Pending'
 }
 
 const loadAllAssignments = async () => {
@@ -248,86 +247,27 @@ const loadAllAssignments = async () => {
     error.value = ''
 
     try {
-        const myCoursesRes = await api.get('/api/my-courses')
-        const myCourses = Array.isArray(myCoursesRes.data) ? myCoursesRes.data : []
+        // Simply fetch assignments from /api/assignments
+        const response = await api.get('/api/assignments')
+        const data = Array.isArray(response.data) ? response.data : []
 
-        const weekResponses = await Promise.all(
-            myCourses.map((course) =>
-                api.get(`/api/courses/${course.course_id}/weeks`).then((res) => ({
-                    course,
-                    weeks: Array.isArray(res.data) ? res.data : []
-                }))
-            )
-        )
-
-        const flattened = []
-
-        weekResponses.forEach(({ course, weeks }) => {
-            weeks.forEach((week) => {
-                if (week?.active_status === false) {
-                    return
-                }
-
-                const weekAssignments = Array.isArray(week.assignments) ? week.assignments : []
-                weekAssignments.forEach((assignment) => {
-                    if (assignment?.active_status === false) {
-                        return
-                    }
-
-                    flattened.push({
-                        assignmentId: assignment.id,
-                        title: assignment.title,
-                        description: assignment.description,
-                        dueDate: assignment.due_date,
-                        courseId: course.course_id,
-                        courseTitle: course.title,
-                        weekNumber: week.week_number,
-                        submittedAt: null,
-                        status: 'Pending',
-                        isPastDue: false,
-                        createdAt: assignment.created_at || assignment.id
-                    })
-                })
-            })
-        })
-
-        const withSubmission = await Promise.all(
-            flattened.map(async (item) => {
-                try {
-                    const detailsRes = await api.get(`/api/assignments/${item.assignmentId}/questions`)
-                    const submittedAt = detailsRes.data?.latest_submission_at || null
-                    const statusInfo = deriveStatus(item.dueDate, submittedAt)
-
-                    return {
-                        ...item,
-                        submittedAt,
-                        status: statusInfo.label,
-                        isPastDue: statusInfo.isPastDue
-                    }
-                } catch (_err) {
-                    const statusInfo = deriveStatus(item.dueDate, null)
-                    return {
-                        ...item,
-                        status: statusInfo.label,
-                        isPastDue: statusInfo.isPastDue
-                    }
-                }
-            })
-        )
-
-        // Sort by createdAt descending (newest first), then by assignmentId as fallback
-        assignments.value = withSubmission.sort((a, b) => {
-            if (a.createdAt && b.createdAt) {
-                const aDate = new Date(a.createdAt)
-                const bDate = new Date(b.createdAt)
-                if (!isNaN(aDate) && !isNaN(bDate)) {
-                    return bDate - aDate
-                }
-                return String(b.createdAt).localeCompare(String(a.createdAt))
+        // Process assignments and add status
+        assignments.value = data.map(assignment => {
+            const status = deriveStatus(assignment.due_date, assignment.submitted)
+            return {
+                ...assignment,
+                status
             }
-            return b.assignmentId - a.assignmentId
+        }).sort((a, b) => {
+            // Sort by due date (latest first)
+            if (a.due_date && b.due_date) {
+                return new Date(b.due_date) - new Date(a.due_date)
+            }
+            return 0
         })
+
     } catch (err) {
+        console.error('Failed to load assignments:', err)
         error.value = err.response?.data?.error || 'Failed to load assignments.'
     } finally {
         loading.value = false
@@ -341,7 +281,7 @@ const filteredAssignments = computed(() => {
         const q = searchQuery.value.toLowerCase().trim()
         list = list.filter((item) =>
             item.title.toLowerCase().includes(q) ||
-            item.courseTitle.toLowerCase().includes(q)
+            item.course_title?.toLowerCase().includes(q)
         )
     }
 

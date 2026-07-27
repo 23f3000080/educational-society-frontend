@@ -370,18 +370,31 @@
               <div v-if="upcomingAssignments.length" class="mt-4 sm:mt-5 grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <article
                   v-for="assignment in upcomingAssignments.slice(0, 6)"
-                  :key="assignment.key"
-                  class="rounded-xl sm:rounded-2xl border border-gray-200 bg-gray-50 p-3 sm:p-4 dark:border-gray-800 dark:bg-gray-950/60"
+                  :key="assignment.id"
+                  class="rounded-xl sm:rounded-2xl border p-3 sm:p-4 transition hover:shadow-md"
+                  :class="[
+                    assignment.status === 'Missed' ? 'border-rose-200 bg-rose-50 dark:border-rose-900 dark:bg-rose-950/30' :
+                    assignment.status === 'Submitted' ? 'border-emerald-200 bg-emerald-50 dark:border-emerald-900 dark:bg-emerald-950/30' :
+                    'border-amber-200 bg-amber-50 dark:border-amber-900 dark:bg-amber-950/30'
+                  ]"
                 >
                   <div class="flex flex-wrap items-start justify-between gap-2">
                     <div class="min-w-0 flex-1">
-                      <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-300">{{ assignment.status }}</p>
+                      <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-wide" 
+                        :class="[
+                          assignment.status === 'Submitted' ? 'text-emerald-700 dark:text-emerald-300' :
+                          assignment.status === 'Missed' ? 'text-rose-700 dark:text-rose-300' :
+                          'text-amber-700 dark:text-amber-300'
+                        ]">
+                        {{ assignment.status }}
+                      </p>
                       <h3 class="mt-0.5 sm:mt-1 text-sm sm:text-base font-semibold text-gray-900 dark:text-white wrap-break-word">{{ assignment.title }}</h3>
-                      <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{{ assignment.courseTitle }} • Week {{ assignment.weekNumber }}</p>
+                      <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">{{ assignment.courseTitle || 'No course' }}
+                        <span>{{ assignment.weekNumber ? ` • Week ${assignment.weekNumber}` : '' }}</span>
+                      </p>
+                      <!-- week number -->
+                      <span></span>
                     </div>
-                    <span class="rounded-full px-1.5 py-0.5 sm:px-2.5 sm:py-1 text-[9px] sm:text-xs font-semibold whitespace-nowrap" :class="assignment.statusClass">
-                      {{ assignment.statusLabel }}
-                    </span>
                   </div>
 
                   <p class="mt-2 sm:mt-3 text-xs sm:text-sm text-gray-600 line-clamp-2 dark:text-gray-300">
@@ -390,7 +403,7 @@
 
                   <div class="mt-2 sm:mt-3 flex items-center justify-between gap-2 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
                     <span class="truncate">Due: {{ formatDateTime(assignment.dueDate) }}</span>
-                    <button @click="openCourse(assignment.courseId)" class="font-semibold text-indigo-600 hover:text-indigo-700 whitespace-nowrap">
+                    <button @click="openAssignment(assignment.courseId, assignment.id)" class="font-semibold text-indigo-600 hover:text-indigo-700 whitespace-nowrap">
                       Open →
                     </button>
                   </div>
@@ -606,8 +619,13 @@ const clockIcon = {
 const stats = computed(() => {
   const totalCourses = enrolledCourses.value.length
   const totalAssignments = assignments.value.length
-  const pendingAssignments = assignments.value.filter((item) => item.status === 'Pending').length
-  const completedAssignments = assignments.value.filter((item) => item.status === 'Submitted').length
+  const pendingAssignments = assignments.value.filter(
+    item => !item.submitted
+  ).length
+
+  const completedAssignments = assignments.value.filter(
+    item => item.submitted
+  ).length
 
   return [
     { label: 'Courses', value: totalCourses, icon: bookIcon },
@@ -620,56 +638,99 @@ const stats = computed(() => {
 const dashboardCounts = computed(() => ({
   enrolledCourses: enrolledCourses.value.length,
   totalAssignments: assignments.value.length,
-  pendingAssignments: assignments.value.filter((item) => item.status === 'Pending').length,
-  submittedAssignments: assignments.value.filter((item) => item.status === 'Submitted').length
+  pendingAssignments: assignments.value.filter(a => !a.submitted).length,
+  submittedAssignments: assignments.value.filter(a => a.submitted).length
 }))
+
+const upcomingAssignments = computed(() => {
+  const now = new Date()
+  
+  // Filter out submitted assignments and sort by due date (closest first)
+  return assignments.value
+    .filter(a => !a.submitted) // Only show pending assignments
+    .map(a => {
+      const due = a.due_date ? new Date(a.due_date) : null
+      
+      let status = "Pending"
+      let statusLabel = "Pending"
+      let statusClass = "bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300"
+      
+      // Check if assignment is missed (due date passed)
+      if (due && due < now) {
+        status = "Missed"
+        statusLabel = "Missed"
+        statusClass = "bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300"
+      } else if (due) {
+        // Calculate days remaining for display
+        const daysRemaining = Math.ceil((due - now) / (1000 * 60 * 60 * 24))
+        if (daysRemaining <= 0) {
+          status = "Due Today"
+          statusLabel = "Due Today"
+          statusClass = "bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300"
+        } else if (daysRemaining <= 2) {
+          status = `Due in ${daysRemaining} day${daysRemaining > 1 ? 's' : ''}`
+          statusLabel = "Urgent"
+          statusClass = "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300"
+        } else if (daysRemaining <= 7) {
+          status = `Due in ${daysRemaining} days`
+          statusLabel = "Soon"
+          statusClass = "bg-yellow-100 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-300"
+        } else {
+          status = `Due in ${daysRemaining} days`
+          statusLabel = "Upcoming"
+          statusClass = "bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
+        }
+      }
+
+      return {
+        id: a.id,
+        title: a.title || 'Untitled Assignment',
+        description: a.description || 'No description provided.',
+        dueDate: a.due_date,
+        courseId: a.course_id,
+        courseTitle: a.course_title || 'Unknown Course',
+        weekNumber: a.week_number,
+        weekTitle: a.week_title,
+        submitted: a.submitted || false,
+        status,
+        statusLabel,
+        statusClass
+      }
+    })
+    .sort((a, b) => {
+      // Sort by due date (latest first - descending)
+      if (a.dueDate && b.dueDate) {
+        return new Date(b.dueDate) - new Date(a.dueDate)
+      }
+      return 0
+    })
+})
 
 const topCourse = computed(() => {
   if (!enrolledCourses.value.length) return null
   return [...enrolledCourses.value].sort((a, b) => (b.progress_percent || 0) - (a.progress_percent || 0))[0]
 })
 
-const upcomingAssignments = computed(() => {
-  return [...assignments.value].filter((item) => item.status !== 'Submitted').sort((a, b) => {
-    const aTime = a.dueDate ? new Date(a.dueDate).getTime() : Number.MAX_SAFE_INTEGER
-    const bTime = b.dueDate ? new Date(b.dueDate).getTime() : Number.MAX_SAFE_INTEGER
-    return aTime - bTime
-  })
-})
-
 const openCourse = (courseId) => {
-  router.push(`/course/${courseId}`)
+  if (courseId) {
+    router.push(`/course/${courseId}`)
+  }
 }
 
-const mapAssignmentStatus = (dueDate, submittedAt) => {
-  const now = new Date()
-  const due = dueDate ? new Date(dueDate) : null
-  const isPastDue = due ? now > due : false
-
-  if (submittedAt) {
-    return {
-      status: 'Submitted',
-      statusLabel: 'Submitted',
-      statusClass: 'bg-emerald-100 text-emerald-700',
-      isPastDue
-    }
-  }
-
-  if (isPastDue) {
-    return {
-      status: 'Missed',
-      statusLabel: 'Missed',
-      statusClass: 'bg-rose-100 text-rose-700',
-      isPastDue
-    }
-  }
-
-  return {
-    status: 'Pending',
-    statusLabel: 'Pending',
-    statusClass: 'bg-amber-100 text-amber-700',
-    isPastDue
-  }
+const openAssignment = (courseId, assignmentId) => {
+    console.log('Opening assignment:', { courseId, assignmentId })
+    
+    // Navigate to course page with assignment ID to auto-open
+    router.push({
+        path: `/course/${courseId}`,
+        query: { 
+            assignmentId: assignmentId
+        }
+    }).then(() => {
+        console.log('Navigation successful')
+    }).catch((err) => {
+        console.error('Navigation error:', err)
+    })
 }
 
 const loadDashboard = async () => {
@@ -678,74 +739,33 @@ const loadDashboard = async () => {
   loading.value = true
 
   try {
-    const [coursesRes, notificationsRes] = await Promise.all([
-      api.get('/api/my-courses', silentRequestMeta),
-      user?.id ? api.get(`/api/notifications/${user.id}`, silentRequestMeta) : Promise.resolve({ data: [] })
-    ])
-
+    // Load courses
+    const coursesRes = await api.get('/api/my-courses', silentRequestMeta)
     enrolledCourses.value = Array.isArray(coursesRes.data) ? coursesRes.data : []
-    notifications.value = Array.isArray(notificationsRes.data) ? notificationsRes.data : []
 
-    const courseAssignmentResponses = await Promise.all(
-      enrolledCourses.value.map(async (course) => {
-        try {
-          const weeksRes = await api.get(`/api/courses/${course.course_id}/weeks`, silentRequestMeta)
-          const weeks = Array.isArray(weeksRes.data) ? weeksRes.data : []
+    // Load notifications if user is logged in
+    if (user?.id) {
+      try {
+        const notificationsRes = await api.get(`/api/notifications/${user.id}`, silentRequestMeta)
+        notifications.value = Array.isArray(notificationsRes.data) ? notificationsRes.data : []
+      } catch (notifErr) {
+        console.warn('Failed to load notifications:', notifErr)
+        notifications.value = []
+      }
+    }
 
-          const courseAssignments = []
-          weeks.forEach((week) => {
-            ;(Array.isArray(week.assignments) ? week.assignments : []).forEach((assignment) => {
-              courseAssignments.push({
-                key: `${course.course_id}-${assignment.id}`,
-                assignmentId: assignment.id,
-                title: assignment.title,
-                description: assignment.description,
-                dueDate: assignment.due_date,
-                courseId: course.course_id,
-                courseTitle: course.title,
-                weekNumber: week.week_number
-              })
-            })
-          })
-
-          return courseAssignments
-        } catch (_err) {
-          return []
-        }
-      })
-    )
-
-    const flattenedAssignments = courseAssignmentResponses.flat()
-    const enrichedAssignments = await Promise.all(
-      flattenedAssignments.map(async (assignment) => {
-        try {
-          const questionRes = await api.get(`/api/assignments/${assignment.assignmentId}/questions`, silentRequestMeta)
-          const submittedAt = questionRes.data?.latest_submission_at || null
-          const statusInfo = mapAssignmentStatus(assignment.dueDate, submittedAt)
-
-          return {
-            ...assignment,
-            submittedAt,
-            ...statusInfo
-          }
-        } catch (_err) {
-          const statusInfo = mapAssignmentStatus(assignment.dueDate, null)
-          return {
-            ...assignment,
-            submittedAt: null,
-            ...statusInfo
-          }
-        }
-      })
-    )
-
-    assignments.value = enrichedAssignments.sort((a, b) => {
-      const aTime = a.dueDate ? new Date(a.dueDate).getTime() : Number.MAX_SAFE_INTEGER
-      const bTime = b.dueDate ? new Date(b.dueDate).getTime() : Number.MAX_SAFE_INTEGER
-      return aTime - bTime
-    })
+    // Load assignments
+    try {
+      const assignmentRes = await api.get('/api/assignments', silentRequestMeta)
+      assignments.value = Array.isArray(assignmentRes.data) ? assignmentRes.data : []
+      // console.log('Assignments loaded:', assignments.value)
+    } catch (assignErr) {
+      console.warn('Failed to load assignments:', assignErr)
+      assignments.value = []
+    }
   } catch (err) {
-    console.error('Failed to load dashboard', err)
+    console.error('Failed to load dashboard:', err)
+    // Don't show error to user, just show empty states
   } finally {
     loading.value = false
   }
