@@ -283,6 +283,7 @@ const enrollmentLoading = ref(false)
 const showSuccessModal = ref(false)
 const enrollmentError = ref(null)
 
+// Enrollment Form
 const enrollmentForm = reactive({
   fullName: "",
   email: "",
@@ -311,7 +312,7 @@ const prefillEnrollmentForm = async () => {
     enrollmentForm.phone = data.mobile_no || data.alternate_mobile_no || enrollmentForm.phone
     return
   } catch (_err) {
-    // Fallback to cached auth user if profile API is unavailable.
+    // Fallback to cached auth user if profile API is unavailable
   }
 
   const rawUser = localStorage.getItem("user") || sessionStorage.getItem("user") || "{}"
@@ -332,26 +333,30 @@ const formatDate = (date) => {
   })
 }
 
-const loadCashfreeSDK = () => {
-  return new Promise((resolve, reject) => {
-    // Check if already loaded
+// Load Cashfree SDK
+const loadCashfree = () => {
+  return new Promise((resolve) => {
     if (window.Cashfree) {
-      resolve()
+      resolve(true)
       return
     }
 
+    // CORRECT SCRIPT URL
     const script = document.createElement("script")
     script.src = "https://sdk.cashfree.com/js/v3/cashfree.js"
-    script.async = true
-    
     script.onload = () => {
-      resolve()
+      // Wait for Cashfree to be available
+      if (window.Cashfree) {
+        resolve(true)
+      } else {
+        // Sometimes window.Cashfree is available after a small delay
+        setTimeout(() => {
+          resolve(!!window.Cashfree)
+        }, 500)
+      }
     }
-    
-    script.onerror = () => {
-      reject(new Error("Failed to load Cashfree SDK"))
-    }
-    
+    script.onerror = () => resolve(false)
+
     document.body.appendChild(script)
   })
 }
@@ -359,22 +364,33 @@ const loadCashfreeSDK = () => {
 const handleEnrollment = async () => {
   enrollmentError.value = null
   
-  if (!enrollmentForm.fullName || !enrollmentForm.email || !enrollmentForm.phone) {
-    toast.error("Please fill all required fields")
-    return
-  }
-
-  if (!enrollmentForm.agreeTerms) {
-    toast.error("Please agree to terms")
-    return
-  }
-
-  enrollmentLoading.value = true
-
   try {
-    // 1. Create order
+    if (!enrollmentForm.fullName || !enrollmentForm.email || !enrollmentForm.phone) {
+      toast.error("Please fill all required fields")
+      return
+    }
+
+    if (!enrollmentForm.agreeTerms) {
+      toast.error("Please agree to terms")
+      return
+    }
+
+    enrollmentLoading.value = true
+
+    // Load Cashfree SDK
+    const loaded = await loadCashfree()
+    if (!loaded) {
+      toast.error("Cashfree SDK failed to load")
+      enrollmentLoading.value = false
+      return
+    }
+
+    // Create order
     const orderRes = await api.post("/api/create-payment", {
-      course_id: course.value.id
+      course_id: course.value.id,
+      full_name: enrollmentForm.fullName,
+      email: enrollmentForm.email,
+      phone: enrollmentForm.phone
     })
 
     if (orderRes.data.error) {
@@ -385,25 +401,38 @@ const handleEnrollment = async () => {
 
     console.log("Order Response:", orderRes.data)
 
-    const { payment_session_id } = orderRes.data
+    const { payment_session_id, order_id, environment } = orderRes.data
 
-    // 2. Load Cashfree SDK
-    await loadCashfreeSDK()
+    console.log("Payment Session ID:", payment_session_id)
+    console.log("Order ID:", order_id)
 
-    // 3. Initialize checkout
-    const cashfree = new window.Cashfree()
+    // Initialize Cashfree
+    sessionStorage.setItem("last_order_id", order_id)
+
+    const cashfree = window.Cashfree({
+      mode: environment || "production"
+    })
     
-    const checkoutOptions = {
+    // Initialize payment
+    cashfree.checkout({
       paymentSessionId: payment_session_id,
-      redirectTarget: "_self",
-    }
+      redirectTarget: "_self", // or "_blank" for new tab
+      onSuccess: (data) => {
+        console.log("Payment Success:", data)
+        // Payment will redirect to return_url
+      },
+      onError: (error) => {
+        console.error("Payment Error:", error)
+        toast.error("Payment failed. Please try again.")
+      }
+    })
 
-    // 4. Open checkout
-    cashfree.checkout(checkoutOptions)
+    // Note: Cashfree will redirect to your callback URL
+    // You handle the success/failure in the callback endpoint
 
   } catch (err) {
-    console.error("Payment error:", err)
-    enrollmentError.value = err.response?.data?.error || err.message || "Payment failed"
+    console.error("Payment Error:", err)
+    enrollmentError.value = err.response?.data?.error || "Payment failed"
     toast.error(enrollmentError.value)
   } finally {
     enrollmentLoading.value = false
