@@ -123,13 +123,6 @@ const routes = [
       },
 
       {
-        path: '/payment-status',
-        name: 'PaymentStatus',
-        component: PaymentStatus,
-        meta: { requiresAuth: false }
-      },
-
-      {
         path: '/resource/notes',
         name: 'Notes',
         component: NotesPage,
@@ -337,6 +330,13 @@ const routes = [
           title: 'Course Enrollment',
           description: 'Enroll in a course and start learning.'
          }
+      },
+
+      {
+        path: '/payment-status',
+        name: 'PaymentStatus',
+        component: PaymentStatus,
+        meta: { requiresAuth: false }
       },
 
       // path for live class page

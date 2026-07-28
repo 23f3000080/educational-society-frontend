@@ -383,13 +383,6 @@ const handleEnrollment = async () => {
 
     enrollmentLoading.value = true
 
-    // Load Cashfree SDK
-    const loaded = await loadCashfree()
-    if (!loaded) {
-      toast.error("Cashfree SDK failed to load")
-      return
-    }
-
     // Create order
     const orderRes = await api.post("/api/create-payment", {
       course_id: course.value.id
@@ -404,24 +397,10 @@ const handleEnrollment = async () => {
 
     const { payment_session_id } = orderRes.data
 
-    console.log("Payment Session:", payment_session_id)
-
-    const cashfree = window.Cashfree({
-      mode: "production" // "sandbox" only if using sandbox keys
-    })
-    
-    // const checkoutOptions = {
-    //   paymentSessionId: payment_session_id,
-    //   redirectTarget: "_self", // or "_blank" if you want new tab
-    // }
-
-    await cashfree.checkout({
-      paymentSessionId: payment_session_id,
-      redirectTarget: "_self"
-    })
-
-    // Note: Cashfree will redirect to your callback URL
-    // You don't need to handle the success in the handler like Razorpay
+    // Redirect directly to Cashfree payment page
+    // This is more reliable than using the SDK
+    const cashfreeUrl = `https://payments.cashfree.com/order/${payment_session_id}`
+    window.location.href = cashfreeUrl
 
   } catch (err) {
     console.error(err)
