@@ -65,6 +65,8 @@ import AssignmentEachStudentSubmission from '../pages/admin_temp/AssignmentEachS
 
 import GradeCalculator from '../pages/GradeCalculator.vue'
 
+import PaymentStatus from '../pages/enrollments_temp/PaymentStatus.vue'
+
 const routes = [
   {
     path: '/',
@@ -118,6 +120,13 @@ const routes = [
           title: 'Course Detail',
           description: 'Course details, syllabus, and enrollment information.'
         }
+      },
+
+      {
+        path: '/payment-status',
+        name: 'PaymentStatus',
+        component: PaymentStatus,
+        meta: { requiresAuth: false }
       },
 
       {

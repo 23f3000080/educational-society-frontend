@@ -351,10 +351,26 @@ const loadRazorpay = () => {
   })
 }
 
+// Add this function to load Cashfree SDK
+const loadCashfree = () => {
+  return new Promise((resolve) => {
+    if (window.Cashfree) {
+      resolve(true)
+      return
+    }
+
+    const script = document.createElement("script")
+    script.src = "https://sdk.cashfree.com/js/v3/cashfree.js"
+    script.onload = () => resolve(true)
+    script.onerror = () => resolve(false)
+
+    document.body.appendChild(script)
+  })
+}
+
 const handleEnrollment = async () => {
   enrollmentError.value = null
   try {
-
     if (!enrollmentForm.fullName || !enrollmentForm.email || !enrollmentForm.phone) {
       toast.error("Please fill all required fields")
       return
@@ -367,96 +383,44 @@ const handleEnrollment = async () => {
 
     enrollmentLoading.value = true
 
-    const loaded = await loadRazorpay()
-
+    // Load Cashfree SDK
+    const loaded = await loadCashfree()
     if (!loaded) {
-      toast.error("Razorpay SDK failed to load")
+      toast.error("Cashfree SDK failed to load")
       return
     }
 
+    // Create order
     const orderRes = await api.post("/api/create-payment", {
       course_id: course.value.id
     })
 
-    const { order_id, amount, key } = orderRes.data
-
-    // if any error from orderres
     if (orderRes.data.error) {
       toast.error(orderRes.data.error)
       return
     }
 
-    const options = {
+    const { payment_session_id, order_id, amount, key } = orderRes.data
 
-      key: key,
-      amount: amount,
-      currency: "INR",
-      name: "Educational Society",
-      description: course.value.title,
-      order_id: order_id,
-
-      notes: {
-        course_id: course.value.id,
-        student_name: enrollmentForm.fullName,
-        student_email: enrollmentForm.email
-      },
-
-      prefill: {
-        name: enrollmentForm.fullName,
-        email: enrollmentForm.email,
-        contact: enrollmentForm.phone
-      },
-
-      theme: {
-        color: "#4f46e5"
-      },
-
-      handler: async function (response) {
-
-        try {
-
-          await api.post("/api/verify-payment", {
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_signature: response.razorpay_signature,
-            course_id: course.value.id
-          })
-
-          toast.success("Payment successful! You are enrolled.")
-
-          showSuccessModal.value = true
-
-        } catch (err) {
-
-          toast.error("Payment verification failed")
-          enrollmentError.value = "Payment verification failed"
-        }
-
-      },
-
-      modal: {
-        ondismiss: function () {
-          toast.info("Payment cancelled")
-          enrollmentError.value = "Payment cancelled"
-        }
-      }
-
+    // Initialize Cashfree checkout
+    const cashfree = new window.Cashfree(key)
+    
+    const checkoutOptions = {
+      paymentSessionId: payment_session_id,
+      redirectTarget: "_self", // or "_blank" if you want new tab
     }
 
-    const rzp = new window.Razorpay(options)
+    cashfree.checkout(checkoutOptions)
 
-    rzp.open()
+    // Note: Cashfree will redirect to your callback URL
+    // You don't need to handle the success in the handler like Razorpay
 
   } catch (err) {
-
     console.error(err)
     enrollmentError.value = err.response?.data?.error || "Payment failed"
     toast.error(enrollmentError.value)
-
   } finally {
-
     enrollmentLoading.value = false
-
   }
 }
 
