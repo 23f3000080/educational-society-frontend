@@ -47,8 +47,25 @@
         </button>
       </div>
 
-      <!-- Unknown/Cancelled State -->
-      <div v-else class="text-center">
+      <!-- Unknown State - Try to fetch status from backend -->
+      <div v-else-if="status === 'UNKNOWN' && !verifying" class="text-center">
+        <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Checking Payment Status</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">We're checking your payment status. Please wait...</p>
+        <button 
+          @click="checkPaymentStatus" 
+          class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition"
+        >
+          Check Status
+        </button>
+      </div>
+
+      <!-- Cancelled State -->
+      <div v-else-if="status === 'CANCELLED'" class="text-center">
         <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg class="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -81,65 +98,73 @@ const status = ref('')
 const orderId = ref('')
 const courseId = ref('')
 const verifying = ref(false)
+let verificationAttempted = ref(false)
+
+const checkPaymentStatus = async () => {
+  if (!orderId.value || !courseId.value) {
+    toast.error('Missing payment information')
+    return
+  }
+
+  verifying.value = true
+  
+  try {
+    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
+    
+    if (!token) {
+      toast.error('Please login to verify your enrollment')
+      verifying.value = false
+      status.value = 'FAILED'
+      return
+    }
+
+    const response = await api.post('/api/verify-payment', {
+      order_id: orderId.value,
+      course_id: courseId.value
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    console.log('Verification Response:', response.data)
+    
+    if (response.data.success) {
+      toast.success('Payment verified! You are now enrolled.')
+      status.value = 'SUCCESS'
+    }
+    
+  } catch (err) {
+    console.error('Verification error:', err)
+    
+    if (err.response?.data?.already_enrolled) {
+      toast.success('You are already enrolled!')
+      status.value = 'SUCCESS'
+    } else {
+      toast.error(err.response?.data?.error || 'Payment verification failed')
+      status.value = 'FAILED'
+    }
+  } finally {
+    verifying.value = false
+    verificationAttempted.value = true
+  }
+}
 
 onMounted(async () => {
-  status.value = route.query.status || 'unknown'
+  status.value = route.query.status || 'UNKNOWN'
   orderId.value = route.query.order_id || ''
   courseId.value = route.query.course_id || ''
 
   console.log('Payment Status Page:', {
     status: status.value,
     orderId: orderId.value,
-    courseId: courseId.value
+    courseId: courseId.value,
+    allQueryParams: route.query
   })
 
-  // If payment was successful, verify with backend
-  if (status.value === 'SUCCESS' && orderId.value) {
-    verifying.value = true
-    
-    try {
-      // Get auth token from storage
-      const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken')
-      
-      if (!token) {
-        toast.error('Please login to verify your enrollment')
-        verifying.value = false
-        return
-      }
-
-      const response = await api.post('/api/verify-payment', {
-        order_id: orderId.value,
-        course_id: courseId.value
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-
-      console.log('Verification Response:', response.data)
-      
-      if (response.data.success || response.data.message) {
-        toast.success('Payment verified! You are now enrolled.')
-        status.value = 'SUCCESS' // Keep success state
-      } else {
-        toast.error('Verification failed. Please contact support.')
-        status.value = 'FAILED'
-      }
-      
-    } catch (err) {
-      console.error('Verification error:', err)
-      
-      // Check if already enrolled
-      if (err.response?.data?.already_enrolled) {
-        toast.success('You are already enrolled!')
-        status.value = 'SUCCESS'
-      } else {
-        toast.error(err.response?.data?.error || 'Payment verification failed')
-        status.value = 'FAILED'
-      }
-    } finally {
-      verifying.value = false
-    }
+  // If payment was successful or status is unknown, verify with backend
+  if ((status.value === 'SUCCESS' || status.value === 'UNKNOWN') && orderId.value) {
+    await checkPaymentStatus()
   }
 })
 
