@@ -94,14 +94,12 @@
         </div>
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Payment Processing</h2>
         <p class="text-gray-600 dark:text-gray-400 mb-4">Your payment is being processed. This may take a few moments.</p>
-        <p class="text-sm text-gray-500 mb-6">We'll verify your payment automatically.</p>
+        <p class="text-sm text-gray-500 mb-6">We checked the payment status three times. You can safely return to the course while Cashfree finishes processing it.</p>
         <button 
-          @click="checkPaymentStatus" 
+          @click="goBack" 
           class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition"
-          :disabled="verifying"
         >
-          <span v-if="!verifying">Check Status Now</span>
-          <span v-else>Checking...</span>
+          Back to Course
         </button>
       </div>
     </div>
@@ -125,7 +123,15 @@ const verifying = ref(false)
 let verificationAttempted = ref(false)
 let retryInterval = null
 let retryCount = 0
-const MAX_RETRIES = 5
+const MAX_RETRIES = 3
+
+const stopRetrying = () => {
+  verificationAttempted.value = true
+  if (retryInterval) {
+    clearInterval(retryInterval)
+    retryInterval = null
+  }
+}
 
 const checkPaymentStatus = async () => {
   if (!orderId.value) {
@@ -193,6 +199,8 @@ const checkPaymentStatus = async () => {
             }
           }, 3000) // Retry every 3 seconds
         }
+      } else {
+        stopRetrying()
       }
     } else {
       toast.error(response.data.error || 'Payment verification failed')
@@ -234,14 +242,8 @@ const checkPaymentStatus = async () => {
           }, 3000)
         }
       } else {
-        toast.error('Payment verification timed out. Please contact support.')
-        status.value = 'FAILED'
-        verificationAttempted.value = true
-        
-        if (retryInterval) {
-          clearInterval(retryInterval)
-          retryInterval = null
-        }
+        status.value = 'PENDING'
+        stopRetrying()
       }
     } else {
       toast.error(err.response?.data?.error || 'Payment verification failed')
@@ -304,7 +306,7 @@ onUnmounted(() => {
 })
 
 const goToCourses = () => {
-  router.push('/student/courses')
+  router.push(`/course/${courseId.value}`)
 }
 
 const goBack = () => {
