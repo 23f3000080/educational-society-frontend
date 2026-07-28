@@ -335,21 +335,21 @@ const formatDate = (date) => {
   })
 }
 
-const loadRazorpay = () => {
-  return new Promise((resolve) => {
-    if (window.Razorpay) {
-      resolve(true)
-      return
-    }
+// const loadRazorpay = () => {
+//   return new Promise((resolve) => {
+//     if (window.Razorpay) {
+//       resolve(true)
+//       return
+//     }
 
-    const script = document.createElement("script")
-    script.src = "https://checkout.razorpay.com/v1/checkout.js"
-    script.onload = () => resolve(true)
-    script.onerror = () => resolve(false)
+//     const script = document.createElement("script")
+//     script.src = "https://checkout.razorpay.com/v1/checkout.js"
+//     script.onload = () => resolve(true)
+//     script.onerror = () => resolve(false)
 
-    document.body.appendChild(script)
-  })
-}
+//     document.body.appendChild(script)
+//   })
+// }
 
 // Add this function to load Cashfree SDK
 const loadCashfree = () => {
@@ -400,17 +400,25 @@ const handleEnrollment = async () => {
       return
     }
 
-    const { payment_session_id, order_id, amount, key } = orderRes.data
+    console.log("Order Response:", orderRes.data)
 
-    // Initialize Cashfree checkout
-    const cashfree = new window.Cashfree(key)
+    const { payment_session_id } = orderRes.data
+
+    console.log("Payment Session:", payment_session_id)
+
+    const cashfree = window.Cashfree({
+      mode: "production" // "sandbox" only if using sandbox keys
+    })
     
-    const checkoutOptions = {
-      paymentSessionId: payment_session_id,
-      redirectTarget: "_self", // or "_blank" if you want new tab
-    }
+    // const checkoutOptions = {
+    //   paymentSessionId: payment_session_id,
+    //   redirectTarget: "_self", // or "_blank" if you want new tab
+    // }
 
-    cashfree.checkout(checkoutOptions)
+    await cashfree.checkout({
+      paymentSessionId: payment_session_id,
+      redirectTarget: "_self"
+    })
 
     // Note: Cashfree will redirect to your callback URL
     // You don't need to handle the success in the handler like Razorpay
