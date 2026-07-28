@@ -24,6 +24,8 @@
         <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Payment Successful! 🎉</h2>
         <p class="text-gray-600 dark:text-gray-400 mb-2">You have been successfully enrolled in the course.</p>
         <p v-if="courseId" class="text-sm text-gray-500 mb-6">Course ID: {{ courseId }}</p>
+        <!-- course title -->
+        <p v-if="courseTitle" class="text-lg font-semibold text-gray-900 dark:text-white mb-6">{{ courseTitle }}</p>
         <button 
           @click="goToCourses" 
           class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition"
@@ -85,6 +87,23 @@
         </button>
       </div>
 
+      <!-- Incomplete State -->
+      <div v-else-if="status === 'INCOMPLETED'" class="text-center">
+        <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-10 h-10 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Payment Not Completed</h2>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">No payment was completed. You can return to the course and try again when ready.</p>
+        <button
+          @click="goBack"
+          class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition"
+        >
+          Back to Course
+        </button>
+      </div>
+
       <!-- Auto-retry for pending status -->
       <div v-else-if="status === 'PENDING'" class="text-center">
         <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -119,6 +138,7 @@ const toast = useToast()
 const status = ref('')
 const orderId = ref('')
 const courseId = ref('')
+const courseTitle = ref('') // New reactive variable for course title
 const verifying = ref(false)
 let verificationAttempted = ref(false)
 let retryInterval = null
@@ -172,17 +192,18 @@ const checkPaymentStatus = async () => {
 
     console.log('Verification Response:', response.data)
     
-    if (response.data.success) {
-      toast.success('Payment verified! You are now enrolled.')
-      status.value = 'SUCCESS'
-      verificationAttempted.value = true
-      
-      // Clear any retry intervals
-      if (retryInterval) {
-        clearInterval(retryInterval)
-        retryInterval = null
-      }
-    } else if (['PENDING', 'ACTIVE'].includes(response.data.status)) {
+      if (response.data.success) {
+          toast.success('Payment verified! You are now enrolled.')
+          status.value = 'SUCCESS'
+          courseTitle.value = response.data.course_title || '' // Set course title if available
+          verificationAttempted.value = true
+
+          // Clear any retry intervals
+          if (retryInterval) {
+              clearInterval(retryInterval)
+              retryInterval = null
+          }
+      } else if (['PENDING', 'ACTIVE'].includes(response.data.status)) {
       // Payment is still processing
       status.value = 'PENDING'
       toast.info('Payment is still processing. Please wait...')
@@ -262,7 +283,7 @@ const checkPaymentStatus = async () => {
 
 onMounted(async () => {
   // Get status from query params
-  status.value = route.query.status || 'UNKNOWN'
+  status.value = String(route.query.status || route.query.order_status || route.query.payment_status || 'UNKNOWN').toUpperCase()
   orderId.value = route.query.order_id || ''
   courseId.value = route.query.course_id || ''
 
@@ -285,6 +306,11 @@ onMounted(async () => {
   // Store order_id for future reference
   if (orderId.value) {
     sessionStorage.setItem('last_order_id', orderId.value)
+  }
+
+  // INCOMPLETED is Cashfree's terminal non-payment state. Do not verify it.
+  if (status.value === 'INCOMPLETED') {
+    return
   }
 
   // If payment was successful or status is unknown, verify with backend
