@@ -86,10 +86,6 @@ const goToCourses = () => {
 }
 
 const goBack = () => {
-  if (courseId.value) {
-    router.push(`/course/${courseId.value}`)
-  } else {
-    router.push('/courses')
-  }
+    router.push('/student/courses')
 }
 </script>
