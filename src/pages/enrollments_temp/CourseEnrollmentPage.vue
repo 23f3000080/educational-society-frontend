@@ -281,10 +281,8 @@ const loading = ref(true)
 const error = ref(null)
 const enrollmentLoading = ref(false)
 const showSuccessModal = ref(false)
-
 const enrollmentError = ref(null)
 
-// Enrollment Form
 const enrollmentForm = reactive({
   fullName: "",
   email: "",
@@ -304,7 +302,6 @@ const buildFullName = (firstName, lastName) =>
   [firstName, lastName].filter(Boolean).join(" ").trim()
 
 const prefillEnrollmentForm = async () => {
-  // Prefer fresh profile data from backend.
   try {
     const { data } = await api.get("/api/student/profile")
     const fullName = buildFullName(data.first_name, data.last_name)
@@ -335,61 +332,54 @@ const formatDate = (date) => {
   })
 }
 
-// const loadRazorpay = () => {
-//   return new Promise((resolve) => {
-//     if (window.Razorpay) {
-//       resolve(true)
-//       return
-//     }
-
-//     const script = document.createElement("script")
-//     script.src = "https://checkout.razorpay.com/v1/checkout.js"
-//     script.onload = () => resolve(true)
-//     script.onerror = () => resolve(false)
-
-//     document.body.appendChild(script)
-//   })
-// }
-
-// Add this function to load Cashfree SDK
-const loadCashfree = () => {
-  return new Promise((resolve) => {
+const loadCashfreeSDK = () => {
+  return new Promise((resolve, reject) => {
+    // Check if already loaded
     if (window.Cashfree) {
-      resolve(true)
+      resolve()
       return
     }
 
     const script = document.createElement("script")
     script.src = "https://sdk.cashfree.com/js/v3/cashfree.js"
-    script.onload = () => resolve(true)
-    script.onerror = () => resolve(false)
-
+    script.async = true
+    
+    script.onload = () => {
+      resolve()
+    }
+    
+    script.onerror = () => {
+      reject(new Error("Failed to load Cashfree SDK"))
+    }
+    
     document.body.appendChild(script)
   })
 }
 
 const handleEnrollment = async () => {
   enrollmentError.value = null
+  
+  if (!enrollmentForm.fullName || !enrollmentForm.email || !enrollmentForm.phone) {
+    toast.error("Please fill all required fields")
+    return
+  }
+
+  if (!enrollmentForm.agreeTerms) {
+    toast.error("Please agree to terms")
+    return
+  }
+
+  enrollmentLoading.value = true
+
   try {
-    if (!enrollmentForm.fullName || !enrollmentForm.email || !enrollmentForm.phone) {
-      toast.error("Please fill all required fields")
-      return
-    }
-
-    if (!enrollmentForm.agreeTerms) {
-      toast.error("Please agree to terms")
-      return
-    }
-
-    enrollmentLoading.value = true
-
-    // Create order
+    // 1. Create order
     const orderRes = await api.post("/api/create-payment", {
       course_id: course.value.id
     })
 
     if (orderRes.data.error) {
       toast.error(orderRes.data.error)
+      enrollmentLoading.value = false
       return
     }
 
@@ -397,14 +387,23 @@ const handleEnrollment = async () => {
 
     const { payment_session_id } = orderRes.data
 
-    // Redirect directly to Cashfree payment page
-    // This is more reliable than using the SDK
-    const cashfreeUrl = `https://payments.cashfree.com/order/${payment_session_id}`
-    window.location.href = cashfreeUrl
+    // 2. Load Cashfree SDK
+    await loadCashfreeSDK()
+
+    // 3. Initialize checkout
+    const cashfree = new window.Cashfree()
+    
+    const checkoutOptions = {
+      paymentSessionId: payment_session_id,
+      redirectTarget: "_self",
+    }
+
+    // 4. Open checkout
+    cashfree.checkout(checkoutOptions)
 
   } catch (err) {
-    console.error(err)
-    enrollmentError.value = err.response?.data?.error || "Payment failed"
+    console.error("Payment error:", err)
+    enrollmentError.value = err.response?.data?.error || err.message || "Payment failed"
     toast.error(enrollmentError.value)
   } finally {
     enrollmentLoading.value = false
@@ -413,26 +412,15 @@ const handleEnrollment = async () => {
 
 // Fetch course
 onMounted(async () => {
-
   try {
-
     const courseId = route.params.id
-
     const response = await api.get(`/api/course/${courseId}`)
-
     course.value = response.data.course
     await prefillEnrollmentForm()
-
   } catch (err) {
-
-    error.value =
-      err.response?.data?.error || "Failed to load course details"
-
+    error.value = err.response?.data?.error || "Failed to load course details"
   } finally {
-
     loading.value = false
-
   }
-
 })
 </script>
