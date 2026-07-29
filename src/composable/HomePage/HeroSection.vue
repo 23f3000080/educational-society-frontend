@@ -274,7 +274,7 @@
         v-motion
         :initial="motionInitial"
         :visibleOnce="motionVisible(80 + index * 80)"
-        class="group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-700 ease-out hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
+        class="group bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl hover:shadow-olive-800 transition-all duration-700 ease-out hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
         <div :class="`w-14 h-14 rounded-xl bg-linear-to-br ${feature.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`">
           <i :class="feature.icon" class="text-white text-2xl"></i>
         </div>
@@ -324,7 +324,7 @@
               :initial="joinTreeInitial(index)"
               :visibleOnce="joinTreeVisible(index)"
               :class="[
-                'join-tree-card group relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-700 ease-out hover:-translate-y-2',
+                'join-tree-card group relative bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-2xl  hover:shadow-cyan-700 transition-all duration-700 ease-out hover:-translate-y-2',
                 index % 2 === 0 ? 'join-tree-card-left' : 'join-tree-card-right',
               ]"
             >
@@ -347,7 +347,7 @@
           class="text-center mt-12 transition-all duration-700 ease-out"
         >
           <router-link to="/signup" 
-            class="inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-blue-600 to-teal-500 text-white rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+            class="inline-flex items-center gap-2 px-8 py-4 bg-linear-to-r from-blue-600 to-teal-500 text-white rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105 hover:shadow-violet-800">
             Start Your Journey Now
             <i class="fa-solid fa-arrow-right-long"></i>
           </router-link>
@@ -476,7 +476,7 @@
             v-motion
             :initial="motionInitial"
             :visibleOnce="motionVisible(120 + index * 90)"
-            class="group overflow-hidden rounded-3xl border border-gray-200/80 bg-linear-to-br from-gray-50 to-white shadow-lg transition-all duration-700 ease-out hover:-translate-y-2 hover:shadow-2xl dark:border-gray-700 dark:from-gray-800 dark:to-gray-800"
+            class="group overflow-hidden rounded-3xl border border-gray-200/80 bg-linear-to-br from-gray-50 to-white shadow-lg transition-all duration-700 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-indigo-950 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800"
           >
             <div class="relative h-56 overflow-hidden">
               <img :src="course.image" :alt="course.title" class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -634,7 +634,7 @@
         >
           <router-link
             to="/courses"
-            class="inline-flex items-center justify-center gap-2 rounded-full bg-[#073b4c] px-8 py-4 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+            class="inline-flex items-center justify-center gap-2 rounded-full bg-[#073b4c] px-8 py-4 text-sm font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#073b4c]/50"
           >
             View All Courses
             <i class="fa-solid fa-arrow-right"></i>
@@ -924,13 +924,13 @@
               <!-- CTA Buttons -->
               <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <router-link to="/courses"
-                  class="inline-flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-indigo-600 to-pink-600 px-8 py-3.5 font-bold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl">
+                  class="inline-flex items-center justify-center gap-2 rounded-full bg-linear-to-r from-indigo-600 to-pink-600 px-8 py-3.5 font-bold text-white shadow-lg transition-all hover:scale-105 hover:shadow-xl hover:shadow-[#8b5cf6]/50">
                   <i class="fa-solid fa-graduation-cap"></i>
                   Explore Courses
                   <i class="fa-solid fa-arrow-right"></i>
                 </router-link>
                 <router-link to="/signup"
-                  class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-indigo-300 dark:border-indigo-700 px-8 py-3.5 font-bold text-indigo-700 dark:text-indigo-300 transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:scale-105">
+                  class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-indigo-300 dark:border-indigo-700 px-8 py-3.5 font-bold text-indigo-700 dark:text-indigo-300 transition-all hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/30">
                   <i class="fa-solid fa-user-plus"></i>
                   Join Now
                 </router-link>

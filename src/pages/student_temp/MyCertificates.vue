@@ -137,12 +137,12 @@
                   <!-- Logo with Circular Frame -->
                   <div class="flex justify-center items-center mb-4">
                     <div class="relative">
-                      <!-- Outer ring decoration -->
-                      <div class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 animate-spin-slow opacity-75" style="width: 72px; height: 72px; left: -4px; top: -4px;"></div>
+                      <!-- Outer ring decoration
+                      <div class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 animate-spin-slow opacity-75" style="width: 72px; height: 72px; left: -4px; top: -4px;"></div> -->
                       <!-- Logo container -->
                       <div class="relative h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-white dark:bg-gray-800 shadow-xl border-2 border-blue-100 dark:border-blue-800 flex items-center justify-center overflow-hidden">
                         <img 
-                          src="https://educational-society.vercel.app/assets/ES%20Logo%20New-CsneSu3v.jpg" 
+                          src="/ES_ICON.png" 
                           alt="Educational Society Logo" 
                           class="h-12 w-12 sm:h-16 sm:w-16 object-contain"
                         />
