@@ -20,7 +20,7 @@ export default defineConfig({
       manifest: {
         name: 'Educational Society',
         short_name: 'Edu Society',
-        theme_color: '#4f46e5',
+        theme_color: '#0f0c3b',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',
