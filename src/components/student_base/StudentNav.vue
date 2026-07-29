@@ -7,17 +7,21 @@
         <div class="flex items-center">
           <!-- Logo with Image -->
           <router-link to="/student/dashboard" class="flex items-center space-x-3">
-            <!-- Logo Image -->
-            <div class="flex items-center justify-center">
-              <img 
-                src="../../assets/images/ES Logo New.jpg"
-                alt="Educational Society Logo"
-                class="w-10 h-10 md:w-12 md:h-12 rounded-lg object-cover"
-              />
-              <!-- Institute name -->
-              <div class="hidden md:block">
-                <span class="ml-2 text-amber-600 dark:text-amber-400 font-semibold text-lg">Educational</span>
-                <span class="ml-1 text-emerald-600 dark:text-emerald-400 font-semibold text-lg">Society</span>
+            <div class="flex justify-between h-16">
+              <!-- Logo -->
+              <div class="flex items-center">
+                <router-link to="/student/dashboard" class="shrink-0 flex items-center">
+                  <img class="h-14 w-14 rounded-full" src="/ES_ICON.png" alt="Educationaal Society" />
+                  <div class="hidden md:block">
+                    <span class="ml-2 text-amber-600 dark:text-amber-400 font-semibold text-lg">Educational</span>
+                    <span class="ml-1 text-emerald-600 dark:text-emerald-400 font-semibold text-lg">Society</span>
+                    <!-- Double Royal Line -->
+                    <div class="w-full mt-1 space-y-0.5">
+                      <div class="w-full h-px bg-linear-to-r from-transparent via-amber-400 to-transparent shadow-amber-400"></div>
+                      <div class="w-full h-px bg-linear-to-r from-transparent via-amber-500 to-transparent"></div>
+                    </div>
+                  </div>
+                </router-link>
               </div>
             </div>
           </router-link>

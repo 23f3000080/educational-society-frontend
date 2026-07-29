@@ -1,14 +1,19 @@
 <template>
-  <nav class="bg-[#251e3e] dark:bg-[#451e3e] shadow-sm fixed w-full z-40">
+  <nav class="bg-[#051535] dark:bg-[#220841] shadow-sm fixed w-full z-40">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <!-- Logo -->
         <div class="flex items-center">
           <router-link to="/" class="shrink-0 flex items-center">
-            <img class="h-12 w-12 rounded-full" src="../../assets/images/ES Logo New.jpg" alt="Educationaal Society" />
+            <img class="h-14 w-14 rounded-full" src="/ES_ICON.png" alt="Educationaal Society" />
             <div class="hidden md:block">
               <span class="ml-2 text-amber-600 dark:text-amber-400 font-semibold text-lg">Educational</span>
               <span class="ml-1 text-emerald-600 dark:text-emerald-400 font-semibold text-lg">Society</span>
+              <!-- Double Royal Line -->
+              <div class="w-full mt-1 space-y-0.5">
+                <div class="w-full h-px bg-linear-to-r from-transparent via-amber-400 to-transparent shadow-amber-400"></div>
+                <div class="w-full h-px bg-linear-to-r from-transparent via-amber-500 to-transparent"></div>
+              </div>
             </div>
           </router-link>
         </div>

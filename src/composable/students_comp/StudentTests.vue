@@ -6,10 +6,10 @@
         <div class="flex flex-col gap-4 px-4 py-4 sm:flex-row sm:items-start sm:justify-between sm:px-6 md:px-8 md:py-6">
           <div class="max-w-2xl">
             <p class="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-300">Student Tests</p>
-            <h1 class="mt-1 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl md:text-4xl">Timed Test Center</h1>
-            <p class="mt-1.5 text-xs leading-5 text-gray-600 dark:text-gray-300 sm:text-sm md:mt-2 md:text-base">
+            <h1 class="mt-1 text-2xl font-bold text-gray-900 dark:text-amber-500 font-mono sm:text-3xl md:text-4xl">Welcome To Test Zone</h1>
+            <!-- <p class="mt-1.5 text-xs leading-5 text-gray-600 dark:text-gray-300 sm:text-sm md:mt-2 md:text-base">
               Attend scheduled tests securely. Some tests may require a passcode, fullscreen mode, or strict tab control depending on admin settings.
-            </p>
+            </p> -->
           </div>
 
           <div class="grid w-full grid-cols-2 gap-2 sm:w-auto sm:grid-cols-4 sm:gap-3">
@@ -180,16 +180,16 @@
           </div>
 
           <div class="mt-3 rounded-xl border border-gray-200/50 bg-gray-50/50 p-3 dark:border-gray-800/50 dark:bg-gray-950/50 sm:mt-4 sm:p-4">
-            <div class="flex flex-wrap gap-1.5 text-[10px] font-semibold sm:gap-2 sm:text-xs">
+            <div class="flex mb-3 flex-wrap gap-1.5 text-[10px] font-semibold sm:gap-2 sm:text-xs">
               <span v-if="test.passcode_required" class="rounded-full bg-amber-100 px-2 py-0.5 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 sm:px-2.5 sm:py-1">Passcode</span>
               <span v-if="test.require_fullscreen" class="rounded-full bg-fuchsia-100 px-2 py-0.5 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-300 sm:px-2.5 sm:py-1">Fullscreen</span>
               <span v-if="test.prevent_tab_switch" class="rounded-full bg-rose-100 px-2 py-0.5 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300 sm:px-2.5 sm:py-1">Tab Lock</span>
               <span v-if="test.shuffle_questions" class="rounded-full bg-cyan-100 px-2 py-0.5 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-300 sm:px-2.5 sm:py-1">Shuffle</span>
               <span v-if="test.shuffle_options" class="rounded-full bg-emerald-100 px-2 py-0.5 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 sm:px-2.5 sm:py-1">Options</span>
             </div>
-            <p class="mt-2 text-[10px] text-gray-500 dark:text-gray-400 sm:mt-2.5 sm:text-xs">
+            <!-- <p class="mt-2 text-[10px] text-gray-500 dark:text-gray-400 sm:mt-2.5 sm:text-xs">
               {{ test.test_scope === 'full_length' ? 'Full-length test' : `Week ${test.week_number || '-'} - ${test.week_title || 'N/A'}` }}
-            </p>
+            </p> -->
             <p class="mt-0.5 text-[10px] text-gray-500 dark:text-gray-400 sm:mt-1 sm:text-xs">
               {{ formatDateRange(test.start_at, test.due_date) }}
             </p>

@@ -3,6 +3,31 @@
     'fixed inset-0 z-50 transition-colors duration-300 overflow-hidden',
     isDarkMode ? 'bg-slate-950/95' : 'bg-slate-100/95'
   ]">
+    <!-- Loading Overlay when submitting -->
+    <div 
+      v-if="submitting || isSubmittingToBackend"
+      class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/70 backdrop-blur-sm"
+    >
+      <div class="flex flex-col items-center gap-4 rounded-2xl bg-white/10 p-8 backdrop-blur-xl border border-white/20">
+        <!-- Spinner -->
+        <div class="relative">
+          <div class="h-16 w-16 animate-spin rounded-full border-4 border-amber-500/20 border-t-amber-500"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="h-8 w-8 animate-pulse rounded-full bg-amber-500/30"></div>
+          </div>
+        </div>
+        <div class="text-center">
+          <p class="text-lg font-semibold text-white">Submitting Your Test</p>
+          <p class="text-sm text-amber-300/80">Please wait, this may take a moment...</p>
+          <div class="mt-2 flex items-center justify-center gap-1">
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-amber-400 [animation-delay:0ms]"></span>
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-amber-400 [animation-delay:150ms]"></span>
+            <span class="h-1.5 w-1.5 animate-bounce rounded-full bg-amber-400 [animation-delay:300ms]"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div ref="runnerRoot" class="flex h-full w-full flex-col max-w-7xl mx-auto px-2 py-2 sm:px-4 sm:py-3 md:px-6 lg:px-8">
       
       <!-- Header - Fixed at top -->
@@ -43,11 +68,12 @@
             <button
               type="button"
               @click="toggleFullscreen"
+              :disabled="submitting || isSubmittingToBackend"
               :class="[
                 'rounded-lg px-2 py-1 text-xs font-semibold transition sm:rounded-xl sm:px-3 sm:py-1.5',
                 isDarkMode
-                  ? 'border border-white/10 bg-white/10 text-white hover:bg-white/15'
-                  : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
+                  ? 'border border-white/10 bg-white/10 text-white hover:bg-white/15 disabled:opacity-40'
+                  : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40'
               ]"
               :title="isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'"
             >
@@ -77,11 +103,12 @@
             <button
               type="button"
               @click="toggleTheme"
+              :disabled="submitting || isSubmittingToBackend"
               :class="[
                 'rounded-lg px-2 py-1 text-xs font-semibold transition sm:rounded-xl sm:px-3 sm:py-1.5',
                 isDarkMode
-                  ? 'border border-white/10 bg-white/10 text-white hover:bg-white/15'
-                  : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
+                  ? 'border border-white/10 bg-white/10 text-white hover:bg-white/15 disabled:opacity-40'
+                  : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40'
               ]"
             >
               <span class="hidden sm:inline">{{ isDarkMode ? '☀️ Light' : '🌙 Dark' }}</span>
@@ -92,11 +119,12 @@
             <button
               type="button"
               @click="handleClose"
+              :disabled="submitting || isSubmittingToBackend"
               :class="[
                 'rounded-lg px-2 py-1 text-xs font-semibold transition sm:rounded-xl sm:px-3 sm:py-1.5',
                 isDarkMode
-                  ? 'border border-white/10 bg-white/10 text-white hover:bg-white/15'
-                  : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
+                  ? 'border border-white/10 bg-white/10 text-white hover:bg-white/15 disabled:opacity-40'
+                  : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100 disabled:opacity-40'
               ]"
             >
               <span class="hidden sm:inline">Close</span>
@@ -203,11 +231,12 @@
                     v-if="isQuestionAnswered(selectedQuestion)"
                     type="button"
                     @click="clearQuestionAnswer(selectedQuestion.id)"
+                    :disabled="submitting || isSubmittingToBackend"
                     :class="[
                       'rounded-lg px-2 py-1 text-[10px] font-semibold transition sm:px-3 sm:py-1.5 sm:text-xs',
                       isDarkMode
-                        ? 'bg-rose-500/20 text-rose-300 hover:bg-rose-500/30'
-                        : 'bg-rose-100 text-rose-700 hover:bg-rose-200'
+                        ? 'bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 disabled:opacity-40'
+                        : 'bg-rose-100 text-rose-700 hover:bg-rose-200 disabled:opacity-40'
                     ]"
                     title="Clear this answer"
                   >
@@ -235,6 +264,7 @@
                         type="radio"
                         :name="`question-${selectedQuestion.id}`"
                         :value="option.id"
+                        :disabled="submitting || isSubmittingToBackend"
                         class="mt-0.5 h-3.5 w-3.5 shrink-0 accent-cyan-500 sm:h-4 sm:w-4"
                         @change="saveAnswer(selectedQuestion.id)"
                       />
@@ -260,6 +290,7 @@
                       <input
                         :checked="isSelected(selectedQuestion.id, option.id)"
                         type="checkbox"
+                        :disabled="submitting || isSubmittingToBackend"
                         class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded accent-cyan-500 sm:h-4 sm:w-4"
                         @change="handleMultiSelect(selectedQuestion.id, option.id)"
                       />
@@ -276,11 +307,12 @@
                         v-model="answers[selectedQuestion.id]"
                         :placeholder="selectedQuestion.placeholder || 'Type your answer here...'"
                         rows="3"
+                        :disabled="submitting || isSubmittingToBackend"
                         :class="[
                           'w-full rounded-lg border px-3 py-2 text-sm outline-none transition sm:rounded-xl sm:px-4',
                           isDarkMode
-                            ? 'border-white/10 bg-slate-950/40 text-white placeholder:text-slate-400 focus:border-cyan-400'
-                            : 'border-slate-300 bg-white text-slate-900 placeholder:text-slate-500 focus:border-cyan-500'
+                            ? 'border-white/10 bg-slate-950/40 text-white placeholder:text-slate-400 focus:border-cyan-400 disabled:opacity-50'
+                            : 'border-slate-300 bg-white text-slate-900 placeholder:text-slate-500 focus:border-cyan-500 disabled:opacity-50'
                         ]"
                         @input="debouncedSave(selectedQuestion.id)"
                       ></textarea>
@@ -299,7 +331,7 @@
                   <button
                     type="button"
                     @click="previousQuestion"
-                    :disabled="selectedQuestionIndex === 0"
+                    :disabled="selectedQuestionIndex === 0 || submitting || isSubmittingToBackend"
                     :class="[
                       'flex-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition sm:flex-none sm:rounded-xl sm:px-5 sm:py-2 sm:text-sm',
                       isDarkMode
@@ -312,7 +344,7 @@
                   <button
                     type="button"
                     @click="nextQuestion"
-                    :disabled="selectedQuestionIndex === questions.length - 1"
+                    :disabled="selectedQuestionIndex === questions.length - 1 || submitting || isSubmittingToBackend"
                     :class="[
                       'flex-1 rounded-lg px-3 py-1.5 text-xs font-semibold transition sm:flex-none sm:rounded-xl sm:px-5 sm:py-2 sm:text-sm',
                       isDarkMode
@@ -326,10 +358,10 @@
                     v-if="selectedQuestionIndex === questions.length - 1"
                     type="button"
                     @click="emitSubmit"
-                    :disabled="submitting || locked"
+                    :disabled="submitting || isSubmittingToBackend || locked"
                     class="flex-1 rounded-lg bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-none sm:rounded-xl sm:px-5 sm:py-2 sm:text-sm"
                   >
-                    {{ submitting ? '...' : '📤 Submit' }}
+                    {{ submitting || isSubmittingToBackend ? '⏳...' : '📤 Submit' }}
                   </button>
                 </div>
               </article>
@@ -372,6 +404,7 @@
                   :key="question.id"
                   type="button"
                   @click="selectQuestion(index)"
+                  :disabled="submitting || isSubmittingToBackend"
                   :class="[
                     'relative rounded-lg border px-1.5 py-1.5 text-[10px] font-semibold transition sm:px-2 sm:py-2 sm:text-xs',
                     selectedQuestionIndex === index
@@ -429,11 +462,12 @@
                   v-if="answersCount > 0"
                   type="button"
                   @click="requestClearAllAnswers"
+                  :disabled="submitting || isSubmittingToBackend"
                   :class="[
                     'rounded-lg px-2 py-1 text-[10px] font-semibold transition sm:px-3 sm:py-1 sm:text-xs',
                     isDarkMode
-                      ? 'bg-rose-500/20 text-rose-300 hover:bg-rose-500/30'
-                      : 'bg-rose-100 text-rose-700 hover:bg-rose-200'
+                      ? 'bg-rose-500/20 text-rose-300 hover:bg-rose-500/30 disabled:opacity-40'
+                      : 'bg-rose-100 text-rose-700 hover:bg-rose-200 disabled:opacity-40'
                   ]"
                 >
                   🗑️ Clear All
@@ -481,7 +515,7 @@
                 <button
                   type="button"
                   @click="emitSubmit"
-                  :disabled="submitting || (locked && timeLeft > 0)"
+                  :disabled="submitting || isSubmittingToBackend || (locked && timeLeft > 0)"
                   class="w-full rounded-lg px-3 py-2 text-xs font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-50 sm:rounded-xl sm:px-4 sm:py-2.5 sm:text-sm"
                   :class="[
                     locked && timeLeft > 0
@@ -493,7 +527,7 @@
                           : 'bg-gradient-to-r from-emerald-500 to-cyan-500 hover:shadow-lg hover:shadow-emerald-500/30'
                   ]"
                 >
-                  {{ submitting ? '⏳ Submitting...' : 
+                  {{ submitting || isSubmittingToBackend ? '⏳ Submitting...' : 
                      locked && timeLeft > 0 ? '🔒 Locked - Cannot Submit' :
                      timeLeft <= 0 ? '⏰ Submit Now' : 
                      '📤 Submit Test' }}
@@ -504,6 +538,7 @@
                   v-if="locked"
                   type="button"
                   @click="handleClose"
+                  :disabled="submitting || isSubmittingToBackend"
                   class="w-full rounded-lg bg-rose-500 px-3 py-2 text-xs font-semibold text-white transition hover:bg-rose-400 sm:rounded-xl sm:px-4 sm:py-2.5 sm:text-sm"
                 >
                   🔒 Locked - Exit
@@ -514,10 +549,10 @@
                   v-if="locked && timeLeft <= 0"
                   type="button"
                   @click="emitSubmit"
-                  :disabled="submitting"
+                  :disabled="submitting || isSubmittingToBackend"
                   class="w-full rounded-lg bg-amber-500 px-3 py-2 text-xs font-semibold text-white transition hover:bg-amber-400 sm:rounded-xl sm:px-4 sm:py-2.5 sm:text-sm"
                 >
-                  {{ submitting ? '⏳ Submitting...' : '⚠️ Force Submit' }}
+                  {{ submitting || isSubmittingToBackend ? '⏳ Submitting...' : '⚠️ Force Submit' }}
                 </button>
               </div>
 
@@ -914,9 +949,13 @@ const buildPayload = () => {
   })
 }
 
+// ⭐ UPDATED: Submit function with loader and prevention
 const emitSubmit = async () => {
-  if (submitting.value) return
-  if (isSubmittingToBackend.value) return
+  // Prevent multiple submissions
+  if (submitting.value || isSubmittingToBackend.value) {
+    console.log('Submit already in progress, ignoring...')
+    return
+  }
   
   // If locked, only allow submit if time is up
   if (locked.value && timeLeft.value > 0) {
@@ -924,6 +963,7 @@ const emitSubmit = async () => {
     return
   }
   
+  // Show loader immediately
   submitting.value = true
   isSubmittingToBackend.value = true
   autoSubmitted.value = true
@@ -948,11 +988,33 @@ const emitSubmit = async () => {
     console.error('Submit error:', error)
     violation.value = 'Failed to submit test. Please try again.'
     autoSubmitted.value = false
-  } finally {
+    // Reset submission states on error
     submitting.value = false
     isSubmittingToBackend.value = false
   }
+  // Note: submitting states will be reset by parent after successful submission
 }
+
+// ⭐ NEW: Method to reset submission state (called from parent)
+const resetSubmissionState = () => {
+  submitting.value = false
+  isSubmittingToBackend.value = false
+}
+
+// ⭐ NEW: Method to set submission as completed
+const markSubmissionComplete = () => {
+  submitting.value = false
+  isSubmittingToBackend.value = false
+  autoSubmitted.value = true
+}
+
+// Expose methods to parent
+defineExpose({
+  resetSubmissionState,
+  markSubmissionComplete,
+  submitting,
+  isSubmittingToBackend
+})
 
 // Theme
 const applyTheme = (darkModeEnabled) => {
@@ -1003,8 +1065,8 @@ const syncTimeLeftWithWallClock = () => {
 const tick = () => {
   syncTimeLeftWithWallClock()
 
-  // Auto-submit when time runs out
-  if (timeLeft.value <= 0 && !autoSubmitted.value && !submitting.value) {
+  // Auto-submit when time runs out (only if not already submitting)
+  if (timeLeft.value <= 0 && !autoSubmitted.value && !submitting.value && !isSubmittingToBackend.value) {
     emitSubmit()
   }
 }
@@ -1171,6 +1233,22 @@ onBeforeUnmount(() => {
   animation: pulse 1s ease-in-out infinite;
 }
 
+/* Bounce Animation for dots */
+@keyframes bounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1.2s ease-in-out infinite;
+}
+
 /* Prevent selection */
 .select-none {
   user-select: none;
@@ -1235,5 +1313,16 @@ onBeforeUnmount(() => {
   .fixed {
     padding-bottom: max(env(safe-area-inset-bottom));
   }
+}
+
+/* Confirm dialog transition */
+.confirm-dialog-enter-active,
+.confirm-dialog-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.confirm-dialog-enter-from,
+.confirm-dialog-leave-to {
+  opacity: 0;
 }
 </style>
