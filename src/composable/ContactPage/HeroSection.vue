@@ -2,24 +2,89 @@
   <div class="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
     
     <!-- Hero Section -->
-    <div class="relative overflow-hidden">
-      <div class="absolute inset-0 bg-linear-to-r from-blue-600/20 to-purple-600/20 dark:from-blue-900/30 dark:to-purple-900/30"></div>
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div class="text-center">
-          <div class="inline-flex items-center justify-center p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-4">
-            <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-          </div>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            Get in <span class="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Touch</span>
-          </h1>
-          <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
-          </p>
-        </div>
+    <div class="relative overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      <!-- Gradient Waves -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div class="absolute bottom-0 left-0 w-full h-48 bg-linear-to-r from-blue-400/10 via-purple-400/10 to-indigo-400/10 rounded-t-full" 
+          style="transform: skewY(-3deg);"></div>
+      <div class="absolute bottom-0 left-0 w-full h-32 bg-linear-to-r from-blue-500/5 via-purple-500/5 to-indigo-500/5 rounded-t-full" 
+          style="transform: skewY(-6deg); margin-bottom: -10px;"></div>
+      <div class="absolute top-0 right-0 w-1/2 h-64 bg-linear-to-b from-blue-400/5 via-purple-400/5 to-transparent rounded-full opacity-50"></div>
+    </div>
+  
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 relative z-10">
+    <div class="text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center justify-center p-2 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-4 animate-bounce-slow">
+        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      </div>
+      
+      <!-- Heading -->
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
+        Get in <span class="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Touch</span>
+      </h1>
+      
+      <!-- Description -->
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+        Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+      </p>
+      
+      <!-- Social Media Links - Positioned Below Description -->
+      <div class="flex flex-wrap items-center justify-center gap-3 md:gap-4 mt-6">
+        <!-- Label -->
+        <span class="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2 hidden sm:inline-block">
+          Connect with us:
+        </span>
+        
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/share/1FzMrozcbm/" 
+           target="_blank"
+           rel="noopener noreferrer"
+           class="group relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-linear-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl shadow-blue-500/25">
+          <i class="fab fa-facebook-f text-white text-lg md:text-xl"></i>
+          <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            Facebook
+          </span>
+        </a>
+        
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/growwith_educational_society" 
+           target="_blank"
+           rel="noopener noreferrer"
+           class="group relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-linear-to-br from-pink-500 via-red-500 to-yellow-500 hover:from-pink-600 hover:via-red-600 hover:to-yellow-600 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl shadow-pink-500/25">
+          <i class="fab fa-instagram text-white text-lg md:text-xl"></i>
+          <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            Instagram
+          </span>
+        </a>
+        
+        <!-- YouTube -->
+        <a href="https://www.youtube.com/@educational_society_class" 
+           target="_blank"
+           rel="noopener noreferrer"
+           class="group relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-linear-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl shadow-red-500/25">
+          <i class="fab fa-youtube text-white text-lg md:text-xl"></i>
+          <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            YouTube
+          </span>
+        </a>
+        
+        <!-- Telegram -->
+        <a href="https://t.me/educational_society" 
+           target="_blank"
+           rel="noopener noreferrer"
+           class="group relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-linear-to-br from-[#0088cc] to-[#00a8e8] hover:from-[#0077b3] hover:to-[#0088cc] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl shadow-blue-400/25">
+          <i class="fab fa-telegram-plane text-white text-lg md:text-xl"></i>
+          <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            Telegram
+          </span>
+        </a>
       </div>
     </div>
+  </div>
+</div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 my-2">
       <div class="grid lg:grid-cols-2 gap-8 lg:gap-12">
@@ -552,5 +617,58 @@ onBeforeUnmount(() => {
 
 .dark .max-h-96::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
+}
+
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes bounce-slow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 2s infinite;
+}
+
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+@media (max-width: 640px) {
+  .bg-grid-pattern {
+    background-size: 30px 30px;
+  }
 }
 </style>

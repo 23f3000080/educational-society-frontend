@@ -6,14 +6,55 @@
       <div class="grid grid-cols-2 gap-8 lg:grid-cols-5 lg:gap-8">
         <!-- About -->
         <div class="col-span-2 sm:col-span-1">
-          <img src="../../assets/images/ES Logo New.jpg" alt="Educational Society Logo"
-            class="w-20 h-20 rounded-2xl mb-4" />
+          <img src="/ES_ICON.png" alt="Educational Society Logo"
+            class="w-22 h-22 rounded-2xl mb-0" />
           <h2 class="text-xl font-bold text-amber-400 hover:text-[#14d94f] mb-3">
             Educational Society
           </h2>
           <p class="text-sm text-gray-400 leading-relaxed">
             Empowering students with quality education and skills for a brighter future.
           </p>
+          
+          <!-- Social Media Buttons -->
+          <div class="flex space-x-3 mt-4">
+            <a href="https://www.facebook.com/share/1FzMrozcbm/" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-10 h-10 rounded-full bg-gray-700 hover:bg-[#1877f2] flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <i class="fab fa-facebook-f text-white"></i>
+            </a>
+            <!-- <a href="https://twitter.com/educationalsoc" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-10 h-10 rounded-full bg-gray-700 hover:bg-[#1da1f2] flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <i class="fab fa-twitter text-white"></i>
+            </a> -->
+            <a href="https://www.instagram.com/growwith_educational_society" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-10 h-10 rounded-full bg-gray-700 hover:bg-[#e4405f] flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <i class="fab fa-instagram text-white"></i>
+            </a>
+            <a href="https://www.youtube.com/@educational_society_class" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-10 h-10 rounded-full bg-gray-700 hover:bg-[#ff0000] flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <i class="fab fa-youtube text-white"></i>
+            </a>
+            <!-- telegram -->
+            <a href="https://t.me/educational_society" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-10 h-10 rounded-full bg-gray-700 hover:bg-[#0088cc] flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <i class="fab fa-telegram-plane text-white"></i>
+            </a>
+            <!-- <a href="https://linkedin.com/company/educationalsociety" 
+               target="_blank"
+               rel="noopener noreferrer"
+               class="w-10 h-10 rounded-full bg-gray-700 hover:bg-[#0a66c2] flex items-center justify-center transition-all duration-300 hover:scale-110">
+              <i class="fab fa-linkedin-in text-white"></i>
+            </a> -->
+          </div>
         </div>
 
         <!-- Quick Links -->
@@ -54,14 +95,12 @@
           <h2 class="text-lg font-semibold text-amber-300 mb-4">Contact Us</h2>
           <ul class="space-y-2 text-sm text-gray-400">
             <li>📍 Patna, Bihar, India</li>
-            <li>📞 +91 9142125921</li>
-            <li>✉️ support.educationalsociety@gmail.com</li>
+            <li><a href="tel:+919142125921" class="hover:text-yellow-600 transition"><i class="fas fa-phone mr-2"></i>+91 9142125921</a></li>
+            <li><a href="mailto:support.educationalsociety@gmail.com" class="hover:text-yellow-600 transition"><i class="fas fa-envelope mr-2"></i>support.educationalsociety@gmail.com</a></li>
           </ul>
         </div>
       </div>
     </div>
-
-
 
     <!-- Bottom -->
     <div class="border-t border-gray-300 dark:border-gray-700 py-4 text-center text-sm">
@@ -76,9 +115,10 @@
 </template>
 
 <script setup>
-
 // dynamic copyright year (optional)
 const currentYear = new Date().getFullYear();
 </script>
 
-<style scoped></style>
+<style scoped>
+/* No additional styles needed - using Tailwind classes */
+</style>

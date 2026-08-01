@@ -108,7 +108,12 @@
                                 <!-- Ring Animation -->
                                 <div class="absolute -inset-4 border-2 border-amber-400/20 rounded-full animate-spin-slow"></div>
                                 <div class="absolute -inset-8 border border-orange-400/10 rounded-full animate-spin-slow" style="animation-direction: reverse; animation-duration: 12s;"></div>
+                                
                             </div>
+                            <p class="text-xs text-gray-400 dark:text-gray-500 items-center gap-1.5 mt-2">
+                                <span class="inline-block w-1.5 h-1.5 rounded-full bg-purple-500 animate-pulse mr-2"></span>
+                                <span>Dont't worry, Mai tumhara password nhi dekh rha hunn!</span>
+                            </p>
 
                             <!-- Welcome Text -->
                             <h3 class="text-3xl font-bold text-gray-800 dark:text-white mb-2 mt-6">

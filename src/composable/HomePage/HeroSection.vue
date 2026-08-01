@@ -713,14 +713,22 @@
 
                   <!-- Social Icons -->
                   <div class="flex justify-center gap-2 mt-4">
-                    <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                    <!-- <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
                       <i class="fa-brands fa-linkedin-in text-white text-sm"></i>
-                    </a>
-                    <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                    </a> -->
+                    <!-- <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
                       <i class="fa-brands fa-twitter text-white text-sm"></i>
-                    </a>
-                    <a href="#" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                    </a> -->
+                    <a href="https://www.instagram.com/growwith_educational_society" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
                       <i class="fa-brands fa-instagram text-white text-sm"></i>
+                    </a>
+                    <!-- facebook -->
+                    <a href="https://www.facebook.com/share/1FzMrozcbm" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                      <i class="fa-brands fa-facebook-f text-white text-sm"></i>
+                    </a>
+                    <!-- youtube -->
+                    <a href="https://www.youtube.com/@growwith_educational_society" class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/40 transition-all hover:scale-110">
+                      <i class="fa-brands fa-youtube text-white text-sm"></i>
                     </a>
                   </div>
                 </div>
