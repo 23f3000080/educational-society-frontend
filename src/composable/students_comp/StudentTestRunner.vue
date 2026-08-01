@@ -136,12 +136,13 @@
 
       <!-- Main Content - Scrollable -->
       <div class="mt-2 flex-1 overflow-y-auto overflow-x-hidden" :class="isDarkMode ? 'scrollbar-dark' : 'scrollbar-light'">
-        <div class="grid gap-2 pb-4 lg:grid-cols-[1.2fr_0.8fr] lg:gap-3">
+        <div class="flex gap-2 pb-4 lg:gap-3">
           
-          <!-- Question Area -->
+          <!-- Question Area - Dynamic width based on sidebar visibility -->
           <section :class="[
-            'rounded-xl p-3 shadow-2xl backdrop-blur sm:rounded-2xl sm:p-4',
-            isDarkMode ? 'border border-white/10 bg-slate-900/80' : 'border border-slate-200 bg-white/90'
+            'rounded-xl p-3 shadow-2xl backdrop-blur transition-all duration-300 sm:rounded-2xl sm:p-4',
+            isDarkMode ? 'border border-white/10 bg-slate-900/80' : 'border border-slate-200 bg-white/90',
+            showSidebar ? 'lg:w-[calc(100%-320px)]' : 'lg:w-full'
           ]">
             <!-- Stats -->
             <div class="flex flex-wrap items-center gap-1 text-xs sm:gap-2 sm:text-sm">
@@ -221,9 +222,11 @@
                         isDarkMode ? 'bg-emerald-500/15 text-emerald-300' : 'bg-emerald-100 text-emerald-700'
                       ]">✅ Answered</span>
                     </div>
-                    <h3 class="mt-1.5 text-sm font-semibold leading-relaxed sm:text-base" 
-                        :class="isDarkMode ? 'text-white' : 'text-slate-900'"
-                        v-html="selectedQuestion.question_text"></h3>
+                    <!-- Question text with HTML rendering -->
+                    <div class="mt-1.5 text-sm font-semibold leading-relaxed sm:text-base question-content" 
+                         :class="isDarkMode ? 'text-white' : 'text-slate-900'"
+                         v-html="convertToHTML(selectedQuestion.question_text)">
+                    </div>
                   </div>
                   
                   <!-- Clear Answer Button for individual question -->
@@ -268,8 +271,9 @@
                         class="mt-0.5 h-3.5 w-3.5 shrink-0 accent-cyan-500 sm:h-4 sm:w-4"
                         @change="saveAnswer(selectedQuestion.id)"
                       />
-                      <span class="text-xs leading-relaxed sm:text-sm" :class="isDarkMode ? 'text-slate-200' : 'text-slate-800'">
-                        <span class="font-semibold text-cyan-500">{{ String.fromCharCode(65 + idx) }}.</span> {{ option.option_text }}
+                      <span class="text-xs leading-relaxed sm:text-sm option-content" :class="isDarkMode ? 'text-slate-200' : 'text-slate-800'">
+                        <span class="font-semibold text-cyan-500">{{ String.fromCharCode(65 + idx) }}.</span> 
+                        <span v-html="convertToHTML(option.option_text)"></span>
                       </span>
                     </label>
                   </template>
@@ -294,8 +298,9 @@
                         class="mt-0.5 h-3.5 w-3.5 shrink-0 rounded accent-cyan-500 sm:h-4 sm:w-4"
                         @change="handleMultiSelect(selectedQuestion.id, option.id)"
                       />
-                      <span class="text-xs leading-relaxed sm:text-sm" :class="isDarkMode ? 'text-slate-200' : 'text-slate-800'">
-                        <span class="font-semibold text-cyan-500">{{ String.fromCharCode(65 + idx) }}.</span> {{ option.option_text }}
+                      <span class="text-xs leading-relaxed sm:text-sm option-content" :class="isDarkMode ? 'text-slate-200' : 'text-slate-800'">
+                        <span class="font-semibold text-cyan-500">{{ String.fromCharCode(65 + idx) }}.</span> 
+                        <span v-html="convertToHTML(option.option_text)"></span>
                       </span>
                     </label>
                   </template>
@@ -368,13 +373,64 @@
             </div>
           </section>
 
+          <!-- Sidebar Toggle Button -->
+          <button
+            type="button"
+            @click="toggleSidebar"
+            :disabled="submitting || isSubmittingToBackend"
+            :class="[
+              'hidden lg:flex items-center justify-center w-8 h-12 rounded-r-xl transition-all duration-300 self-center',
+              'shadow-lg hover:shadow-xl',
+              isDarkMode 
+                ? 'bg-slate-800/90 text-slate-300 hover:bg-slate-700/90 border border-white/10' 
+                : 'bg-white/90 text-slate-600 hover:bg-slate-50 border border-slate-200',
+              showSidebar ? 'rounded-l-none' : 'rounded-l-xl'
+            ]"
+            :title="showSidebar ? 'Hide Questions Panel' : 'Show Questions Panel'"
+          >
+            <svg 
+              class="w-4 h-4 transition-transform duration-300" 
+              :class="{ 'rotate-180': !showSidebar }"
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
           <!-- Sidebar -->
-          <aside class="flex flex-col gap-2">
-            <!-- Question Navigator -->
+          <aside 
+            v-show="showSidebar"
+            :class="[
+              'flex flex-col gap-2 transition-all duration-300 overflow-hidden',
+              'lg:w-[300px] lg:flex-shrink-0'
+            ]"
+          >
+            <!-- Mobile overlay for sidebar -->
+            <div 
+              v-if="showSidebar && isMobile"
+              class="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+              @click="toggleSidebar"
+            ></div>
+
             <div :class="[
               'rounded-xl p-3 shadow-2xl backdrop-blur sm:rounded-2xl sm:p-4',
-              isDarkMode ? 'border border-white/10 bg-white/5' : 'border border-slate-200 bg-white/90'
+              isDarkMode ? 'border border-white/10 bg-white/5' : 'border border-slate-200 bg-white/90',
+              'relative z-50 lg:z-auto'
             ]">
+              <!-- Mobile close button -->
+              <button
+                type="button"
+                @click="toggleSidebar"
+                class="lg:hidden absolute top-2 right-2 p-1 rounded-lg hover:bg-slate-200/50"
+                :class="isDarkMode ? 'text-slate-300 hover:bg-white/10' : 'text-slate-600 hover:bg-slate-200/50'"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
               <div class="flex items-center justify-between">
                 <h3 class="text-sm font-semibold" :class="isDarkMode ? 'text-white' : 'text-slate-900'">Questions</h3>
                 <span :class="[
@@ -636,10 +692,11 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, onUnmounted } from 'vue'
 
 const THEME_STORAGE_KEY = 'student_tests_theme'
 const ANSWERS_STORAGE_KEY = 'test_answers'
+const SIDEBAR_STORAGE_KEY = 'test_sidebar_visible'
 
 const props = defineProps({
   test: {
@@ -683,9 +740,46 @@ const showClearAllConfirm = ref(false)
 const clearAllMessage = ref('')
 const saveTimeout = ref(null)
 const isSubmittingToBackend = ref(false)
+const showSidebar = ref(true) // ⭐ New: Sidebar visibility state
+const isMobile = ref(false) // ⭐ New: Mobile detection
+
 let timerHandle = null
 let fullscreenRequested = false
 let autoSaveInterval = null
+let mobileCheckInterval = null
+
+// ⭐ HTML Conversion Function
+const convertToHTML = (text) => {
+  if (!text) return ''
+  
+  let html = text
+  
+  // Convert **bold** to <strong>bold</strong>
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+  
+  // Convert *italic* to <em>italic</em>
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
+  
+  // Convert `code` to <code>code</code>
+  html = html.replace(/`(.*?)`/g, '<code>$1</code>')
+  
+  // Convert __underline__ to <u>underline</u>
+  html = html.replace(/__(.*?)__/g, '<u>$1</u>')
+  
+  // Convert ==highlight== to <mark>highlight</mark>
+  html = html.replace(/==(.*?)==/g, '<mark>$1</mark>')
+  
+  // Convert ~~strikethrough~~ to <del>strikethrough</del>
+  html = html.replace(/~~(.*?)~~/g, '<del>$1</del>')
+  
+  // Convert [link](url) to <a href="url">link</a>
+  html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+  
+  // Convert newlines to <br> tags
+  html = html.replace(/\n/g, '<br>')
+  
+  return html
+}
 
 // Computed
 const formattedTimeLeft = computed(() => {
@@ -731,6 +825,28 @@ const securityMessage = computed(() => {
   return ''
 })
 
+// ⭐ Sidebar Toggle Function
+const toggleSidebar = () => {
+  showSidebar.value = !showSidebar.value
+  // Save preference
+  try {
+    localStorage.setItem(SIDEBAR_STORAGE_KEY, JSON.stringify(showSidebar.value))
+  } catch (e) {
+    // Ignore
+  }
+}
+
+// ⭐ Check if mobile
+const checkMobile = () => {
+  isMobile.value = window.innerWidth < 1024
+  // On mobile, auto-hide sidebar
+  if (isMobile.value && showSidebar.value) {
+    // Only auto-hide if we're not in the middle of a user interaction
+    // We'll keep it simple: if on mobile, sidebar is hidden by default
+    // The user can still toggle it
+  }
+}
+
 // Storage Methods
 const getStorageKey = () => {
   return `${ANSWERS_STORAGE_KEY}_${props.test.id}`
@@ -751,6 +867,19 @@ const loadAnswers = () => {
     console.error('Failed to load answers:', error)
   }
   return false
+}
+
+// ⭐ Load sidebar preference
+const loadSidebarPreference = () => {
+  try {
+    const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY)
+    if (stored !== null) {
+      const parsed = JSON.parse(stored)
+      showSidebar.value = parsed
+    }
+  } catch (e) {
+    // Ignore
+  }
 }
 
 const saveAnswers = () => {
@@ -836,6 +965,10 @@ const getQuestionTypeLabel = (type) => {
 const selectQuestion = (index) => {
   if (index >= 0 && index < props.questions.length) {
     selectedQuestionIndex.value = index
+    // On mobile, hide sidebar after selecting question
+    if (isMobile.value && showSidebar.value) {
+      showSidebar.value = false
+    }
   }
 }
 
@@ -949,7 +1082,7 @@ const buildPayload = () => {
   })
 }
 
-// ⭐ UPDATED: Submit function with loader and prevention
+// Submit function with loader and prevention
 const emitSubmit = async () => {
   // Prevent multiple submissions
   if (submitting.value || isSubmittingToBackend.value) {
@@ -995,13 +1128,13 @@ const emitSubmit = async () => {
   // Note: submitting states will be reset by parent after successful submission
 }
 
-// ⭐ NEW: Method to reset submission state (called from parent)
+// Method to reset submission state (called from parent)
 const resetSubmissionState = () => {
   submitting.value = false
   isSubmittingToBackend.value = false
 }
 
-// ⭐ NEW: Method to set submission as completed
+// Method to set submission as completed
 const markSubmissionComplete = () => {
   submitting.value = false
   isSubmittingToBackend.value = false
@@ -1142,12 +1275,24 @@ const handleKeydown = (event) => {
     event.preventDefault()
     toggleFullscreen()
   }
+  
+  // Sidebar toggle shortcut (S key)
+  if (key === 's' && !event.ctrlKey && !event.metaKey && !event.altKey) {
+    event.preventDefault()
+    toggleSidebar()
+  }
 }
 
 // Lifecycle
 onMounted(() => {
   // Load saved answers
   loadAnswers()
+  
+  // Load sidebar preference
+  loadSidebarPreference()
+  
+  // Check mobile
+  checkMobile()
   
   // Theme
   const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
@@ -1169,6 +1314,9 @@ onMounted(() => {
   document.addEventListener('cut', preventCopy)
   document.addEventListener('contextmenu', preventCopy)
   document.addEventListener('keydown', handleKeydown)
+  
+  // Window resize for mobile detection
+  window.addEventListener('resize', checkMobile)
 
   timerHandle = window.setInterval(tick, 1000)
   requestFullscreen()
@@ -1190,6 +1338,9 @@ onBeforeUnmount(() => {
   if (autoSaveInterval) {
     clearInterval(autoSaveInterval)
   }
+  if (mobileCheckInterval) {
+    clearInterval(mobileCheckInterval)
+  }
   saveAnswers()
   window.removeEventListener('beforeunload', saveAnswers)
   document.removeEventListener('visibilitychange', handleVisibilityChange)
@@ -1199,6 +1350,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('cut', preventCopy)
   document.removeEventListener('contextmenu', preventCopy)
   document.removeEventListener('keydown', handleKeydown)
+  window.removeEventListener('resize', checkMobile)
 })
 </script>
 
@@ -1294,6 +1446,163 @@ onBeforeUnmount(() => {
   background: #64748b;
 }
 
+/* HTML Content Styles */
+.question-content :deep(strong),
+.option-content :deep(strong) {
+  font-weight: 700;
+  color: inherit;
+}
+
+.question-content :deep(em),
+.option-content :deep(em) {
+  font-style: italic;
+}
+
+.question-content :deep(code),
+.option-content :deep(code) {
+  background-color: rgba(100, 100, 100, 0.15);
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.question-content :deep(mark),
+.option-content :deep(mark) {
+  background-color: #fbbf24;
+  color: #1e293b;
+  padding: 0.1rem 0.2rem;
+  border-radius: 0.125rem;
+}
+
+.question-content :deep(u),
+.option-content :deep(u) {
+  text-decoration: underline;
+}
+
+.question-content :deep(del),
+.option-content :deep(del) {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.question-content :deep(a),
+.option-content :deep(a) {
+  color: #3b82f6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.question-content :deep(a):hover,
+.option-content :deep(a):hover {
+  color: #2563eb;
+}
+
+.question-content :deep(table),
+.option-content :deep(table) {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.question-content :deep(th),
+.option-content :deep(th) {
+  background-color: rgba(100, 100, 100, 0.1);
+  font-weight: 700;
+  padding: 0.5rem;
+  border: 1px solid rgba(100, 100, 100, 0.2);
+}
+
+.question-content :deep(td),
+.option-content :deep(td) {
+  padding: 0.5rem;
+  border: 1px solid rgba(100, 100, 100, 0.2);
+}
+
+.question-content :deep(tr):nth-child(even),
+.option-content :deep(tr):nth-child(even) {
+  background-color: rgba(100, 100, 100, 0.05);
+}
+
+.question-content :deep(ul),
+.option-content :deep(ul),
+.question-content :deep(ol),
+.option-content :deep(ol) {
+  padding-left: 1.5rem;
+  margin: 0.25rem 0;
+}
+
+.question-content :deep(li),
+.option-content :deep(li) {
+  margin: 0.125rem 0;
+}
+
+.question-content :deep(blockquote),
+.option-content :deep(blockquote) {
+  border-left: 3px solid rgba(100, 100, 100, 0.3);
+  padding-left: 1rem;
+  margin: 0.5rem 0;
+  font-style: italic;
+}
+
+.question-content :deep(h1),
+.option-content :deep(h1),
+.question-content :deep(h2),
+.option-content :deep(h2),
+.question-content :deep(h3),
+.option-content :deep(h3),
+.question-content :deep(h4),
+.option-content :deep(h4) {
+  font-weight: 700;
+  margin: 0.5rem 0 0.25rem 0;
+}
+
+.question-content :deep(img),
+.option-content :deep(img) {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.25rem;
+}
+
+/* Dark mode adjustments */
+:deep(.dark) .question-content mark,
+:deep(.dark) .option-content mark {
+  background-color: #fbbf24;
+  color: #0f172a;
+}
+
+:deep(.dark) .question-content code,
+:deep(.dark) .option-content code {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+}
+
+:deep(.dark) .question-content a,
+:deep(.dark) .option-content a {
+  color: #60a5fa;
+}
+
+:deep(.dark) .question-content a:hover,
+:deep(.dark) .option-content a:hover {
+  color: #93bbfc;
+}
+
+:deep(.dark) .question-content th,
+:deep(.dark) .option-content th {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+:deep(.dark) .question-content td,
+:deep(.dark) .option-content td {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+:deep(.dark) .question-content tr:nth-child(even),
+:deep(.dark) .option-content tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
 /* Mobile Optimizations */
 @media (max-width: 640px) {
   button, 
@@ -1324,5 +1633,32 @@ onBeforeUnmount(() => {
 .confirm-dialog-enter-from,
 .confirm-dialog-leave-to {
   opacity: 0;
+}
+
+/* Sidebar transition */
+.sidebar-enter-active,
+.sidebar-leave-active {
+  transition: all 0.3s ease;
+}
+
+.sidebar-enter-from,
+.sidebar-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+/* Mobile sidebar overlay */
+@media (max-width: 1023px) {
+  .lg\:w-\[300px\] {
+    position: fixed !important;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 85% !important;
+    max-width: 320px !important;
+    z-index: 50;
+    padding-top: 3rem;
+    overflow-y: auto;
+  }
 }
 </style>
