@@ -501,7 +501,7 @@ const applyFormattingToEditor = (editor, type) => {
 
   const wrapperMap = {
     bold: ['strong', ''],
-    code: ['code', 'rounded bg-gray-100 px-1 py-0.5 font-mono text-sm text-gray-900 dark:bg-gray-900 dark:text-gray-100'],
+    code: ['code', 'rounded bg-gray-100 px-1 py-0.5 font-mono text-sm text-gray-900 dark:bg-gray-900 dark:text-gray-900'],
     highlight: ['mark', 'rounded bg-yellow-200 px-1 text-gray-900']
   }
 
@@ -564,7 +564,7 @@ const applyFormatting = (type) => {
       wrapSelection('strong')
       break
     case 'code':
-      wrapSelection('code', 'rounded bg-gray-100 px-1 py-0.5 font-mono text-sm text-gray-900 dark:bg-gray-900 dark:text-gray-100')
+      wrapSelection('code', 'rounded bg-gray-100 px-1 py-0.5 font-mono text-sm text-[#930ba5]')
       break
     case 'highlight':
       wrapSelection('mark', 'rounded bg-yellow-200 px-1 text-gray-900')
