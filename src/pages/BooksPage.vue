@@ -1,19 +1,23 @@
-<!-- <template>
-  <div class="min-h-screen bg-linear-to-br from-[#fff7ed] via-[#eff6ff] to-[#e0f2fe] py-10 px-4 dark:from-[#081422] dark:via-[#0f1b2e] dark:to-[#15213a]">
+<template>
+  <div class="min-h-screen bg-linear-to-br from-[#fdf6e3] via-[#e6f7ff] to-[#d4edda] py-10 px-4 dark:from-[#0b1a2e] dark:via-[#122b44] dark:to-[#1a3a5c]">
     <div class="mx-auto max-w-7xl">
-      <div class="rounded-3xl border border-indigo-200/60 bg-white/80 p-6 shadow-xl backdrop-blur-md sm:p-8 dark:border-indigo-300/20 dark:bg-slate-900/70">
+      <!-- Glassmorphism header with filters -->
+      <div class="rounded-3xl border border-indigo-200/60 bg-white/80 p-6 shadow-2xl backdrop-blur-md sm:p-8 dark:border-indigo-300/20 dark:bg-slate-900/70">
         <div class="text-center">
-          <h1 class="text-3xl font-black text-indigo-800 sm:text-4xl dark:text-indigo-200">Books Collection</h1>
-          <p class="mt-2 text-sm text-slate-600 sm:text-base dark:text-slate-300">Download PDFs, discover recommendations, and filter by type.</p>
+          <h1 class="text-4xl font-black text-indigo-800 sm:text-5xl dark:text-indigo-200 tracking-tight flex items-center justify-center gap-3">
+            <span>📚</span> Bookshelf
+          </h1>
+          <p class="mt-2 text-sm text-slate-600 sm:text-base dark:text-slate-300">Explore, download, and get inspired by our educational collection.</p>
         </div>
 
+        <!-- Filters row -->
         <div class="mt-6 grid gap-3 md:grid-cols-12">
           <div class="relative md:col-span-5">
             <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
             <input
               v-model="searchQuery"
               type="text"
-              placeholder="Search title or description..."
+              placeholder="Search by title or description..."
               class="w-full rounded-xl border border-indigo-200 bg-white px-4 py-3 pl-11 text-slate-800 outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-300/40 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100"
             />
           </div>
@@ -26,7 +30,10 @@
               <option value="all">All Categories</option>
               <option value="math">Mathematics</option>
               <option value="python">Python</option>
+              <option value="computer_science">Computer Science</option>
               <option value="web">Web Development</option>
+              <option value="ai">AI & ML</option>
+              <option value="SQL">SQL</option>
               <option value="other">Other</option>
             </select>
           </div>
@@ -45,330 +52,295 @@
 
           <button
             @click="resetFilters"
-            class="md:col-span-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700"
+            class="md:col-span-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-indigo-700 shadow-md"
           >
             Reset
           </button>
         </div>
 
+        <!-- Stats & recommended toggle -->
         <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
           <p class="text-sm font-medium text-slate-600 dark:text-slate-300">
-            Showing {{ filteredBooks.length }} of {{ books.length }} books
+            Showing <span class="font-bold text-indigo-700 dark:text-indigo-300">{{ filteredBooks.length }}</span> of {{ books.length }} books
           </p>
-          <label class="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-100/70 px-3 py-1.5 text-xs font-semibold text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-300">
-            <input v-model="recommendedOnly" type="checkbox" class="accent-amber-500" />
-            Recommended only
+          <label class="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-100/70 px-3 py-1.5 text-xs font-semibold text-amber-800 backdrop-blur-sm dark:border-amber-500/40 dark:bg-amber-500/10 dark:text-amber-300">
+            <input v-model="recommendedOnly" type="checkbox" class="accent-amber-500 h-4 w-4" />
+            ⭐ Recommended only
           </label>
         </div>
       </div>
     </div>
 
+    <!-- Books Grid -->
     <div v-if="filteredBooks.length" class="mx-auto mt-8 grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-3">
       <div
         v-for="(book, index) in filteredBooks"
         :key="index"
-        class="group relative flex flex-col rounded-2xl border border-indigo-100 bg-white p-5 shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+        class="group relative flex flex-col rounded-2xl border border-indigo-100 bg-white/90 p-5 shadow-xl backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-slate-400 hover:dark:shadow-yellow-900 dark:border-slate-700 dark:bg-slate-900/90"
       >
+        <!-- Book image with badge -->
         <div class="relative">
           <img
             :src="book.image"
             :alt="book.title"
-            class="mb-4 h-48 w-full rounded-lg object-cover"
+            class="mb-4 h-52 w-full rounded-lg object-cover shadow-sm transition-transform group-hover:scale-[1.02]"
           />
           <div
             v-if="book.recommended"
-            class="absolute top-2 left-2 bg-yellow-400 text-yellow-900 px-3 py-1 text-xs font-bold rounded-full shadow-md"
+            class="absolute top-3 left-3 bg-yellow-400 text-yellow-900 px-3 py-1 text-xs font-bold rounded-full shadow-lg flex items-center gap-1"
           >
             ⭐ Recommended
           </div>
+          <div
+            v-if="book.new"
+            class="absolute top-3 right-3 bg-rose-500 text-white px-3 py-1 text-xs font-bold rounded-full shadow-lg"
+          >
+            NEW
+          </div>
         </div>
 
-        <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{{ book.title }}</h2>
-        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">{{ book.description }}</p>
-        <span class="mb-4 inline-flex w-fit rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300">
+        <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-1 line-clamp-1">{{ book.title }}</h2>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-3 line-clamp-2">{{ book.description }}</p>
+        <!-- <p class="text-lg font-bold text-indigo-700 dark:text-indigo-300 mb-4">{{ book.author }}</p> -->
+        <!-- Category Badge -->
+        <span class="mb-2 inline-flex w-fit items-center gap-1 rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-indigo-700 shadow-sm transition hover:bg-indigo-200 dark:bg-indigo-500/20 dark:text-indigo-300 dark:hover:bg-indigo-500/30">
+          <span class="text-[10px]">📂</span>
           {{ detectCategory(book) }}
         </span>
 
-        <div class="mt-auto flex justify-between gap-3">
+        <!-- Author -->
+        <span v-if="book.author" class="mb-3 inline-flex w-fit items-center gap-1.5 text-sm font-medium text-indigo-600 dark:text-indigo-300">
+          <span class="text-indigo-400 dark:text-indigo-500">✍️</span>
+          {{ book.author }}
+        </span>
+
+        <!-- Action buttons -->
+        <div class="mt-auto flex flex-wrap justify-between gap-2">
           <a
             v-if="book.pdf"
             :href="book.pdf"
             target="_blank"
-            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded-lg text-sm text-center font-medium transition"
+            class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-3 rounded-lg text-sm text-center font-medium transition shadow-md"
           >
-            📘 Download PDF
+            📘 PDF
           </a>
 
           <a
             v-if="book.buy"
             :href="book.buy"
             target="_blank"
-            class="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-lg text-sm text-center font-medium transition"
+            class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 px-3 rounded-lg text-sm text-center font-medium transition shadow-md"
           >
             🛒 Buy
           </a>
+
+          <!-- placeholder if no action -->
+          <div v-if="!book.pdf && !book.buy" class="flex-1 text-center text-sm text-slate-400 italic">
+            coming soon
+          </div>
         </div>
       </div>
     </div>
-    <div v-else class="mx-auto mt-8 max-w-2xl rounded-2xl border border-indigo-200 bg-white p-10 text-center shadow-md dark:border-slate-700 dark:bg-slate-900">
-      <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">No books found</h3>
+
+    <!-- Empty state -->
+    <div v-else class="mx-auto mt-8 max-w-2xl rounded-2xl border border-indigo-200 bg-white/80 p-10 text-center shadow-md backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/80">
+      <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100">📭 No books found</h3>
       <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Try a different keyword or clear filters.</p>
     </div>
 
-    <div class="text-center mt-10">
-      <p class="text-gray-600 dark:text-slate-300">
-        "A room without books is like a body without a soul." - Marcus Tullius Cicero
+    <!-- Quote -->
+    <div class="text-center mt-10 px-4">
+      <p class="text-sm text-gray-600 dark:text-slate-300 italic border-t border-indigo-200/30 pt-6 max-w-2xl mx-auto">
+        “A room without books is like a body without a soul.” — Marcus Tullius Cicero
       </p>
     </div>
-  </div>
-  <Footer />
-</template> -->
-
-<template>
-  <div class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-gradient-to-br from-amber-50 via-sky-50 to-emerald-50 px-4 py-12 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
-    <!-- Animated decorative blobs -->
-    <div class="absolute -top-20 -left-20 h-72 w-72 rounded-full bg-amber-200/30 blur-3xl dark:bg-amber-500/10"></div>
-    <div class="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-sky-200/30 blur-3xl dark:bg-sky-500/10"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-80 w-80 rounded-full bg-emerald-200/20 blur-3xl dark:bg-emerald-500/10"></div>
-
-    <!-- Main content card -->
-    <div class="relative z-10 flex max-w-2xl flex-col items-center justify-center gap-8 rounded-3xl bg-white/60 p-10 text-center shadow-2xl backdrop-blur-md dark:bg-slate-800/60 dark:shadow-slate-900/50 sm:p-12">
-      <!-- Icon / illustration -->
-      <div class="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-tr from-amber-400 to-amber-300 shadow-lg dark:from-amber-300 dark:to-amber-400">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white drop-shadow-md" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      </div>
-
-      <h1 class="text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white sm:text-6xl">
-        <span class="bg-gradient-to-r from-amber-600 to-sky-600 bg-clip-text text-transparent dark:from-amber-300 dark:to-sky-300">
-          Coming Soon!
-        </span>
-      </h1>
-
-      <p class="text-lg text-slate-600 dark:text-slate-300 sm:text-xl">
-        We’re crafting something amazing. 
-        <span class="block sm:inline">Stay tuned for the launch.</span>
+    <!-- copyright line because books are copyrighted -->
+    <div class="text-center mt-10 px-4">
+      <p class="text-sm text-gray-600 dark:text-slate-300">
+        All books are copyrighted material. Please respect the authors and publishers by using the provided links to access or purchase the books legally.
       </p>
-
-      <!-- Animated pulse / countdown placeholder -->
-      <div class="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
-        <span class="relative flex h-3 w-3">
-          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
-          <span class="relative inline-flex h-3 w-3 rounded-full bg-sky-500"></span>
-        </span>
-        Launching soon
-      </div>
-
-      <!-- Action buttons -->
-      <div class="mt-2 flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
-        <router-link
-          to="/"
-          class="group relative inline-flex items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-amber-300/50 dark:from-amber-400 dark:to-amber-500 dark:hover:shadow-amber-400/30"
-        >
-          <span class="relative z-10 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Go Back Home
-          </span>
-          <span class="absolute inset-0 z-0 bg-gradient-to-r from-amber-400 to-amber-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-        </router-link>
-
-        <button 
-          @click="notifyMe" 
-          class="inline-flex items-center gap-2 rounded-xl border-2 border-slate-300 px-8 py-4 text-lg font-semibold text-slate-700 transition-all duration-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700 dark:border-slate-600 dark:text-slate-200 dark:hover:border-sky-500 dark:hover:bg-slate-700/50 dark:hover:text-sky-300"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-          </svg>
-          Notify Me
-        </button>
-      </div>
-
-      <!-- Social proof / decorative -->
-      <div class="mt-4 flex items-center gap-6 text-xs text-slate-400 dark:text-slate-500">
-        <span class="flex items-center gap-1">
-          <span class="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
-          In progress
-        </span>
-        <span class="flex items-center gap-1">
-          <span class="inline-block h-1.5 w-1.5 rounded-full bg-amber-400"></span>
-          Almost there
-        </span>
-        <span class="flex items-center gap-1">
-          <span class="inline-block h-1.5 w-1.5 rounded-full bg-sky-400"></span>
-          Exciting
-        </span>
-      </div>
     </div>
-
-    <!-- Subtle footer note -->
-    <div class="relative z-10 mt-8 text-center text-xs text-slate-400 dark:text-slate-500">
-      <span class="inline-block bg-white/30 px-3 py-1 backdrop-blur-sm dark:bg-slate-800/30">
-        ✦ We can't wait to share it with you ✦
-      </span>
-    </div>
+    <!-- Footer slot (if you have a global Footer component) -->
+    <Footer />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ComingSoon',
+  name: 'Bookshelf',
+  data() {
+    return {
+      searchQuery: '',
+      categoryFilter: 'all',
+      availabilityFilter: 'all',
+      recommendedOnly: false,
+      books: [
+        {
+          title: 'Learning: SQL',
+          description: 'A comprehensive guide to SQL with applications in database management.',
+          image: 'https://media.istockphoto.com/id/1800292591/photo/sql-structured-query-language-technology-concept-icon-virtual-screen.jpg?s=612x612&w=0&k=20&c=Natt2t_aFsr-KlPiMMQUPKIX6sbDb2hOTRhUFcSq6cA=',
+          pdf: 'https://drive.google.com/file/d/1chvb_-mpjeD5d7jqUpLSlDZHb0_Rgr4l/view',
+          buy: 'https://share.google/eyk6k3wzDFj1QwMAU',
+          recommended: true,
+          new: false,
+          category: 'SQL',
+          author: 'Alan Beaulieu',
+        },
+        {
+          title: 'Python Crash Course',
+          description: 'Fast-paced introduction to Python programming for beginners and intermediate.',
+          image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKm1aOTUi71wKVeXCrjrojOJQlVykqefjldVI7E-j8vXGzOglKUWFivQYE&s=10',
+          pdf: 'https://drive.google.com/file/d/17pH5adn-MVYJ7-keDQDlqJk-v0kFNSX2/view',
+          buy: 'https://dl.flipkart.com/s/!PrN4ZNNNN',
+          recommended: true,
+          new: true,
+          category: 'python',
+          author: 'Eric Matthes',
+        },
+        {
+          title: 'HTML & CSS: Design and Build Websites',
+          description: 'Learn the fundamentals of web development with HTML and CSS, including responsive design.',
+          image: '/webdev_Book_Img.jpg',
+          pdf: 'https://drive.google.com/file/d/1DzPlwYAVFqIsnh3-8tfUl2WdohDeTpgH/view',
+          buy: 'https://dl.flipkart.com/s/TiRfNDuuuN',
+          recommended: true,
+          new: true,
+          category: 'web',
+          author: 'Jon Duckett',
+        },
+        {
+          title: 'JavaScript & JQuery: Interactive Front-End Web Development',
+          description: 'A practical guide to JavaScript and jQuery for creating dynamic web pages and user interfaces.',
+          image: '/jsBook_Img.avif',
+          pdf: 'https://drive.google.com/file/d/1riS5aIgHuN2zEVzrZZxClnqwETG1XfSq/view',
+          buy: null,
+          recommended: true,
+          new: true,
+          category: 'web',
+          author: 'Jon Duckett',
+        },
+        {
+          title: 'AI: A Modern Approach',
+          description: 'The definitive AI textbook covering search, reasoning, and machine learning.',
+          image: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=300&fit=crop&crop=center',
+          pdf: 'https://drive.google.com/file/d/1cXj4YwL2975AbBSJqzjZn1ZHtgblAkvO/view?usp=sharing',
+          buy: 'https://dl.flipkart.com/s/!D6T19NNNN',
+          recommended: true,
+          new: true,
+          category: 'ai',
+          author: 'Stuart Russell, Peter Norvig',
+        },
+        {
+          title: 'Introduction to Algorithms',
+          description: 'Comprehensive textbook on algorithms, covering a wide range of topics in computer science.',
+          image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop&crop=center',
+          pdf: 'https://drive.google.com/file/d/1FcIcvGbtY43k_saI9PxaP4yAbxEGfm6M/view?usp=sharing',
+          buy: null,
+          recommended: false,
+          new: true,
+          category: 'computer_science',
+          author: 'Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein',
+        },
+        {
+          title: 'Hands-on Machine Learning with Scikit-Learn, Keras, and TensorFlow',
+          description: 'Practical guide to building machine learning models using Python libraries.',
+          image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSW9J8YL5_rnOnsU2uk7EMHt7MWDJZ-0Q4U6GxH4C7WRjkGK4cqPS9ahxiJ&s=10',
+          pdf: 'https://drive.google.com/file/d/1c_abGBkbsD2prcz46Ix_W8PxO20M-w1d/view',
+          buy: null,
+          recommended: false,
+          new: false,
+          category: 'ai',
+          author: 'Aurélien Géron',
+        },
+        // linear algebra book
+        {
+          title: 'Linear Algebra',
+          description: 'A clear and concise introduction to linear algebra, focusing on vector spaces and linear maps.',
+          image: 'https://images.unsplash.com/photo-1589998059171-988d887df646?w=400&h=300&fit=crop&crop=center',
+          pdf: 'https://drive.google.com/file/d/1zYRWns_WOJ3VXoOvTGDGeqcpknfwFZHb/view?usp=sharing',
+          buy: null,
+          recommended: false,
+          new: false,
+          category: 'math',
+          author: 'Gilbert Strang',
+        },
+        // CALCULUS EARLY TRANSCENDENTALS
+        {
+          title: 'Calculus: Early Transcendentals',
+          description: 'A comprehensive introduction to calculus, covering limits, derivatives, integrals, and series.',
+          image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5exoBM2B-V9QufCCOiftdzoa607gtS0VTkxpr2Y256g&s=10',
+          pdf: 'https://drive.google.com/file/d/1EziOuDILBhg8da_FyCkhK2uM8arr7PaP/view?usp=sharing',
+          buy: null,
+          recommended: false,
+          new: false,
+          category: 'math',
+          author: 'James Stewart',
+        },
+      ],
+    };
+  },
+  computed: {
+    filteredBooks() {
+      return this.books.filter((book) => {
+        // search
+        const matchSearch = this.searchQuery
+          ? book.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+            book.description.toLowerCase().includes(this.searchQuery.toLowerCase())
+          : true;
+
+        // category
+        const matchCategory =
+          this.categoryFilter === 'all' || book.category === this.categoryFilter;
+
+        // availability
+        let matchAvailability = true;
+        if (this.availabilityFilter === 'pdf') matchAvailability = !!book.pdf;
+        else if (this.availabilityFilter === 'buy') matchAvailability = !!book.buy;
+        else if (this.availabilityFilter === 'both') matchAvailability = !!(book.pdf && book.buy);
+
+        // recommended
+        const matchRecommended = this.recommendedOnly ? book.recommended === true : true;
+
+        return matchSearch && matchCategory && matchAvailability && matchRecommended;
+      });
+    },
+  },
   methods: {
-    notifyMe() {
-      alert('🔔 We\'ll notify you when this feature launches! (Demo)');
-    }
-  }
-}
-</script>
-
-<style scoped>
-/* Smooth fade-in animation for the card */
-.relative.z-10 {
-  animation: fadeInUp 0.8s ease-out forwards;
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-@keyframes fadeInUp {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Custom subtle pulse for the status dot */
-.animate-ping {
-  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-/* Hover glow for buttons */
-.group:hover .group-hover\:shadow-amber-300\/50 {
-  box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
-}
-
-/* Responsive tweaks */
-@media (max-width: 640px) {
-  .relative.z-10 {
-    padding: 1.5rem;
-  }
-}
-</style>
-
-<script setup>
-import { computed, ref } from "vue";
-import Footer from '../components/base/Footer.vue';
-
-const searchQuery = ref("");
-const categoryFilter = ref("all");
-const availabilityFilter = ref("all");
-const recommendedOnly = ref(false);
-
-const books = [
-  {
-    title: "Mathematics for Class 10",
-    description: "Comprehensive guide covering NCERT syllabus with solved examples.",
-    pdf: "https://drive.google.com/file/d/1mRl3jx3AUz-eA4tYnj2ELIqDDvp9yTV3/view?usp=drive_link",
-    buy: "https://amzn.in/d/6RkYR5b",
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80",
-    recommended: true,
+    resetFilters() {
+      this.searchQuery = '';
+      this.categoryFilter = 'all';
+      this.availabilityFilter = 'all';
+      this.recommendedOnly = false;
+    },
+    detectCategory(book) {
+      if (!book.category) return 'Other';
+      const map = {
+        math: 'Mathematics',
+        python: 'Python',
+        web: 'Web Dev',
+        ai: 'AI & ML',
+        sql: 'SQL',
+        computer_science: 'Computer Science',
+        other: 'Other',
+      };
+      return map[book.category] || book.category;
+    },
   },
-  {
-    title: "Python for Beginners",
-    description: "Learn Python programming from scratch with projects.",
-    pdf: "https://docs.google.com/document/d/1VbewdsOdkXEUQkAW2zKZmmRh7a2ZPpb1cHD7qOjRhx4/edit?tab=t.0",
-    buy: "https://amzn.in/d/75gdf35",
-    image: "https://images.unsplash.com/photo-1649180556628-9ba704115795?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHl0aG9ufGVufDB8fDB8fHww",
-    recommended: true,
-  },
-  {
-    title: "Web Development Essentials",
-    description: "HTML, CSS, JavaScript & modern frameworks explained simply.",
-    buy: "https://amzn.in/d/6SR2zxE",
-    image: "https://plus.unsplash.com/premium_photo-1685086785054-d047cdc0e525?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D",
-    recommended: false,
-  },
-  {
-    title: "Mathematics for Class 10",
-    description: "Comprehensive guide covering NCERT syllabus with solved examples.",
-    pdf: "https://drive.google.com/file/d/1mRl3jx3AUz-eA4tYnj2ELIqDDvp9yTV3/view?usp=drive_link",
-    buy: "https://amzn.in/d/6RkYR5b",
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80",
-    recommended: true,
-  },
-  {
-    title: "Python for Beginners",
-    description: "Learn Python programming from scratch with projects.",
-    pdf: "https://docs.google.com/document/d/1VbewdsOdkXEUQkAW2zKZmmRh7a2ZPpb1cHD7qOjRhx4/edit?tab=t.0",
-    buy: "https://amzn.in/d/75gdf35",
-    image: "https://images.unsplash.com/photo-1649180556628-9ba704115795?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHl0aG9ufGVufDB8fDB8fHww",
-    recommended: true,
-  },
-  {
-    title: "Web Development Essentials",
-    description: "HTML, CSS, JavaScript & modern frameworks explained simply.",
-    buy: "https://amzn.in/d/6SR2zxE",
-    image: "https://plus.unsplash.com/premium_photo-1685086785054-d047cdc0e525?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2ViJTIwZGV2ZWxvcG1lbnR8ZW58MHx8MHx8fDA%3D",
-    recommended: false,
-  },
-  {
-    title: "Mathematics for Class 10",
-    description: "Comprehensive guide covering NCERT syllabus with solved examples.",
-    pdf: "https://drive.google.com/file/d/1mRl3jx3AUz-eA4tYnj2ELIqDDvp9yTV3/view?usp=drive_link",
-    buy: "https://amzn.in/d/6RkYR5b",
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80",
-    recommended: true,
-  },
-  {
-    title: "Python for Beginners",
-    description: "Learn Python programming from scratch with projects.",
-    pdf: "https://docs.google.com/document/d/1VbewdsOdkXEUQkAW2zKZmmRh7a2ZPpb1cHD7qOjRhx4/edit?tab=t.0",
-    buy: "https://amzn.in/d/75gdf35",
-    image: "https://images.unsplash.com/photo-1649180556628-9ba704115795?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHl0aG9ufGVufDB8fDB8fHww",
-    recommended: true,
-  },
-];
-
-const detectCategory = (book) => {
-  const title = book.title.toLowerCase();
-  if (title.includes("math")) return "math";
-  if (title.includes("python")) return "python";
-  if (title.includes("web")) return "web";
-  return "other";
-};
-
-const filteredBooks = computed(() => {
-  const q = searchQuery.value.trim().toLowerCase();
-
-  return books.filter((book) => {
-    const category = detectCategory(book);
-    const matchesSearch = !q ||
-      book.title.toLowerCase().includes(q) ||
-      book.description.toLowerCase().includes(q);
-
-    const matchesCategory = categoryFilter.value === "all" || category === categoryFilter.value;
-
-    const matchesAvailability =
-      availabilityFilter.value === "all" ||
-      (availabilityFilter.value === "pdf" && !!book.pdf) ||
-      (availabilityFilter.value === "buy" && !!book.buy) ||
-      (availabilityFilter.value === "both" && !!book.pdf && !!book.buy);
-
-    const matchesRecommended = !recommendedOnly.value || !!book.recommended;
-
-    return matchesSearch && matchesCategory && matchesAvailability && matchesRecommended;
-  });
-});
-
-const resetFilters = () => {
-  searchQuery.value = "";
-  categoryFilter.value = "all";
-  availabilityFilter.value = "all";
-  recommendedOnly.value = false;
 };
 </script>
 
 <style scoped>
-/* Optional extra styling */
+/* line-clamp for multiline ellipsis */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>
