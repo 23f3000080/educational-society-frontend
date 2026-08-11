@@ -43,7 +43,9 @@
             <!-- Header -->
             <div class="flex items-start gap-3 pr-8 sm:gap-4 sm:pr-10">
               <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-100 shadow-inner dark:bg-slate-900 sm:h-14 sm:w-14">
-                <span class="google-mark text-xl sm:text-[1.75rem]" aria-hidden="true">ES</span>
+                <!-- <span class="google-mark text-xl sm:text-[1.75rem]" aria-hidden="true">ES</span> -->
+                 <!-- logo -->
+                 <img class="h-11 w-11 rounded-full" src="/ES_New_logo_notext.jpeg" alt="Educational Society" />
               </div>
               <div class="min-w-0 flex-1">
                 <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-sky-600 dark:text-sky-300 sm:text-xs">
