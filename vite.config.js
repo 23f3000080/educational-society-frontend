@@ -19,19 +19,19 @@ export default defineConfig({
       registerType: 'autoUpdate',
       manifest: {
         name: 'Educational Society',
-        short_name: 'Edu Society',
+        short_name: 'Educational Society',
         theme_color: '#0f0c3b',
         background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',
         icons: [
           {
-            src: 'ES_ICON.png',
+            src: 'ES_New_logo.jpeg',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'ES_ICON.png',
+            src: 'ES_New_logo.jpeg',
             sizes: '512x512',
             type: 'image/png'
           }

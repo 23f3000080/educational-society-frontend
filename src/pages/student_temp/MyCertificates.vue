@@ -142,9 +142,9 @@
                       <!-- Logo container -->
                       <div class="relative h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-white dark:bg-gray-800 shadow-xl border-2 border-blue-100 dark:border-blue-800 flex items-center justify-center overflow-hidden">
                         <img 
-                          src="/ES_ICON.png" 
+                          src="/ES_New_logo_notext.jpeg" 
                           alt="Educational Society Logo" 
-                          class="h-12 w-12 sm:h-16 sm:w-16 object-contain"
+                          class="h-12 w-12 rounded-full sm:h-16 sm:w-16 object-contain"
                         />
                       </div>
                     </div>

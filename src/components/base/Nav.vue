@@ -5,7 +5,7 @@
         <!-- Logo -->
         <div class="flex items-center">
           <router-link to="/" class="shrink-0 flex items-center">
-            <img class="h-14 w-14 rounded-full" src="/ES_ICON.png" alt="Educationaal Society" />
+            <img class="h-10 w-10 rounded-full" src="/ES_New_logo_notext.jpeg" alt="Educational Society" />
             <div class="hidden md:block">
               <span class="ml-2 text-amber-600 dark:text-amber-400 font-semibold text-lg">Educational</span>
               <span class="ml-1 text-emerald-600 dark:text-emerald-400 font-semibold text-lg">Society</span>
