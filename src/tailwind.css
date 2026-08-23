@@ -1,0 +1,9 @@
+/* tailwind.css */
+@import "tailwindcss";
+
+@theme {
+  /* Your custom theme variables if needed */
+}
+
+/* Enable dark mode class strategy */
+@custom-variant dark (&:where(.dark, .dark *));
