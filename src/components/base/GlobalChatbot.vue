@@ -1,5 +1,26 @@
 <template>
   <div class="fixed bottom-5 right-5 z-9999">
+    <!-- button to show again chatbot -->
+     
+    <button
+      title="Hide chatbot"
+      class="chatbot-close"
+      @click="$emit('close')"
+      aria-label="Close chatbot"
+      >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </button>
     <transition name="chat-fade">
       <div
         v-if="open"
@@ -150,6 +171,7 @@ const messages = ref([])
 const suggestions = ref([])
 const assistantName = ref('EduAssist')
 const messageContainer = ref(null)
+defineEmits(['close'])
 
 const persistMessages = () => {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(messages.value.slice(-30)))
@@ -387,5 +409,53 @@ button:focus-visible {
     height: 1.75rem;
     width: 1.75rem;
   }
+}
+
+.chatbot-close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+
+  background: #06529a;
+  color: #fdfdff;
+
+  cursor: pointer;
+
+  box-shadow: 0 3px 10px rgba(222, 235, 36, 0.921);
+
+  z-index: 9999;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.chatbot-close svg {
+  width: 14px;
+  height: 14px;
+}
+
+.chatbot-close:hover {
+  background: #07297d;
+  color: #7aff0e;
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.chatbot-close:active {
+  transform: scale(0.95);
 }
 </style>

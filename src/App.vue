@@ -1,7 +1,9 @@
 <template>
   <router-view />
   <!-- <GlobalLoader /> -->
-  <GlobalChatbot />
+  <GlobalChatbot 
+    v-if="showChatbot"
+    @close="showChatbot = false" title="AI Assistant"/>
   
   <!-- Install Popup with advanced conditions -->
   <!-- <InstallPopup 
@@ -22,7 +24,9 @@ import GlobalLoader from './components/base/GlobalLoader.vue'
 import { getAuth, startHeartbeat } from './utils/auth.js'
 
 const route = useRoute()
+const showChatbot = ref(true)
 const showInstallPopup = ref(false)
+
 
 // Configuration
 const POPUP_CONFIG = {
