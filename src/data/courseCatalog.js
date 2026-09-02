@@ -208,7 +208,37 @@ export const courseCatalog = [
     mode: 'Online',
     schedule: 'Tue, Thu, Sat | 4:00 PM - 6:00 PM',
     support: '',
-  }
+  },
+
+  // deep learning course
+  {
+    id: 8,
+    course_code: 'DL2604',
+    slug: 'deep-learning-course',
+    aliases: ['deep-learning', 'deep-learning-bootcamp'],
+    title: 'Deep Learning Bootcamp',
+    subtitle: 'Learn Deep Learning from Scratch',
+    badge: 'Advanced',
+    level: 'AI & Machine Learning',
+    audience: 'Students & Beginners',
+    description:
+      'Learn deep learning concepts, neural networks, and build AI models with hands-on projects. Understand how to implement deep learning algorithms in real-world applications.',
+    outcome:
+      'Students will be able to build and train deep learning models, understand neural network architectures, and apply deep learning techniques in various domains.',
+    highlights: ['Neural Networks', 'AI Models', 'Hands-on Projects', 'Certificate'],
+    includes: ['Deep learning basics', 'Neural networks', 'Mini projects', 'Project review'],
+    image: 'https://kenovy.com/wp-content/uploads/2022/03/Deep-Learning-1.jpg',
+    price: 1999,
+    offerPrice: 999,
+    rating: 5,
+    duration: '3 months',
+    startDate: '15 September 2026',
+    endDate: '16 December 2026',
+    seatsLeft: 6,
+    mode: 'Online',
+    schedule: 'NA',
+    support: 'Hands-on project mentorship and doubt clearing sessions with 1-to-1 support.',
+  },
 ]
 
 export const getCourseBySlug = (slug) => {

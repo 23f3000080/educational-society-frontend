@@ -225,5 +225,82 @@ export default [
         description: "Apply your SQL knowledge in a final project and learn techniques for optimizing SQL queries.",
       }
     ]
+  },
+  //Deep Learning Course
+  {
+    id: 4,
+    title: "Deep Learning",
+    slug: "DeepLearning",
+    description: "Learn Deep Learning from basics to advanced concepts with practical examples.",
+    icon: "🤖",
+    color: "from-purple-500 to-pink-600",
+    weeks: [
+      {
+        number: 1,
+        title: "Introduction to Deep Learning",
+        description: "Understand the fundamentals of deep learning and neural networks.",
+      },
+      {
+        number: 2,
+        title: "Neural Networks From Scratch",
+        description: "Learn to build neural networks from scratch using Python and NumPy.",
+      },
+      {
+        number: 3,
+        title: "PyTorch Fundamentals",
+        description: "Learn the basics of PyTorch, a popular deep learning framework, and how to build neural networks with it.",
+      },
+      {
+        number: 4,
+        title: "Training Deep Neural Networks",
+        description: "Learn techniques for training deep neural networks, including optimization algorithms and regularization methods.",
+      },
+      {
+        number: 5,
+        title: "Convolutional Neural Networks (CNNs)",
+        description: "Learn about CNNs and their applications in image recognition and computer vision.",
+      },
+      {
+        number: 6,
+        title: "Advanced CNN & Transfer Learning",
+        description: "Explore advanced CNN architectures and learn how to use transfer learning for image classification tasks.",
+      },
+      {
+        number: 7,
+        title: "Data Augmentation & Advanced Computer Vision",
+        description: "Learn data augmentation techniques and advanced computer vision concepts for improving model performance.",
+      },
+      {
+        number: 8,
+        title: "Sequence Models: RNN, LSTM & GRU",
+        description: "Understand sequence models, including RNNs, LSTMs, and GRUs, and their applications in natural language processing.",
+      },
+      {
+        number: 9,
+        title: "NLP with Deep Learning",
+        description: "Learn how to apply deep learning techniques to natural language processing tasks.",
+      },
+      {
+        number: 10,
+        title: "Attention & Transformers",
+        description: "Learn about attention mechanisms and transformer architectures, and their applications in natural language processing.",
+      },
+      {
+        number: 11,
+        title: "Modern Deep Learning & Model Deployment",
+        description: "Explore modern deep learning techniques and learn how to deploy models in real-world applications.",
+      },
+      {
+        number: 12,
+        title: "Real-World Capstone Project",
+        description: "Apply your deep learning knowledge in a final project and explore advanced topics in the field.",
+      },
+      {
+        number: 13,
+        title: "One Shot Revision",
+        description: "A comprehensive revision of all the topics covered in the Deep Learning course.",
+      }
+    ]
+
   }
 ];
