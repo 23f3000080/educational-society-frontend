@@ -239,6 +239,36 @@ export const courseCatalog = [
     schedule: 'NA',
     support: 'Hands-on project mentorship and doubt clearing sessions with 1-to-1 support.',
   },
+
+  // numpy bootcamp
+  {
+    id: 9,
+    course_code: 'NUMPY101',
+    slug: 'numpy-course',
+    aliases: ['numpy', 'numpy-bootcamp'],
+    title: 'NumPy Bootcamp',
+    subtitle: 'Learn NumPy for Data Science',
+    badge: 'Beginner Friendly',
+    level: 'Data Science Basics',
+    audience: 'Students & Beginners',
+    description:
+      'Learn NumPy, the fundamental package for scientific computing with Python. Understand arrays, matrices, and perform numerical computations efficiently.',
+    outcome:
+      'Students will be able to use NumPy for data manipulation, perform mathematical operations, and prepare data for machine learning and data analysis tasks.',
+    highlights: ['Arrays', 'Matrices', 'Numerical Computations', 'Certificate'],
+    includes: ['NumPy basics', 'Array operations', 'Mini projects', 'Project review'],
+    image: '/Numpy_course.png',
+    price: 1299,
+    offerPrice: 199,
+    rating: 5,
+    duration: '3 Weeks',
+    startDate: '1 October 2026',
+    endDate: '22 October 2026',
+    seatsLeft: 7,
+    mode: 'Online',
+    schedule: 'NA',
+    support: 'Hands-on project mentorship and doubt clearing sessions with 1-to-1 support.',
+  }
 ]
 
 export const getCourseBySlug = (slug) => {

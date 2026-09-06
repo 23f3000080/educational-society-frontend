@@ -636,6 +636,16 @@ const routes = [
     }
   },
 
+  {
+    path: '/courses/numpy-course',
+    name: 'NumpyCourse',
+    component: () => import('../pages/courses_details_pages/numpy_course.vue'),
+    meta: {
+      title: 'NumPy Course',
+      description: 'Learn NumPy for efficient numerical computing and data manipulation in Python.'
+    }
+  }
+
   
 ]
 

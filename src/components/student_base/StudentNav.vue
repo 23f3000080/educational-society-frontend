@@ -180,13 +180,13 @@
                   </router-link>
                 </div>
                 <div class="border-t border-gray-100 dark:border-gray-800 pt-2">
-                  <button @click="logout"
-                    class="flex items-center space-x-3 w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 group rounded-lg mx-2">
+                  <button @click="logout" :disabled="isLoggingOut"
+                    class="flex items-center space-x-3 w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 group rounded-lg mx-2 disabled:cursor-not-allowed disabled:opacity-70">
                     <!-- Logout Icon -->
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                     </svg>
-                    <span>Logout</span>
+                    <span>{{ isLoggingOut ? 'Logging out...' : 'Logout' }}</span>
 
                     <!-- Arrow Right Icon -->
                     <svg class="w-4 h-4 ml-auto text-gray-300 dark:text-gray-600 group-hover:text-red-600 dark:group-hover:text-red-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -324,13 +324,13 @@
                 </svg>
               </router-link>
 
-              <button @click="logout"
-                class="flex items-center justify-between w-full px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200 group">
+              <button @click="logout" :disabled="isLoggingOut"
+                class="flex items-center justify-between w-full px-4 py-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200 group disabled:cursor-not-allowed disabled:opacity-70">
                 <div class="flex items-center space-x-3">
                   <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                   </svg>
-                  <span>Logout</span>
+                  <span>{{ isLoggingOut ? 'Logging out...' : 'Logout' }}</span>
                 </div>
                 <svg class="w-4 h-4 text-gray-400 group-hover:text-red-600 dark:group-hover:text-red-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -541,6 +541,7 @@ const isActive = (path) => route.path.startsWith(path);
 const mobileMenuOpen = ref(false);
 const showProfileDropdown = ref(false);
 const showNotificationPanel = ref(false);
+const isLoggingOut = ref(false);
 
 const profileButton = ref(null);
 const profileDropdown = ref(null);
@@ -626,8 +627,11 @@ function clearNotifications() {
   notifications.value = [];
 }
 
-function logout() {
-  logoutUser();
+async function logout() {
+  if (isLoggingOut.value) return;
+
+  isLoggingOut.value = true;
+  await logoutUser();
 }
 
 /* ================= HELPERS ================= */
