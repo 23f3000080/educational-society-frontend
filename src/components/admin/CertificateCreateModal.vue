@@ -605,6 +605,8 @@ const generateSingleCertificate = async (userId, courseId, courseCode) => {
 }
 
 const handleSubmit = async () => {
+  if (submitting.value) return
+
   if (!isFormValid.value) return
   
   submitting.value = true

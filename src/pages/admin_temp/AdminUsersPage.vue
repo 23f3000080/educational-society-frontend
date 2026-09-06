@@ -755,6 +755,8 @@ const closeCreateUserModal = () => {
 }
 
 const submitCreateUser = async () => {
+	if (creatingUser.value) return
+
 	if (createUserForm.password !== createUserForm.confirm_password) {
 		createUserError.value = 'Password and confirm password do not match.'
 		return

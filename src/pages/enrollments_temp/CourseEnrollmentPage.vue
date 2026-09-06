@@ -3,11 +3,12 @@
 
     <!-- HEADER -->
     <header class="max-w-6xl mx-auto mb-10 text-center">
-      <div class="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-indigo-600 rounded-full text-white text-sm">
+      <div class="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-indigo-600 rounded-full text-white text-sm 
+            animate-[slide-left_0.6s_ease-out]">
         🎓 Course Enrollment
       </div>
 
-      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-yellow-200">
         Enroll in Your
         <span class="text-indigo-600">Next Course</span>
       </h1>
@@ -453,3 +454,16 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style>
+@keyframes slide-left {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+</style>

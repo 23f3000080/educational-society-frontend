@@ -196,6 +196,7 @@
     <BulkQuestionModal
       v-if="showBulkModal"
       :assignment-id="Number(testId)"
+      :saving="bulkSaving"
       @close="closeBulkModal"
       @save="handleBulkSave"
     />
@@ -233,6 +234,7 @@ const reorderMode = ref(false)
 // Modal states
 const showQuestionModal = ref(false)
 const showBulkModal = ref(false)
+const bulkSaving = ref(false)
 const questionModalMode = ref('create')
 const selectedQuestion = ref(null)
 
@@ -325,6 +327,9 @@ const handleSaveAndAnother = async (questionData) => {
 }
 
 const handleBulkSave = async (questionsData) => {
+  if (bulkSaving.value) return
+
+  bulkSaving.value = true
   try {
     // Use the dedicated bulk endpoint instead of individual saves
     await api.post(`/api/admin/tests/${testId}/bulk-questions`, {
@@ -334,6 +339,8 @@ const handleBulkSave = async (questionsData) => {
     closeBulkModal()
   } catch (error) {
     console.error('Error saving bulk questions:', error)
+  } finally {
+    bulkSaving.value = false
   }
 }
 

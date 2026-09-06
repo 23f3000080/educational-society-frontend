@@ -229,13 +229,13 @@
 								</svg>
 								Edit
 							</button>
-							<button type="button" @click="deleteTest(test)"
-								class="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-500/25 active:scale-95 dark:bg-rose-500 dark:hover:bg-rose-400">
-								<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<button type="button" @click="deleteTest(test)" :disabled="deletingTestId === test.id"
+								class="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-500/25 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-rose-500 dark:hover:bg-rose-400">
+								<svg class="h-3 w-3" :class="{ 'animate-spin': deletingTestId === test.id }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
 										d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
 								</svg>
-								Delete
+								{{ deletingTestId === test.id ? 'Deleting...' : 'Delete' }}
 							</button>
 						</div>
 					</article>
@@ -343,15 +343,15 @@
 												</svg>
 												<span>Edit</span>
 											</button>
-											<button type="button" @click="deleteTest(test)"
-												class="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-500/25 active:scale-95 dark:bg-rose-500 dark:hover:bg-rose-400">
-												<svg class="h-3 w-3" fill="none" stroke="currentColor"
+											<button type="button" @click="deleteTest(test)" :disabled="deletingTestId === test.id"
+												class="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-2.5 py-1.5 text-xs font-semibold text-white transition hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-500/25 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-rose-500 dark:hover:bg-rose-400">
+												<svg class="h-3 w-3" :class="{ 'animate-spin': deletingTestId === test.id }" fill="none" stroke="currentColor"
 													viewBox="0 0 24 24">
 													<path stroke-linecap="round" stroke-linejoin="round"
 														stroke-width="2"
 														d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
 												</svg>
-												<span>Delete</span>
+													<span>{{ deletingTestId === test.id ? 'Deleting...' : 'Delete' }}</span>
 											</button>
 										</div>
 									</td>
@@ -605,6 +605,7 @@ const router = useRouter()
 const tests = ref([])
 const loading = ref(false)
 const saving = ref(false)
+const deletingTestId = ref(null)
 const errorMessage = ref('')
 const modalError = ref('')
 const isInitialLoad = ref(true)
@@ -883,6 +884,8 @@ const closeModal = () => {
 
 // Submit form
 const submitForm = async () => {
+	if (saving.value) return
+
 	modalError.value = ''
 
 	if (!form.title) {
@@ -938,14 +941,19 @@ const submitForm = async () => {
 
 // Delete test
 const deleteTest = async (test) => {
+	if (deletingTestId.value) return
+
 	const ok = window.confirm(`Delete test "${test.title}"? This action cannot be undone.`)
 	if (!ok) return
 
+	deletingTestId.value = test.id
 	try {
 		await api.delete(`/api/admin/tests/${test.id}`, silentRequestMeta)
 		await fetchTests()
 	} catch (error) {
 		errorMessage.value = error.response?.data?.error || 'Could not delete test.'
+	} finally {
+		deletingTestId.value = null
 	}
 }
 

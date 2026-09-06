@@ -149,7 +149,8 @@
                   <button
                     type="button"
                     @click="deleteSubscriber(subscriber)"
-                    class="rounded-lg p-1.5 text-rose-600 transition hover:bg-rose-100 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-rose-950/30"
+                    :disabled="deletingSubscriberId === subscriber.id"
+                    class="rounded-lg p-1.5 text-rose-600 transition hover:bg-rose-100 hover:text-rose-700 disabled:cursor-not-allowed disabled:opacity-60 dark:text-rose-400 dark:hover:bg-rose-950/30"
                     title="Delete subscriber"
                   >
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,12 +204,13 @@
                         <button
                           type="button"
                           @click="deleteSubscriber(subscriber)"
-                          class="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-500/25 active:scale-95 dark:bg-rose-500 dark:hover:bg-rose-400"
+                          :disabled="deletingSubscriberId === subscriber.id"
+                          class="inline-flex items-center gap-1 rounded-xl bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-rose-700 hover:shadow-lg hover:shadow-rose-500/25 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-rose-500 dark:hover:bg-rose-400"
                         >
                           <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                           </svg>
-                          Delete
+                          {{ deletingSubscriberId === subscriber.id ? 'Deleting...' : 'Delete' }}
                         </button>
                       </div>
                     </td>
@@ -486,6 +488,7 @@ const loadingRecipients = ref(false)
 const loadingSubscribers = ref(false)
 const sendingEmail = ref(false)
 const updatingSubscriber = ref(false)
+const deletingSubscriberId = ref(null)
 const isInitialLoad = ref(true)
 
 const subscribers = ref([])
@@ -663,6 +666,8 @@ const closeEditSubscriber = () => {
 }
 
 const updateSubscriber = async () => {
+  if (updatingSubscriber.value) return
+
   if (!editSubscriberForm.email.trim()) {
     editSubscriberError.value = 'Email is required.'
     return
@@ -699,9 +704,12 @@ const updateSubscriber = async () => {
 
 // Delete Subscriber
 const deleteSubscriber = async (subscriber) => {
+  if (deletingSubscriberId.value) return
+
   const confirmed = window.confirm(`Delete subscriber "${subscriber.email}"? This action cannot be undone.`)
   if (!confirmed) return
 
+  deletingSubscriberId.value = subscriber.id
   try {
     await api.delete(`/api/admin/subscribers/${subscriber.id}`)
     
@@ -712,11 +720,15 @@ const deleteSubscriber = async (subscriber) => {
     subscriberError.value = ''
   } catch (error) {
     subscriberError.value = error.response?.data?.error || 'Could not delete subscriber.'
+  } finally {
+    deletingSubscriberId.value = null
   }
 }
 
 // Send Email
 const sendEmail = async () => {
+  if (sendingEmail.value) return
+
   emailMessage.value = ''
 
   if (!emailForm.subject.trim() || !emailForm.body.trim()) {

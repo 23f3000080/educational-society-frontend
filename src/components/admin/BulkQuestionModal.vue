@@ -327,13 +327,17 @@
           </button>
           <button
             @click="handleSave"
-            :disabled="!isValid"
+            :disabled="!isValid || saving"
             class="px-8 py-2 bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-500 dark:to-purple-500 text-white rounded-xl font-medium hover:from-indigo-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg v-if="saving" class="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" />
+              <path class="opacity-90" fill="currentColor" d="M12 3a9 9 0 019 9h-3a6 6 0 00-6-6V3z" />
+            </svg>
+            <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
-            Save All ({{ questions.length }})
+            {{ saving ? 'Saving...' : `Save All (${questions.length})` }}
           </button>
         </div>
       </div>
@@ -348,6 +352,10 @@ const props = defineProps({
   assignmentId: {
     type: Number,
     required: true
+  },
+  saving: {
+    type: Boolean,
+    default: false
   }
 })
 
@@ -500,7 +508,7 @@ const handleClose = () => {
 }
 
 const handleSave = () => {
-  if (isValid.value) {
+  if (isValid.value && !props.saving) {
     emit('save', questions.value)
   }
 }

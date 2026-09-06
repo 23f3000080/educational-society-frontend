@@ -2,29 +2,33 @@
   <div class="min-h-screen bg-linear-to-b from-slate-50 via-white to-cyan-50 px-4 py-10 dark:from-gray-950 dark:via-gray-900 dark:to-slate-900">
     <!-- Hero Header -->
     <div class="relative mx-auto mb-12 max-w-6xl overflow-hidden rounded-4xl bg-linear-to-r from-[#0f4c5c] via-[#0b7285] to-[#155e75] px-6 py-10 text-white shadow-2xl sm:px-10">
+      <div class="course-hero-grid absolute inset-0"></div>
       <div class="absolute -top-24 right-0 h-56 w-56 rounded-full bg-white/10 blur-3xl"></div>
       <div class="absolute -bottom-20 left-0 h-64 w-64 rounded-full bg-cyan-300/10 blur-3xl"></div>
 
       <div class="relative grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-end">
         <div>
-          <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100 backdrop-blur">
-            Popular Programs
-          </span>
-          <h1 class="mt-5 text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-yellow-200 backdrop-blur 
+             relative overflow-hidden animate-[pulse-soft_3s_ease-in-out_infinite]">
+    <span class="absolute inset-0 -translate-x-full animate-[shimmer_3s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent"></span>
+    Popular Programs
+</span>
+          <h1 class="mt-5 text-4xl text-yellow-300 font-black leading-tight sm:text-5xl lg:text-6xl animate-[fade-up_0.8s_ease-out]">
             Courses designed to help students enroll faster
           </h1>
-          <p class="mt-4 max-w-2xl text-base leading-7 text-cyan-50/90 sm:text-lg">
-            Clear pricing, practical outcomes, and course-specific learning paths built to convert interest into admissions.
-          </p>
+          <p class="mt-4 max-w-2xl text-base leading-7 text-cyan-50/90 sm:text-lg 
+          animate-[fade-up_0.8s_ease-out_0.3s] opacity-0 [animation-fill-mode:forwards]">
+    Transparent pricing. Real-world skills. A personalized learning path that turns curiosity into enrollment.
+</p>
         </div>
 
         <div class="grid grid-cols-3 gap-3 text-center sm:gap-4">
           <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
-            <p class="text-2xl font-black">3</p>
+            <p class="text-2xl font-black">{{ numberOfCourses }}</p>
             <p class="mt-1 text-xs text-cyan-100">Programs</p>
           </div>
           <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
-            <p class="text-2xl font-black">4.8★</p>
+            <p class="text-2xl font-black">{{ averageRating.toFixed(1) }}★</p>
             <p class="mt-1 text-xs text-cyan-100">Avg Rating</p>
           </div>
           <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur">
@@ -132,7 +136,7 @@
               </svg>
             </div>
             <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-              Trusted by students
+              {{ course.rating }} out of 5
             </p>
           </div>
 
@@ -180,7 +184,25 @@ const savingsLabel = (course) => {
 
 const courses = courseCatalog
 
+// number of courses
+const numberOfCourses = courses.length
+
+// average rating
+const averageRating = courses.reduce((acc, course) => acc + (course.rating || 0), 0) / courses.length
+
 </script>
+
+<style scoped>
+.course-hero-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 78%);
+  opacity: 0.45;
+}
+</style>
 
 <style>
 /* Optional: text clamp */
@@ -197,5 +219,37 @@ const courses = courseCatalog
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-soft {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
 }
 </style>

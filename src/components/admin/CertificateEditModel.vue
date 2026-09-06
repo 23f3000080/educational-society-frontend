@@ -214,6 +214,8 @@ watch(() => props.certificate, (newCert) => {
 
 // Methods
 const handleSubmit = async () => {
+  if (submitting.value) return
+
   submitting.value = true
   error.value = ''
   

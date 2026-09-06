@@ -58,8 +58,9 @@
             </button>
             <button type="submit"
               :disabled="submitting"
-              class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50">
-              {{ mode === 'create' ? 'Add Week' : 'Update Week' }}
+              class="inline-flex items-center gap-2 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg v-if="submitting" class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3"/><path class="opacity-90" fill="currentColor" d="M12 3a9 9 0 019 9h-3a6 6 0 00-6-6V3z"/></svg>
+              {{ submitting ? (mode === 'create' ? 'Adding...' : 'Updating...') : (mode === 'create' ? 'Add Week' : 'Update Week') }}
             </button>
           </div>
         </form>
@@ -102,6 +103,8 @@ watch(() => props.week, (newWeek) => {
 }, { immediate: true })
 
 const handleSubmit = async () => {
+  if (submitting.value) return
+
   submitting.value = true
   try {
     await emit('save', form.value)

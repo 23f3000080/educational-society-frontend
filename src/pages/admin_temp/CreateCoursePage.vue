@@ -541,6 +541,8 @@ function showNotification(message, type = 'success') {
 
 /* ================= API ================= */
 async function createCourse() {
+  if (loading.value) return
+
   if (!validateForm()) {
     showNotification('Please fix the errors in the form', 'error')
     return
