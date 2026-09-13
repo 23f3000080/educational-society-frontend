@@ -101,7 +101,7 @@ export async function logout() {
 let heartbeatTimer = null;
 let heartbeatRunning = false;
 
-const HEARTBEAT_INTERVAL = 2 * 60 * 1000; // 2 minutes
+const HEARTBEAT_INTERVAL = 10 * 60 * 1000; // 10 minutes
 
 async function sendHeartbeat() {
     const { token } = getAuth();
