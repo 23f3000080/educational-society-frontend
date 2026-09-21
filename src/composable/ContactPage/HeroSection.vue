@@ -81,6 +81,26 @@
             Telegram
           </span>
         </a>
+
+        <!-- discord -->
+        <a href="https://discord.gg/MWFfBZ5JXz" 
+           target="_blank"
+           rel="noopener noreferrer"
+           class="group relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-linear-to-br from-[#7289da] to-[#99aab5] hover:from-[#5b6eae] hover:to-[#7289da] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl shadow-indigo-400/25">
+          <i class="fab fa-discord text-white text-lg md:text-xl"></i>
+          <span class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            Discord
+          </span>
+        </a>
+            <!-- X twitter -->
+            <a href="https://x.com/Educationacr79" target="_blank" rel="noopener noreferrer"
+              class="group relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-linear-to-br from-[#000000] to-[#202020] hover:from-[#202020] hover:to-[#000000] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:shadow-xl shadow-black/25">
+              <i class="fab fa-x-twitter text-white text-lg md:text-xl"></i>
+              <span
+                class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-gray-600 dark:text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                X (Twitter)
+              </span>
+            </a>
       </div>
     </div>
   </div>
@@ -131,8 +151,8 @@
                 </div>
                 <div>
                   <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
-                  <a href="mailto:clearupsol015@gmail.com" class="text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                    clearupsol015@gmail.com
+                  <a href="mailto:support.educationalsociety@gmail.com" class="text-gray-900 dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                    support.educationalsociety@gmail.com
                   </a>
                 </div>
               </div>
@@ -458,6 +478,42 @@
         </div>
       </div>
     </transition>
+
+    <!-- Feedback & Rating google Form -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 my-2">
+  <div class="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-6 md:p-8 overflow-hidden group">
+    <!-- Decorative gradient blob -->
+    <div class="absolute -top-16 -right-16 w-48 h-48 bg-gradient-to-br from-yellow-400/20 to-red-500/20 rounded-full blur-2xl pointer-events-none"></div>
+    <div class="absolute -bottom-16 -left-16 w-48 h-48 bg-gradient-to-tr from-yellow-400/10 to-red-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+    <div class="relative flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+      <div class="flex-1">
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-br from-yellow-500 to-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-yellow-500/30 group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118L2.05 10.1c-.783-.57-.38-1.81.588-1.81h4.915a1 1 0 00.95-.69l1.519-4.674z" />
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Feedback &amp; Rating</h2>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed max-w-2xl">
+          We value your feedback! Please take a moment to share your thoughts and rate our services. Your input helps us
+          improve and serve you better.
+        </p>
+      </div>
+
+      <div class="flex-shrink-0 self-start sm:self-center">
+        <a href="https://forms.gle/q4EpW9kqLrdra9vw7" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-500 to-red-500 hover:from-yellow-600 hover:to-red-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg shadow-yellow-500/30 hover:shadow-xl hover:shadow-red-500/30 transform hover:scale-105 active:scale-100 transition-all duration-300">
+          <span>Give Feedback</span>
+          <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
   </div>
 </template>
 

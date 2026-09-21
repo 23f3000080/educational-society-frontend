@@ -86,7 +86,7 @@ export const courseCatalog = [
     duration: '2 months',
     startDate: '04 July 2026',
     endDate: '04 September 2026',
-    seatsLeft: 3,
+    seatsLeft: 6,
     mode: 'Online',
     schedule: 'Mon-Fri | 6:00 PM - 8:00 PM',
     support: 'Project reviews and portfolio checklist',
