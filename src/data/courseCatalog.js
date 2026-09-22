@@ -233,7 +233,7 @@ export const courseCatalog = [
     rating: 4,
     duration: '3 months',
     startDate: '15 October 2026',
-    endDate: '16 December 2026',
+    endDate: '16 January 2027',
     seatsLeft: 5,
     mode: 'Online',
     schedule: 'NA',
