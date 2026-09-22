@@ -101,7 +101,8 @@
 							<span class="px-2.5 py-1 text-xs font-medium rounded-lg bg-indigo-600 text-white shadow-lg">
 								{{ course.class_level || 'Course' }}
 							</span>
-							<span v-if="course.is_active" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-green-500 text-white shadow-lg">
+							<!-- enrollment status -->
+							<span v-if="course.enrollment_status && course.enrollment_status !== 'inactive'" class="px-2.5 py-1 text-xs font-medium rounded-lg bg-green-500 text-white shadow-lg">
 								Active
 							</span>
 							<span v-else class="px-2.5 py-1 text-xs font-medium rounded-lg bg-gray-500 text-white shadow-lg">
@@ -209,13 +210,19 @@
 								<p class="text-sm font-medium text-gray-900 dark:text-white">{{ selected.duration_months }} months</p>
 							</div>
 							<div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
-								<p class="text-xs text-gray-500 dark:text-gray-400">Fee</p>
+								<p class="text-xs text-gray-500 dark:text-gray-400">Fee Paid</p>
 								<p class="text-sm font-medium text-gray-900 dark:text-white">₹{{ formatPrice(selected.fee ?? selected.price ?? 0) }}</p>
+								<!-- refund status if yes then shows -->
+								<p v-if="selected.refund_status && selected.refund_status !== 'not_requested'" class="text-xs text-gray-500 dark:text-gray-400">Refund Status</p>
+								<p v-if="selected.refund_status && selected.refund_status !== 'not_requested'" class="text-sm font-medium text-gray-900 dark:text-white">{{ selected.refund_status }}</p>
+								<!-- payment status if yes then shows -->
+								<p v-if="selected.payment_status && selected.payment_status !== 'pending'" class="text-xs text-gray-500 dark:text-gray-400">Payment Status</p>
+								<p v-if="selected.payment_status && selected.payment_status !== 'pending'" class="text-sm font-medium text-gray-900 dark:text-white">{{ selected.payment_status }}</p>
 							</div>
 							<div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-3">
 								<p class="text-xs text-gray-500 dark:text-gray-400">Status</p>
-								<span :class="selected.is_active ? 'text-green-600' : 'text-gray-500'" class="text-sm font-medium">
-									{{ selected.is_active ? 'Active' : 'Inactive' }}
+								<span :class="selected.enrollment_status === 'active' ? 'text-green-600' : 'text-gray-500'" class="text-sm font-medium">
+									{{ selected.enrollment_status === 'active' ? 'Active' : 'Inactive' }}
 								</span>
 							</div>
 						</div>
@@ -282,7 +289,7 @@ const filteredPurchases = computed(() => {
 
 // Computed: Count of active courses
 const activeCoursesCount = computed(() => {
-	return purchases.value.filter(course => course.is_active).length;
+	return purchases.value.filter(course => course.enrollment_status === 'active').length;
 });
 
 // Helper functions
