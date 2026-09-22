@@ -565,7 +565,8 @@ const printCertificate = () => {
           <!-- Header -->
           <div class="header">
             <div class="icon-container">
-            
+            <!-- logo image -->
+              <img src="https://educational-society.vercel.app/ES_New_logo_notext.jpeg" alt="Educational Society Logo" style="width: 40px; height: 40px;" />
             </div>
             <h1 class="title">Certificate Verification</h1>
             <p class="subtitle">Verified Certificate Details</p>
