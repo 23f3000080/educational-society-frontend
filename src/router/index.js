@@ -66,6 +66,11 @@ import AssignmentEachStudentSubmission from '../pages/admin_temp/AssignmentEachS
 import GradeCalculator from '../pages/GradeCalculator.vue'
 
 import PaymentStatus from '../pages/enrollments_temp/PaymentStatus.vue'
+import GameZonePage from '../components/base/gameZone.vue'
+import pythonCompiler from '../components/base/pythonCompiler.vue'
+import scheduleMaker from '../components/base/scheduleMaker.vue'
+import badgeStudio from '../components/base/badgeStudio.vue'
+import idCardGenerator from '../components/base/idCardGenerator.vue'
 
 const routes = [
   {
@@ -207,7 +212,43 @@ const routes = [
         name: 'GradeCalculator',
         component: GradeCalculator,
         meta: { title: 'Grade Calculator', description: 'Calculate your grades and Marks easily.' }
+      },
+
+      {
+        path: '/game-zone',
+        name: 'GameZone',
+        component: GameZonePage,
+        meta: { title: 'Game Zone', description: 'Access educational games and activities.' }
+      },
+
+      {
+        path: '/python-compiler',
+        name: 'PythonCompiler',
+        component: pythonCompiler,
+        meta: { title: 'Python Compiler', description: 'Write and execute Python code in the browser.' }
+      },
+
+      {
+        path: '/schedule-maker',
+        name: 'ScheduleMaker',
+        component: scheduleMaker,
+        meta: { title: 'Schedule Maker', description: 'Create and manage your schedules.' }
+      },
+
+      {
+        path: '/badge-studio',
+        name: 'BadgeStudio',
+        component: badgeStudio,
+        meta: { title: 'Badge Studio', description: 'Create and manage badges for students.' }
+      },
+
+      {
+        path: '/admin/id-card-generator',
+        name: 'IDCardGenerator',
+        component: idCardGenerator,
+        meta: { title: 'ID Card Generator', description: 'Generate ID cards for students and staff.', requiresAuth: true, role: 'admin' }
       }
+
     ]
   },
 

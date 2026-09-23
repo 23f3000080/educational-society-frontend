@@ -67,6 +67,7 @@
             <li><router-link class="hover:text-yellow-500 transition" to="/contact">Contact</router-link></li>
             <li><router-link class="hover:text-yellow-500 transition" to="/website-map">Website Map</router-link></li>
             <li><router-link class="hover:text-yellow-500 transition" to="/grade-calculator">Grade Calculator</router-link></li>
+            <li><router-link class="hover:text-yellow-500 transition" to="/schedule-maker">Schedule Maker</router-link></li>
           </ul>
         </div>
 
@@ -77,6 +78,8 @@
             <li><a href="/courses" class="hover:text-green-500 transition">Courses</a></li>
             <li><a href="/resource/notes" class="hover:text-green-500 transition">Notes</a></li>
             <li><a href="/resource/youtube" class="hover:text-green-500 transition">Videos</a></li>
+            <li><a href="/game-zone" class="hover:text-green-500 transition">GameZone</a></li>
+            <li><a href="/python-compiler" class="hover:text-green-500 transition">Python Compiler</a></li>
           </ul>
         </div>
 
