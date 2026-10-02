@@ -117,19 +117,27 @@ const loadCourses = async () => {
     if (token) {
       const response = await api.get('/api/courses');
       // Merge API data with local data if needed
-      courses.value = response.data.map((apiCourse, index) => ({
-        ...apiCourse,
-        ...courseData[index],
-        id: apiCourse.id || courseData[index]?.id || index + 1,
-        weeks: apiCourse.weeks || courseData[index]?.weeks || []
-      }));
+      courses.value = response.data.map((apiCourse) => {
+        const localCourse = courseData.find(
+          course => Number(course.id) === Number(apiCourse.id)
+        );
+
+        return {
+          ...localCourse,
+          ...apiCourse,
+          id: apiCourse.id,
+          weeks: localCourse?.weeks || []
+        };
+      });
     } else {
       courses.value = courseData;
     }
 
     if (courses.value.length > 0) {
-      // Select first course and set initial week
-      const firstCourse = courses.value[0];
+      // Select first course- lowest course id and set initial week
+      const firstCourse = courses.value.reduce((min, course) => {
+        return Number(course.id) < Number(min.id) ? course : min;
+      });
       selectedCourse.value = firstCourse;
       selectedWeek.value = firstCourse.weeks?.[0]?.number || 1;
       await checkEnrollment(firstCourse.id);

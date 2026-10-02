@@ -71,6 +71,7 @@ import pythonCompiler from '../components/base/pythonCompiler.vue'
 import scheduleMaker from '../components/base/scheduleMaker.vue'
 import badgeStudio from '../components/base/badgeStudio.vue'
 import idCardGenerator from '../components/base/idCardGenerator.vue'
+import DevelopmentCompiler from '../components/base/develpmentCompiler.vue'
 
 const routes = [
   {
@@ -247,6 +248,13 @@ const routes = [
         name: 'IDCardGenerator',
         component: idCardGenerator,
         meta: { title: 'ID Card Generator', description: 'Generate ID cards for students and staff.', requiresAuth: true, role: 'admin' }
+      },
+
+      {
+        path: '/development/compiler',
+        name: 'DevelopmentCompiler',
+        component: DevelopmentCompiler,
+        meta: { title: 'Development Compiler', description: 'A development compiler for testing and debugging code.' }
       }
 
     ]

@@ -2,7 +2,7 @@
 
 export default [
   {
-    id: 1,
+    id: 4,
     title: "Web Development",
     slug: "WebDevelopmentBootCamp",
     description:
@@ -125,7 +125,7 @@ export default [
   },
 
   {
-    id: 2,
+    id: 6,
     title: "Python",
     slug: "Python",
     description: "Learn Python programming from basics to advanced concepts with practical examples.",
@@ -176,7 +176,7 @@ export default [
   },
 
   {
-    id: 3,
+    id: 7,
     title: "SQL",
     slug: "Sql",
     description: "Learn SQL programming from basics to advanced concepts with practical examples.",
@@ -228,7 +228,7 @@ export default [
   },
   //Deep Learning Course
   {
-    id: 4,
+    id: 8,
     title: "Deep Learning",
     slug: "DeepLearning",
     description: "Learn Deep Learning from basics to advanced concepts with practical examples.",
@@ -302,5 +302,15 @@ export default [
       }
     ]
 
-  }
+  },
+
+  // NUMPY Course
+  {
+    id: 9,
+    title: "Numpy",
+    slug: "Numpy",
+    description: "Learn Numpy from basics to advanced concepts with practical examples.",
+    icon: "📊",
+  },
+
 ];
