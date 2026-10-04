@@ -6,6 +6,9 @@ import App from './App.vue'
 import router from './router'
 import './tailwind.css'
 import '@fortawesome/fontawesome-free/css/all.css'
+import { inject } from '@vercel/analytics'
+
+inject()
 
 const app = createApp(App)
 app.use(router)
