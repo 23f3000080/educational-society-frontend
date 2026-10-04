@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /student/
 
-Sitemap: https://educationalsociety.in/sitemap.xml
+Sitemap: https://www.educationalsociety.in/sitemap.xml
