@@ -5,6 +5,7 @@ import Home from "../pages/HomePage.vue"
 import DefaultBase from '../components/base/DefaultBase.vue'
 import About from "../pages/AboutPage.vue"
 import Contact from "../pages/ContactPage.vue"
+import Careers from "../pages/CareersPage.vue"
 import NotesPage from '../pages/NotesPage.vue'
 import YoutubePage from '../pages/YoutubePage.vue'
 import BooksPage from '../pages/BooksPage.vue'
@@ -105,6 +106,16 @@ const routes = [
         meta: {
           title: 'Contact',
           description: 'Get in touch with Educational Society for support and partnerships.'
+        }
+      },
+
+      {
+        path: '/careers',
+        name: 'Careers',
+        component: Careers,
+        meta: {
+          title: 'Careers',
+          description: 'Explore career opportunities and open positions at Educational Society.'
         }
       },
 

@@ -69,6 +69,7 @@
             <li><router-link class="footer-link" to="/about">About</router-link></li>
             <li><router-link class="footer-link" to="/courses">Courses</router-link></li>
             <li><router-link class="footer-link" to="/contact">Contact</router-link></li>
+            <li><router-link class="footer-link" to="/careers">Careers</router-link></li>
             <li><router-link class="footer-link" to="/website-map">Website Map</router-link></li>
             <li><router-link class="footer-link" to="/grade-calculator">Grade Calculator</router-link></li>
             <li><router-link class="footer-link" to="/schedule-maker">Schedule Maker</router-link></li>
